@@ -62,5 +62,3 @@ jobs:
           az webapp restart \
             --resource-group options-scanner-rg \
             --name ${{ env.AZURE_WEBAPP_NAME }}
-        run: |
-          az logout
