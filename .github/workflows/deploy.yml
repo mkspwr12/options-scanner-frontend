@@ -36,6 +36,15 @@ jobs:
           NEXT_PUBLIC_API_BASE: ${{ secrets.NEXT_PUBLIC_API_BASE }}
         run: npm run build
 
+      - name: Prepare standalone deploy package
+        run: |
+          rm -rf deploy
+          mkdir -p deploy
+          cp -R .next/standalone/* deploy/
+          mkdir -p deploy/.next
+          cp -R .next/static deploy/.next/static
+          if [ -d public ]; then cp -R public deploy/public; fi
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -47,7 +56,7 @@ jobs:
         uses: azure/webapps-deploy@v3
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          package: .
+          package: ./deploy
 
       - name: Configure App Settings
         run: |
@@ -55,7 +64,16 @@ jobs:
             --resource-group options-scanner-rg \
             --name ${{ env.AZURE_WEBAPP_NAME }} \
             --settings \
-              NEXT_PUBLIC_API_BASE="${{ secrets.NEXT_PUBLIC_API_BASE }}"
+              NEXT_PUBLIC_API_BASE="${{ secrets.NEXT_PUBLIC_API_BASE }}" \
+              SCM_DO_BUILD_DURING_DEPLOYMENT=false \
+              ENABLE_ORYX_BUILD=false
+
+      - name: Configure Startup Command
+        run: |
+          az webapp config set \
+            --resource-group options-scanner-rg \
+            --name ${{ env.AZURE_WEBAPP_NAME }} \
+            --startup-file "node server.js"
 
       - name: Restart App Service
         run: |
