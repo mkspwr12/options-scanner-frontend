@@ -60,21 +60,24 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      - name: Deploy to Azure Web App
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          package: ./deploy
-
-      - name: Configure App Settings
+      - name: Configure App Settings (pre-deploy)
         run: |
           az webapp config appsettings set \
             --resource-group options-scanner-rg \
             --name ${{ env.AZURE_WEBAPP_NAME }} \
             --settings \
               NEXT_PUBLIC_API_BASE="${{ secrets.NEXT_PUBLIC_API_BASE }}" \
+              NODE_ENV=production \
               SCM_DO_BUILD_DURING_DEPLOYMENT=false \
-              ENABLE_ORYX_BUILD=false
+              ENABLE_ORYX_BUILD=false \
+              WEBSITE_RUN_FROM_PACKAGE=1
+
+      - name: Remove legacy frontend settings
+        run: |
+          az webapp config appsettings delete \
+            --resource-group options-scanner-rg \
+            --name ${{ env.AZURE_WEBAPP_NAME }} \
+            --setting-names VITE_API_BASE
 
       - name: Configure Startup Command
         run: |
@@ -82,6 +85,12 @@ jobs:
             --resource-group options-scanner-rg \
             --name ${{ env.AZURE_WEBAPP_NAME }} \
             --startup-file "node server.js"
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          package: ./deploy
 
       - name: Restart App Service
         run: |
