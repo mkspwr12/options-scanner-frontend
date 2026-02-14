@@ -43,19 +43,9 @@ jobs:
         env:
           NEXT_PUBLIC_API_BASE: ${{ secrets.NEXT_PUBLIC_API_BASE }}
           NEXT_TELEMETRY_DISABLED: '1'
-        run: npm run build
-
-      - name: Prepare standalone deploy package
         run: |
-          rm -rf deploy deploy.zip
-          mkdir -p deploy
-          cp -R .next/standalone/* deploy/
-          mkdir -p deploy/.next
-          cp -R .next/static deploy/.next/static
-          cp -R node_modules deploy/node_modules
-          cp -R public deploy/public || true
-          cp package.json deploy/package.json
-          (cd deploy && zip -r ../deploy.zip .)
+          npm run build
+          echo "Build complete"
 
       - name: Login to Azure
         uses: azure/login@v2
@@ -72,23 +62,32 @@ jobs:
             --settings \
               NEXT_PUBLIC_API_BASE="${{ secrets.NEXT_PUBLIC_API_BASE }}" \
               NODE_ENV=production \
-              SCM_DO_BUILD_DURING_DEPLOYMENT=false \
-              ENABLE_ORYX_BUILD=false \
-              WEBSITE_RUN_FROM_PACKAGE=1
+              SCM_DO_BUILD_DURING_DEPLOYMENT=true \
+              PORT=8080
 
       - name: Remove legacy frontend settings
         run: |
           az webapp config appsettings delete \
             --resource-group options-scanner-rg \
             --name ${{ env.AZURE_WEBAPP_NAME }} \
-            --setting-names VITE_API_BASE
+            --setting-names VITE_API_BASE || true
+
+      - name: Create deployment package
+        run: |
+          rm -f deploy.zip
+          # Deploy SOURCE CODE ONLY - Azure will build with npm install + npm run build
+          zip -r deploy.zip app/ package.json package-lock.json tsconfig.json next.config.mjs server.js public/
+          
+          echo "=== Deployment package (Azure will build) ==="
+          unzip -l deploy.zip | head -15
+          du -sh deploy.zip
 
       - name: Configure Startup Command
         run: |
           az webapp config set \
             --resource-group options-scanner-rg \
             --name ${{ env.AZURE_WEBAPP_NAME }} \
-            --startup-file "node server.js"
+            --startup-file "npm start"
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3

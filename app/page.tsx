@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react'
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE || ''
+const DEFAULT_API_BASE = 'https://options-scanner-backend-2exk6s.azurewebsites.net'
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE || DEFAULT_API_BASE
 const isDev = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
 
 // Simple logger that also displays in UI
@@ -30,7 +31,7 @@ export default function HomePage() {
   const [portfolio, setPortfolio] = useState<any | null>(null)
   const [watchlist, setWatchlist] = useState<string[]>([])
   const [debugLogs, setDebugLogs] = useState<string[]>([])
-  const [apiBase, setApiBase] = useState<string>('')
+  const [apiBase, setApiBase] = useState<string>(API_BASE)
 
   const addDebugLog = (message: string) => {
     setDebugLogs(prev => [...prev, `[${new Date().toLocaleTimeString()}] ${message}`])
@@ -153,29 +154,32 @@ export default function HomePage() {
       <p>Next.js frontend scaffold with FastAPI backend integration.</p>
 
       <div className="status" style={{ 
-        padding: '12px',
+        padding: '16px',
         marginBottom: '16px',
-        borderRadius: '4px',
-        backgroundColor: health === 'error' ? '#fee' : health === 'ok' ? '#efe' : '#fef',
-        borderLeft: `4px solid ${health === 'error' ? '#f00' : health === 'ok' ? '#0f0' : '#00f'}`
+        borderRadius: '6px',
+        backgroundColor: health === 'error' ? '#ffebee' : health === 'ok' ? '#e8f5e9' : '#f3e5f5',
+        borderLeft: `6px solid ${health === 'error' ? '#d32f2f' : health === 'ok' ? '#388e3c' : '#7c4dff'}`,
+        color: '#1a1a1a',
+        fontSize: '14px',
+        lineHeight: '1.6'
       }}>
-        <span>Backend status:</span>
-        <strong style={{ marginLeft: '8px' }}>
+        <div style={{ fontWeight: '600', marginBottom: '10px', fontSize: '15px' }}>Backend Status</div>
+        <strong style={{ marginLeft: '0px', fontSize: '14px' }}>
           {health === 'checking' && '🔄 Checking...'}
           {health === 'ok' && '✓ Connected'}
           {health === 'error' && '✗ Unavailable'}
         </strong>
-        {healthDetail && <div style={{ marginTop: '8px', fontSize: '12px', color: '#666' }}>{healthDetail}</div>}
-        <div style={{ marginTop: '8px', fontSize: '12px' }}>
-          <span>DB status:</span>
-          <strong style={{ marginLeft: '6px' }}>
+        {healthDetail && <div style={{ marginTop: '8px', fontSize: '13px', color: '#555', fontStyle: 'italic' }}>{healthDetail}</div>}
+        <div style={{ marginTop: '14px', paddingTop: '14px', borderTop: '1px solid rgba(0,0,0,0.1)' }}>
+          <div style={{ fontWeight: '600', marginBottom: '8px', fontSize: '15px' }}>Database Status</div>
+          <strong style={{ marginLeft: '0px', fontSize: '14px' }}>
             {dbHealth === 'checking' && '🔄 Checking...'}
             {dbHealth === 'ok' && '✓ Connected'}
             {dbHealth === 'error' && '✗ Unavailable'}
           </strong>
-          {dbDetail && <div style={{ marginTop: '4px', fontSize: '11px', color: '#666' }}>{dbDetail}</div>}
+          {dbDetail && <div style={{ marginTop: '6px', fontSize: '12px', color: '#555', backgroundColor: 'rgba(0,0,0,0.05)', padding: '8px 10px', borderRadius: '3px', fontFamily: 'monospace', maxHeight: '60px', overflow: 'auto' }}>{dbDetail}</div>}
         </div>
-        {apiBase && <div style={{ marginTop: '8px', fontSize: '11px', color: '#999', fontFamily: 'monospace' }}>API: {apiBase}</div>}
+        {apiBase && <div style={{ marginTop: '14px', paddingTop: '14px', borderTop: '1px solid rgba(0,0,0,0.1)', fontSize: '12px', color: '#666', fontFamily: 'monospace', backgroundColor: 'rgba(0,0,0,0.02)', padding: '8px 10px', borderRadius: '3px' }}>API: {apiBase}</div>}
       </div>
 
       <section className="card-grid">
