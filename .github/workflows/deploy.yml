@@ -50,6 +50,7 @@ jobs:
           rm -rf deploy deploy.zip
           mkdir -p deploy
           cp -R .next/standalone/* deploy/
+          mkdir -p deploy/.next
           cp -R .next/static deploy/.next/static
           cp -R node_modules deploy/node_modules
           cp -R public deploy/public || true
