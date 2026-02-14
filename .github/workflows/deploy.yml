@@ -50,7 +50,9 @@ jobs:
           rm -rf deploy deploy.zip
           mkdir -p deploy
           cp -R .next deploy/.next
+          cp -R node_modules deploy/node_modules
           cp -R public deploy/public || true
+          cp package.json deploy/package.json
           (cd deploy && zip -r ../deploy.zip .)
 
       - name: Login to Azure
