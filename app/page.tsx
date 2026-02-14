@@ -30,12 +30,66 @@ export default function HomePage() {
   const [opportunities, setOpportunities] = useState<any[]>([])
   const [portfolio, setPortfolio] = useState<any | null>(null)
   const [watchlist, setWatchlist] = useState<string[]>([])
+  const [trackedTrades, setTrackedTrades] = useState<any[]>([])
+  const [multiLegOpportunities, setMultiLegOpportunities] = useState<any[]>([])
   const [debugLogs, setDebugLogs] = useState<string[]>([])
   const [apiBase, setApiBase] = useState<string>(API_BASE)
+  const [showStatus, setShowStatus] = useState<boolean>(false)
+  const [isScanning, setIsScanning] = useState<boolean>(false)
 
   const addDebugLog = (message: string) => {
     setDebugLogs(prev => [...prev, `[${new Date().toLocaleTimeString()}] ${message}`])
     log('debug', message)
+  }
+
+  const runScan = async () => {
+    setIsScanning(true)
+    try {
+      addDebugLog('🔍 Starting manual scan...')
+      const scanResponse = await fetch(`${API_BASE}/api/scan`)
+      if (scanResponse.ok) {
+        const scanData = await scanResponse.json()
+        setOpportunities(scanData.opportunities || [])
+        addDebugLog(`✓ Scan complete: ${scanData.opportunities?.length || 0} opportunities found`)
+      }
+    } catch (error: any) {
+      addDebugLog(`✗ Scan failed: ${error.message}`)
+    } finally {
+      setIsScanning(false)
+    }
+  }
+
+  const trackTrade = (opportunity: any, quantity: number) => {
+    const newTrade = {
+      id: `trade-${Date.now()}`,
+      opportunityId: opportunity.id,
+      symbol: opportunity.symbol,
+      strikePrice: opportunity.strikePrice,
+      expirationDate: opportunity.expirationDate,
+      optionType: opportunity.optionType,
+      entryPrice: opportunity.currentPrice,
+      currentPrice: opportunity.currentPrice,
+      quantity,
+      underlyingPrice: opportunity.underlyingPrice,
+      greeks: opportunity.greeks,
+      entryDate: Date.now(),
+      unrealizedPL: 0,
+      unrealizedPLPercent: 0,
+      status: 'active'
+    }
+    setTrackedTrades(prev => [...prev, newTrade])
+    addDebugLog(`✓ Tracked trade: ${opportunity.symbol} ${opportunity.optionType} x${quantity}`)
+  }
+
+  const closeTrade = (tradeId: string, exitPrice: number) => {
+    const trade = trackedTrades.find(t => t.id === tradeId)
+    if (!trade) return
+    
+    const realizedPL = (exitPrice - trade.entryPrice) * trade.quantity * 100
+    const realizedPLPercent = ((exitPrice - trade.entryPrice) / trade.entryPrice) * 100
+    
+    setTrackedTrades(prev => prev.filter(t => t.id !== tradeId))
+    addDebugLog(`✓ Closed trade: ${trade.symbol} - P/L: ${realizedPL >= 0 ? '+' : ''}$${realizedPL.toFixed(2)}`)
   }
 
   useEffect(() => {
@@ -143,22 +197,78 @@ export default function HomePage() {
         const errorMsg = error?.message || String(error)
         addDebugLog(`✗ Watchlist fetch error: ${errorMsg}`)
       }
+
+      // Fetch multi-leg opportunities
+      try {
+        addDebugLog(`Fetching multi-leg opportunities from ${API_BASE}/api/multi-leg-opportunities`)
+        const multiLegResponse = await fetch(`${API_BASE}/api/multi-leg-opportunities`)
+        addDebugLog(`Multi-leg response: ${multiLegResponse.status}`)
+        if (multiLegResponse.ok) {
+          const multiLegData = await multiLegResponse.json()
+          addDebugLog(`✓ Received ${multiLegData.opportunities?.length || 0} multi-leg opportunities`)
+          setMultiLegOpportunities(multiLegData.opportunities || [])
+        } else if (multiLegResponse.status !== 404) {
+          addDebugLog(`⚠ Multi-leg endpoint returned ${multiLegResponse.status}`)
+        }
+      } catch (error: any) {
+        const errorMsg = error?.message || String(error)
+        // Silently fail if endpoint doesn't exist yet
+        if (!errorMsg.includes('404')) {
+          addDebugLog(`⚠ Multi-leg fetch error: ${errorMsg}`)
+        }
+      }
     }
 
     check()
   }, [])
 
   return (
-    <main>
-      <h1>Options Scanner</h1>
-      <p>Next.js frontend scaffold with FastAPI backend integration.</p>
+    <main style={{ maxWidth: '1400px', margin: '0 auto', padding: '20px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+        <div>
+          <h1 style={{ margin: '0 0 4px 0' }}>Options Scanner</h1>
+          <p style={{ margin: '0', color: '#666', fontSize: '14px' }}>Real-time trade analysis and portfolio tracking</p>
+        </div>
+        <button 
+          onClick={runScan}
+          disabled={isScanning}
+          style={{
+            padding: '10px 20px',
+            fontSize: '14px',
+            fontWeight: 'bold',
+            cursor: isScanning ? 'not-allowed' : 'pointer',
+            backgroundColor: '#1976d2',
+            color: 'white',
+            border: 'none',
+            borderRadius: '6px',
+            opacity: isScanning ? 0.6 : 1,
+            transition: 'opacity 0.2s'
+          }}
+        >
+          {isScanning ? '🔄 Scanning...' : '🔍 Run Scan'}
+        </button>
+      </div>
 
-      <div className="status" style={{ 
-        padding: '16px',
-        marginBottom: '16px',
-        borderRadius: '6px',
-        backgroundColor: health === 'error' ? '#ffebee' : health === 'ok' ? '#e8f5e9' : '#f3e5f5',
-        borderLeft: `6px solid ${health === 'error' ? '#d32f2f' : health === 'ok' ? '#388e3c' : '#7c4dff'}`,
+      {/* Status Section - Collapsible */}
+      <details style={{ marginBottom: '20px', cursor: 'pointer' }}>
+        <summary style={{ 
+          padding: '12px 16px',
+          backgroundColor: '#f5f5f5',
+          borderRadius: '6px',
+          fontWeight: '600',
+          fontSize: '13px',
+          color: '#333',
+          userSelect: 'none'
+        }}>
+          ⚙️ System Status {health === 'ok' ? '✓' : '⚠'} — Click to expand
+        </summary>
+        
+        <div className="status" style={{ 
+          padding: '16px',
+          marginTop: '12px',
+          borderRadius: '6px',
+          backgroundColor: health === 'error' ? '#ffebee' : health === 'ok' ? '#e8f5e9' : '#f3e5f5',
+          borderLeft: `6px solid ${health === 'error' ? '#d32f2f' : health === 'ok' ? '#388e3c' : '#7c4dff'}`,
         color: '#1a1a1a',
         fontSize: '14px',
         lineHeight: '1.6'
@@ -181,46 +291,177 @@ export default function HomePage() {
         </div>
         {apiBase && <div style={{ marginTop: '14px', paddingTop: '14px', borderTop: '1px solid rgba(0,0,0,0.1)', fontSize: '12px', color: '#666', fontFamily: 'monospace', backgroundColor: 'rgba(0,0,0,0.02)', padding: '8px 10px', borderRadius: '3px' }}>API: {apiBase}</div>}
       </div>
+      </details>
 
       <section className="card-grid">
         <div className="card">
-          <h3>Scanner</h3>
-          <p className="muted">Latest opportunities from FastAPI.</p>
+          <h3>🔍 Scanner</h3>
+          <p className="muted">Latest opportunities from FastAPI</p>
           {opportunities.length === 0 ? (
             <p className="muted">No scan results yet.</p>
           ) : (
-            <ul className="muted">
-              {opportunities.slice(0, 3).map((opp) => (
-                <li key={opp.id}>
-                  {opp.symbol} {opp.optionType} {opp.strikePrice} @ ${opp.currentPrice}
-                </li>
-              ))}
-            </ul>
+            <div>
+              <p className="muted">{opportunities.length} opportunities found</p>
+              <div style={{ marginTop: '12px', maxHeight: '200px', overflowY: 'auto', fontSize: '12px' }}>
+                {opportunities.slice(0, 5).map((opp: any) => (
+                  <div key={opp.id} style={{ padding: '6px', borderBottom: '1px solid #eee', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div>
+                      <strong>{opp.symbol}</strong> {opp.optionType} ${opp.strikePrice}
+                      <div style={{ fontSize: '10px', color: '#666' }}>Current: ${opp.currentPrice}</div>
+                    </div>
+                    <button 
+                      onClick={() => {
+                        const quantity = prompt(`Enter quantity for ${opp.symbol} ${opp.optionType}:`, '1')
+                        if (quantity) trackTrade(opp, parseFloat(quantity))
+                      }}
+                      style={{ padding: '4px 8px', fontSize: '11px', cursor: 'pointer', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '3px' }}
+                    >
+                      Track
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
           )}
         </div>
+
         <div className="card">
-          <h3>Portfolio</h3>
-          <p className="muted">Positions and P/L from SQL.</p>
+          <h3>💼 Portfolio</h3>
+          <p className="muted">Positions and P/L from backend</p>
           {portfolio ? (
             <div className="muted">
-              <div>Total Value: ${portfolio.metrics.totalValue}</div>
-              <div>Open Trades: {portfolio.metrics.activeTrades}</div>
-              <div>Win Rate: {portfolio.metrics.winRate}%</div>
+              <div><strong>Total Value:</strong> ${portfolio.metrics?.totalValue?.toFixed(2)}</div>
+              <div><strong>Unrealized P/L:</strong> ${portfolio.metrics?.totalPL?.toFixed(2)} ({portfolio.metrics?.totalPLPercent?.toFixed(2)}%)</div>
+              <div><strong>Active Trades:</strong> {portfolio.metrics?.activeTrades}</div>
+              <div><strong>Win Rate:</strong> {portfolio.metrics?.winRate?.toFixed(1)}%</div>
+              {portfolio.trades && portfolio.trades.length > 0 && (
+                <div style={{ marginTop: '8px', fontSize: '11px' }}>
+                  <strong>Positions:</strong>
+                  {portfolio.trades.map((trade: any) => (
+                    <div key={trade.id} style={{ padding: '4px', backgroundColor: '#f9f9f9', marginTop: '4px', borderRadius: '3px' }}>
+                      {trade.symbol} {trade.optionType} - Entry: ${trade.entryPrice}, Current: ${trade.currentPrice}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           ) : (
             <p className="muted">No portfolio data yet.</p>
           )}
         </div>
+
         <div className="card">
-          <h3>Watchlist</h3>
-          <p className="muted">Tracked symbols from backend.</p>
+          <h3>⭐ Watchlist</h3>
+          <p className="muted">Tracked symbols</p>
           {watchlist.length === 0 ? (
-            <p className="muted">No watchlist symbols yet.</p>
+            <div className="muted">
+              <p>No symbols tracked.</p>
+              <input 
+                type="text" 
+                placeholder="Add symbol (e.g., AAPL)"
+                onKeyPress={(e: any) => {
+                  if (e.key === 'Enter' && e.target.value) {
+                    setWatchlist([...watchlist, e.target.value.toUpperCase()])
+                    e.target.value = ''
+                  }
+                }}
+                style={{ padding: '6px', width: '100%', marginTop: '8px', borderRadius: '3px', border: '1px solid #ccc' }}
+              />
+            </div>
           ) : (
-            <p className="muted">{watchlist.join(', ')}</p>
+            <div>
+              {watchlist.map((symbol: string) => (
+                <div key={symbol} style={{ padding: '6px', backgroundColor: '#e3f2fd', marginBottom: '4px', borderRadius: '3px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <strong>{symbol}</strong>
+                  <button 
+                    onClick={() => setWatchlist(watchlist.filter((s: string) => s !== symbol))}
+                    style={{ padding: '2px 6px', fontSize: '10px', cursor: 'pointer', backgroundColor: '#f44', color: 'white', border: 'none', borderRadius: '2px' }}
+                  >
+                    ✕
+                  </button>
+                </div>
+              ))}
+              <input 
+                type="text" 
+                placeholder="Add symbol"
+                onKeyPress={(e: any) => {
+                  if (e.key === 'Enter' && e.target.value) {
+                    setWatchlist([...watchlist, e.target.value.toUpperCase()])
+                    e.target.value = ''
+                  }
+                }}
+                style={{ padding: '6px', width: '100%', marginTop: '8px', borderRadius: '3px', border: '1px solid #ccc' }}
+              />
+            </div>
           )}
         </div>
       </section>
+
+      {/* Multi-Leg Opportunities Section */}
+      {multiLegOpportunities && multiLegOpportunities.length > 0 && (
+        <section style={{ marginTop: '24px', padding: '16px', backgroundColor: '#ffe2b8', borderRadius: '6px', border: '1px solid #e38a00' }}>
+          <h2 style={{ margin: '0 0 12px 0', fontSize: '16px', color: '#4e2f00' }}>🎯 Multi-Leg Opportunities</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '12px' }}>
+            {multiLegOpportunities.map((opp: any) => (
+              <div key={opp.id} style={{ backgroundColor: '#fffdf6', padding: '12px', borderRadius: '4px', border: '1px solid #e38a00', color: '#2b1f0f' }}>
+                <div style={{ fontWeight: 'bold', marginBottom: '8px', color: '#3a2408' }}>
+                  {opp.strategyType}: {opp.symbol}
+                </div>
+                <div style={{ fontSize: '12px', color: '#4d3b2b', marginBottom: '8px' }}>
+                  <div>Max Profit: ${opp.maxProfit?.toFixed(2)}</div>
+                  <div>Max Loss: ${Math.abs(opp.maxLoss || 0).toFixed(2)}</div>
+                  <div>Breakeven: ${opp.breakeven?.toFixed(2)}</div>
+                </div>
+                <div style={{ fontSize: '11px', color: '#6b5a4a', marginBottom: '8px' }}>
+                  Legs: {opp.legs?.length || 0}
+                </div>
+                <button 
+                  onClick={() => setMultiLegOpportunities(multiLegOpportunities.filter((o: any) => o.id !== opp.id))}
+                  style={{ padding: '6px 12px', fontSize: '11px', cursor: 'pointer', backgroundColor: '#d46f00', color: 'white', border: 'none', borderRadius: '3px' }}
+                >
+                  Execute Strategy
+                </button>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Active Trades Section */}
+      {trackedTrades && trackedTrades.length > 0 && (
+        <section style={{ marginTop: '24px', padding: '16px', backgroundColor: '#e8f5e9', borderRadius: '6px', border: '1px solid #4CAF50' }}>
+          <h2 style={{ margin: '0 0 12px 0', fontSize: '16px' }}>📈 Active Trades ({trackedTrades.length})</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '12px' }}>
+            {trackedTrades.map((trade: any) => (
+              <div key={trade.id} style={{ backgroundColor: 'white', padding: '12px', borderRadius: '4px', border: `2px solid ${trade.unrealizedPL >= 0 ? '#4CAF50' : '#f44'}` }}>
+                <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+                  {trade.symbol} {trade.optionType} ${trade.strikePrice}
+                </div>
+                <div style={{ fontSize: '12px', color: '#666', marginBottom: '8px' }}>
+                  <div>Entry: ${trade.entryPrice?.toFixed(2)}</div>
+                  <div>Current: ${trade.currentPrice?.toFixed(2)}</div>
+                  <div>Qty: {trade.quantity}</div>
+                  <div style={{ fontWeight: 'bold', color: trade.unrealizedPL >= 0 ? '#4CAF50' : '#f44', marginTop: '4px' }}>
+                    P/L: ${trade.unrealizedPL?.toFixed(2)} ({trade.unrealizedPLPercent?.toFixed(2)}%)
+                  </div>
+                </div>
+                <div style={{ display: 'flex', gap: '6px' }}>
+                  <button 
+                    onClick={() => {
+                      const exitPrice = prompt(`Exit price for ${trade.symbol}:`, trade.currentPrice)
+                      if (exitPrice) closeTrade(trade.id, parseFloat(exitPrice))
+                    }}
+                    style={{ flex: 1, padding: '6px', fontSize: '11px', cursor: 'pointer', backgroundColor: '#f44', color: 'white', border: 'none', borderRadius: '3px' }}
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
 
       {/* Diagnostics Section */}
       <section style={{ 
