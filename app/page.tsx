@@ -12,7 +12,7 @@ const log = (level: 'info' | 'error' | 'debug', message: string, data?: any) => 
   console.log(logEntry, data || '')
   
   // Send to backend for centralized logging
-  if (typeof window !== 'undefined') {
+  if (typeof window !== 'undefined' && API_BASE) {
     fetch(`${API_BASE}/api/logs`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -24,6 +24,8 @@ const log = (level: 'info' | 'error' | 'debug', message: string, data?: any) => 
 export default function HomePage() {
   const [health, setHealth] = useState<'checking' | 'ok' | 'error'>('checking')
   const [healthDetail, setHealthDetail] = useState<string>('')
+  const [dbHealth, setDbHealth] = useState<'checking' | 'ok' | 'error'>('checking')
+  const [dbDetail, setDbDetail] = useState<string>('')
   const [opportunities, setOpportunities] = useState<any[]>([])
   const [portfolio, setPortfolio] = useState<any | null>(null)
   const [watchlist, setWatchlist] = useState<string[]>([])
@@ -49,19 +51,49 @@ export default function HomePage() {
         return
       }
 
+      setHealth('checking')
+      setDbHealth('checking')
+      setHealthDetail('')
+      setDbDetail('')
+
+      // Check app health (no DB dependency)
       try {
-        addDebugLog(`Attempting to connect to health endpoint: ${API_BASE}/health`)
-        const response = await fetch(`${API_BASE}/health`)
-        addDebugLog(`Health endpoint response: ${response.status} ${response.statusText}`)
-        
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+        addDebugLog(`Attempting app health check: ${API_BASE}/healthz`)
+        const appHealth = await fetch(`${API_BASE}/healthz`)
+        addDebugLog(`Healthz response: ${appHealth.status} ${appHealth.statusText}`)
+        if (!appHealth.ok) {
+          throw new Error(`HTTP ${appHealth.status}: ${appHealth.statusText}`)
         }
         setHealth('ok')
-        setHealthDetail('Backend connected')
-        addDebugLog('✓ Backend connection successful')
+        setHealthDetail('Backend reachable')
+        addDebugLog('✓ Backend reachable')
+      } catch (error: any) {
+        const errorMsg = error?.message || String(error)
+        setHealth('error')
+        setHealthDetail(`Backend unreachable: ${errorMsg}`)
+        addDebugLog(`✗ Healthz error: ${errorMsg}`)
+      }
 
-        // Fetch scan data
+      // Check DB health (optional)
+      try {
+        addDebugLog(`Attempting DB health check: ${API_BASE}/health`)
+        const dbHealthResponse = await fetch(`${API_BASE}/health`)
+        addDebugLog(`Health response: ${dbHealthResponse.status} ${dbHealthResponse.statusText}`)
+        if (!dbHealthResponse.ok) {
+          throw new Error(`HTTP ${dbHealthResponse.status}: ${dbHealthResponse.statusText}`)
+        }
+        setDbHealth('ok')
+        setDbDetail('Database connected')
+        addDebugLog('✓ Database connection successful')
+      } catch (error: any) {
+        const errorMsg = error?.message || String(error)
+        setDbHealth('error')
+        setDbDetail(`Database unavailable: ${errorMsg}`)
+        addDebugLog(`⚠ DB health error: ${errorMsg}`)
+      }
+
+      // Fetch scan data
+      try {
         addDebugLog(`Fetching scan data from ${API_BASE}/api/scan`)
         const scanResponse = await fetch(`${API_BASE}/api/scan`)
         addDebugLog(`Scan response: ${scanResponse.status}`)
@@ -72,20 +104,30 @@ export default function HomePage() {
         } else {
           addDebugLog(`⚠ Scan endpoint returned ${scanResponse.status}`)
         }
+      } catch (error: any) {
+        const errorMsg = error?.message || String(error)
+        addDebugLog(`✗ Scan fetch error: ${errorMsg}`)
+      }
 
-        // Fetch portfolio data
+      // Fetch portfolio data
+      try {
         addDebugLog(`Fetching portfolio from ${API_BASE}/api/portfolio`)
         const portfolioResponse = await fetch(`${API_BASE}/api/portfolio`)
         addDebugLog(`Portfolio response: ${portfolioResponse.status}`)
         if (portfolioResponse.ok) {
           const portfolioData = await portfolioResponse.json()
-          addDebugLog(`✓ Received portfolio data`)
+          addDebugLog('✓ Received portfolio data')
           setPortfolio(portfolioData.portfolio || null)
         } else {
           addDebugLog(`⚠ Portfolio endpoint returned ${portfolioResponse.status}`)
         }
+      } catch (error: any) {
+        const errorMsg = error?.message || String(error)
+        addDebugLog(`✗ Portfolio fetch error: ${errorMsg}`)
+      }
 
-        // Fetch watchlist
+      // Fetch watchlist
+      try {
         addDebugLog(`Fetching watchlist from ${API_BASE}/api/watchlist`)
         const watchlistResponse = await fetch(`${API_BASE}/api/watchlist`)
         addDebugLog(`Watchlist response: ${watchlistResponse.status}`)
@@ -97,11 +139,8 @@ export default function HomePage() {
           addDebugLog(`⚠ Watchlist endpoint returned ${watchlistResponse.status}`)
         }
       } catch (error: any) {
-        setHealth('error')
         const errorMsg = error?.message || String(error)
-        setHealthDetail(`Backend unavailable: ${errorMsg}`)
-        addDebugLog(`✗ ERROR: ${errorMsg}`)
-        log('error', 'Failed to connect to backend', { error: errorMsg, apiBase: API_BASE })
+        addDebugLog(`✗ Watchlist fetch error: ${errorMsg}`)
       }
     }
 
@@ -127,6 +166,15 @@ export default function HomePage() {
           {health === 'error' && '✗ Unavailable'}
         </strong>
         {healthDetail && <div style={{ marginTop: '8px', fontSize: '12px', color: '#666' }}>{healthDetail}</div>}
+        <div style={{ marginTop: '8px', fontSize: '12px' }}>
+          <span>DB status:</span>
+          <strong style={{ marginLeft: '6px' }}>
+            {dbHealth === 'checking' && '🔄 Checking...'}
+            {dbHealth === 'ok' && '✓ Connected'}
+            {dbHealth === 'error' && '✗ Unavailable'}
+          </strong>
+          {dbDetail && <div style={{ marginTop: '4px', fontSize: '11px', color: '#666' }}>{dbDetail}</div>}
+        </div>
         {apiBase && <div style={{ marginTop: '8px', fontSize: '11px', color: '#999', fontFamily: 'monospace' }}>API: {apiBase}</div>}
       </div>
 
