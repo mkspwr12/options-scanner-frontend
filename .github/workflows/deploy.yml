@@ -49,10 +49,8 @@ jobs:
         run: |
           rm -rf deploy deploy.zip
           mkdir -p deploy
-          cp -R .next/standalone/* deploy/
-          mkdir -p deploy/.next
-          cp -R .next/static deploy/.next/static
-          if [ -d public ]; then cp -R public deploy/public; fi
+          cp -R .next deploy/.next
+          cp -R public deploy/public || true
           (cd deploy && zip -r ../deploy.zip .)
 
       - name: Login to Azure
