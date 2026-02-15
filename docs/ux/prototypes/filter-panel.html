@@ -1,0 +1,1540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Options Scanner — Advanced Filtering Prototype</title>
+  <style>
+    /* ========================================================
+       Design System — Dark Theme (from globals.css)
+       ======================================================== */
+    :root {
+      --bg-base: #0b1224;
+      --bg-elevated: #132046;
+      --bg-card: rgba(9, 16, 31, 0.65);
+      --border-card: rgba(255, 255, 255, 0.08);
+      --text-primary: #e6edf7;
+      --text-secondary: #b7c3d9;
+      --text-muted: #94a3b8;
+      --blue-primary: #1976d2;
+      --blue-light: #64b5f6;
+      --blue-bg: rgba(25, 118, 210, 0.12);
+      --blue-border: rgba(25, 118, 210, 0.3);
+      --amber: #f5a623;
+      --amber-bg: rgba(245, 166, 35, 0.15);
+      --amber-border: rgba(245, 166, 35, 0.3);
+      --red: #ef5350;
+      --green: #66bb6a;
+      --success: #4CAF50;
+      --slider-track: rgba(255, 255, 255, 0.15);
+      --card-radius: 16px;
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-mono);
+      background: radial-gradient(ellipse at 60% 0%, #132046 0%, #0b1224 50%, #08101f 100%);
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    /* ========= Page Layout ========= */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .page-header {
+      margin-bottom: 24px;
+    }
+
+    .page-header h1 {
+      font-size: 40px;
+      font-weight: 700;
+      line-height: 1.2;
+      background: linear-gradient(135deg, #e6edf7, #94a3b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .page-header p {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+
+    /* ========= Presets Bar ========= */
+    .presets-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 12px;
+      margin-bottom: 12px;
+      overflow-x: auto;
+    }
+
+    .presets-bar__label {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+
+    .preset-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(9, 16, 31, 0.65);
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: var(--font-mono);
+      white-space: nowrap;
+    }
+
+    .preset-chip:hover {
+      background: rgba(25, 118, 210, 0.1);
+      border-color: rgba(25, 118, 210, 0.3);
+    }
+
+    .preset-chip--active {
+      border-color: var(--blue-primary);
+      box-shadow: 0 0 0 1px var(--blue-primary);
+    }
+
+    .preset-chip--active::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--blue-primary);
+    }
+
+    .preset-chip--add {
+      border-style: dashed;
+      color: var(--text-muted);
+    }
+
+    .preset-chip--add:hover {
+      color: var(--blue-light);
+    }
+
+    /* ========= Filter Panel ========= */
+    .filter-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--card-radius);
+      overflow: hidden;
+      margin-bottom: 16px;
+      transition: all 0.3s ease;
+    }
+
+    .filter-panel__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .filter-panel__header h2 {
+      font-size: 16px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .filter-panel__header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-ghost {
+      padding: 6px 12px;
+      font-size: 12px;
+      font-family: var(--font-mono);
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 6px;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-primary);
+    }
+
+    .btn-ghost--blue:hover {
+      background: rgba(25, 118, 210, 0.1);
+      border-color: var(--blue-primary);
+      color: var(--blue-light);
+    }
+
+    .collapse-icon {
+      font-size: 14px;
+      transition: transform 0.3s ease;
+    }
+
+    .filter-panel.collapsed .collapse-icon {
+      transform: rotate(180deg);
+    }
+
+    .filter-panel__body {
+      padding: 0 20px 16px;
+      max-height: 600px;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+    }
+
+    .filter-panel.collapsed .filter-panel__body {
+      max-height: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+
+    .filter-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px 32px;
+    }
+
+    /* ========= Filter Group ========= */
+    .filter-group {
+      margin-bottom: 4px;
+    }
+
+    .filter-group__label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+    }
+
+    .info-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-muted);
+      font-size: 10px;
+      cursor: help;
+      position: relative;
+      font-style: normal;
+    }
+
+    .info-icon .tooltip {
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 280px;
+      padding: 12px;
+      background: #1a2744;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      font-size: 12px;
+      line-height: 1.5;
+      color: var(--text-secondary);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      z-index: 50;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      font-weight: 400;
+      text-align: left;
+      white-space: normal;
+    }
+
+    .info-icon:hover .tooltip {
+      opacity: 1;
+    }
+
+    .filter-group__value {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 6px;
+      font-weight: 500;
+    }
+
+    .filter-group__value span {
+      color: var(--blue-light);
+      font-weight: 600;
+    }
+
+    /* ========= Range Slider ========= */
+    .range-slider {
+      position: relative;
+      width: 100%;
+      height: 28px;
+    }
+
+    .range-slider__track {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 100%;
+      height: 4px;
+      background: var(--slider-track);
+      border-radius: 2px;
+    }
+
+    .range-slider__fill {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 4px;
+      background: var(--blue-primary);
+      border-radius: 2px;
+      transition: left 0.1s ease, width 0.1s ease;
+    }
+
+    .range-slider input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 28px;
+      background: transparent;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .range-slider input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--text-primary);
+      border: 2px solid var(--blue-primary);
+      cursor: grab;
+      pointer-events: all;
+      transition: transform 0.15s ease;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .range-slider input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+    }
+
+    .range-slider input[type="range"]::-webkit-slider-thumb:active {
+      cursor: grabbing;
+    }
+
+    .range-slider input[type="range"]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--text-primary);
+      border: 2px solid var(--blue-primary);
+      cursor: grab;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    /* ========= Chip Group (DTE) ========= */
+    .chip-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .filter-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: var(--font-mono);
+    }
+
+    .filter-chip:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .filter-chip--selected {
+      background: var(--blue-primary);
+      border-color: var(--blue-primary);
+      color: white;
+    }
+
+    .custom-input {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .custom-input label {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .custom-input input {
+      width: 60px;
+      padding: 5px 8px;
+      font-size: 12px;
+      font-family: var(--font-mono);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 6px;
+      color: var(--text-primary);
+      text-align: center;
+      outline: none;
+    }
+
+    .custom-input input:focus {
+      border-color: var(--blue-primary);
+    }
+
+    /* ========= Dropdowns ========= */
+    .select-row {
+      display: flex;
+      gap: 16px;
+      margin-top: 4px;
+      grid-column: 1 / -1;
+    }
+
+    .select-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .select-group label {
+      font-size: 12px;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .select-group select {
+      padding: 6px 10px;
+      font-size: 12px;
+      font-family: var(--font-mono);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 6px;
+      color: var(--text-primary);
+      outline: none;
+      cursor: pointer;
+    }
+
+    .select-group select:focus {
+      border-color: var(--blue-primary);
+    }
+
+    /* ========= Result Count Badge ========= */
+    .result-count {
+      display: flex;
+      justify-content: center;
+      padding: 12px 0 4px;
+      grid-column: 1 / -1;
+    }
+
+    .result-count-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 20px;
+      border-radius: 20px;
+      background: var(--blue-bg);
+      border: 1px solid var(--blue-border);
+      color: var(--blue-light);
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .result-count-badge .count {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .result-count-badge--zero {
+      background: rgba(244, 67, 54, 0.12);
+      border-color: rgba(244, 67, 54, 0.3);
+      color: var(--red);
+    }
+
+    /* ========= Active Filters Bar ========= */
+    .active-filters {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 10px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .active-filters.visible {
+      display: flex;
+    }
+
+    .active-filter-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
+      font-size: 12px;
+      font-weight: 500;
+      border-radius: 14px;
+      background: rgba(25, 118, 210, 0.15);
+      border: 1px solid rgba(25, 118, 210, 0.4);
+      color: var(--blue-light);
+      font-family: var(--font-mono);
+    }
+
+    .active-filter-chip .dismiss {
+      font-size: 14px;
+      opacity: 0.6;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+
+    .active-filter-chip .dismiss:hover {
+      opacity: 1;
+    }
+
+    .active-filters .spacer {
+      flex: 1;
+    }
+
+    /* ========= Results Table ========= */
+    .results-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--card-radius);
+      overflow: hidden;
+    }
+
+    .results-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+    }
+
+    .results-header h2 {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .results-header__actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .results-table thead th {
+      text-align: left;
+      padding: 10px 12px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border-card);
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    .results-table thead th:hover {
+      color: var(--text-primary);
+    }
+
+    .results-table thead th.sorted::after {
+      content: ' ▼';
+      font-size: 9px;
+    }
+
+    .results-table tbody tr {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    .results-table tbody tr:hover {
+      background: rgba(25, 118, 210, 0.08);
+    }
+
+    .results-table tbody td {
+      padding: 10px 12px;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .results-table .symbol {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .results-table .type-call { color: var(--green); }
+    .results-table .type-put { color: var(--red); }
+
+    .iv-high { color: var(--red); font-weight: 600; }
+    .iv-mid { color: var(--amber); }
+    .iv-low { color: var(--green); }
+
+    .volume-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .volume-badge--unusual {
+      background: var(--amber-bg);
+      color: var(--amber);
+      border: 1px solid var(--amber-border);
+    }
+
+    .volume-badge--normal {
+      color: var(--text-secondary);
+    }
+
+    .price {
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+
+    /* Expanded Row */
+    .expansion-row td {
+      padding: 0 !important;
+    }
+
+    .expansion-content {
+      display: none;
+      padding: 8px 12px 14px;
+      border-top: 1px dashed rgba(255, 255, 255, 0.06);
+    }
+
+    .expansion-content.visible {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    .expansion-item {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .expansion-item strong {
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    /* ========= Footer ========= */
+    .page-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 0;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .btn-primary {
+      padding: 8px 16px;
+      font-size: 13px;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      background: var(--blue-primary);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-primary:hover {
+      background: #1e88e5;
+      box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+    }
+
+    /* ========= Action Bar ========= */
+    .action-bar {
+      display: flex;
+      gap: 8px;
+      padding: 12px 20px;
+      border-top: 1px solid var(--border-card);
+    }
+
+    /* ========= Toast Notification ========= */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      padding: 12px 20px;
+      background: #1b5e20;
+      border: 1px solid rgba(76, 175, 80, 0.4);
+      border-radius: 10px;
+      color: #c8e6c9;
+      font-size: 13px;
+      font-family: var(--font-mono);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 200;
+    }
+
+    .toast.visible {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* ========= Save Preset Modal ========= */
+    .save-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .save-modal.visible {
+      display: flex;
+    }
+
+    .save-modal__content {
+      background: #1a2744;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 16px;
+      padding: 24px;
+      width: 400px;
+      max-width: 90vw;
+    }
+
+    .save-modal__content h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .save-modal__content input[type="text"] {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 14px;
+      font-family: var(--font-mono);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      color: var(--text-primary);
+      outline: none;
+      margin-bottom: 16px;
+    }
+
+    .save-modal__content input[type="text"]:focus {
+      border-color: var(--blue-primary);
+    }
+
+    .save-modal__filters {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .save-modal__filters li {
+      list-style: none;
+      padding: 3px 0;
+    }
+
+    .save-modal__filters li::before {
+      content: '• ';
+      color: var(--blue-light);
+    }
+
+    .save-modal__actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .save-modal__remaining {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .save-modal__buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    /* ========= Responsive ========= */
+    @media (max-width: 1023px) {
+      .filter-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 16px 24px;
+      }
+    }
+
+    @media (max-width: 767px) {
+      body { padding: 12px; }
+
+      .page-header h1 { font-size: 24px; }
+
+      .filter-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .select-row {
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .results-table { font-size: 11px; }
+
+      .results-table thead th,
+      .results-table tbody td {
+        padding: 8px 6px;
+      }
+
+      /* Hide less critical columns on mobile */
+      .results-table .col-theta,
+      .results-table .col-vega {
+        display: none;
+      }
+
+      .expansion-content.visible {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .action-bar {
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Page Header -->
+    <header class="page-header">
+      <h1>Options Scanner</h1>
+      <p>Real-time trade analysis and portfolio tracking</p>
+    </header>
+
+    <!-- Presets Bar -->
+    <div class="presets-bar">
+      <span class="presets-bar__label">Presets:</span>
+      <button class="preset-chip preset-chip--active" onclick="loadPreset('highIV')">
+        High IV Sell
+      </button>
+      <button class="preset-chip" onclick="loadPreset('earnings')">
+        Earnings Play
+      </button>
+      <button class="preset-chip" onclick="loadPreset('deltaScalp')">
+        Delta Scalp
+      </button>
+      <button class="preset-chip preset-chip--add" onclick="openSaveModal()">
+        + Save Preset
+      </button>
+    </div>
+
+    <!-- Filter Panel -->
+    <div class="filter-panel" id="filterPanel">
+      <div class="filter-panel__header" onclick="toggleFilters()">
+        <h2>
+          <span>Advanced Filters</span>
+        </h2>
+        <div class="filter-panel__header-actions">
+          <button class="btn-ghost" onclick="event.stopPropagation(); resetFilters()">Reset</button>
+          <span class="collapse-icon">▲</span>
+        </div>
+      </div>
+      <div class="filter-panel__body">
+        <div class="filter-grid">
+          <!-- IV Percentile -->
+          <div class="filter-group">
+            <div class="filter-group__label">
+              IV Percentile (52wk)
+              <i class="info-icon">ⓘ
+                <span class="tooltip">How expensive options are relative to the past year. 80+ means options are very expensive (good for selling). 20- means cheap (good for buying).</span>
+              </i>
+            </div>
+            <div class="range-slider" id="ivSlider">
+              <div class="range-slider__track"></div>
+              <div class="range-slider__fill" id="ivFill"></div>
+              <input type="range" min="0" max="100" value="60" id="ivMin" oninput="updateSlider('iv')">
+              <input type="range" min="0" max="100" value="85" id="ivMax" oninput="updateSlider('iv')">
+            </div>
+            <div class="filter-group__value">Range: <span id="ivValue">60 – 85%</span></div>
+          </div>
+
+          <!-- Volume/OI -->
+          <div class="filter-group">
+            <div class="filter-group__label">
+              Volume/OI Ratio
+              <i class="info-icon">ⓘ
+                <span class="tooltip">Today's trading volume divided by open contracts. Above 2.5x means unusual new interest — possible institutional activity.</span>
+              </i>
+            </div>
+            <div class="range-slider" id="volSlider">
+              <div class="range-slider__track"></div>
+              <div class="range-slider__fill" id="volFill"></div>
+              <input type="range" min="0" max="100" value="15" id="volMin" oninput="updateSlider('vol')">
+              <input type="range" min="0" max="100" value="100" id="volMax" oninput="updateSlider('vol')">
+            </div>
+            <div class="filter-group__value">Range: <span id="volValue">&gt; 1.5x</span></div>
+          </div>
+
+          <!-- DTE -->
+          <div class="filter-group">
+            <div class="filter-group__label">
+              Days to Expiration
+              <i class="info-icon">ⓘ
+                <span class="tooltip">Days until the option expires. 30-45 days is popular for monthly income strategies. Shorter DTE has faster time decay.</span>
+              </i>
+            </div>
+            <div class="chip-group">
+              <button class="filter-chip" onclick="selectDTE(this, '0-7')">0-7</button>
+              <button class="filter-chip filter-chip--selected" onclick="selectDTE(this, '30-45')">30-45</button>
+              <button class="filter-chip" onclick="selectDTE(this, '60-90')">60-90</button>
+              <button class="filter-chip" onclick="selectDTE(this, 'leaps')">LEAPS</button>
+              <div class="custom-input">
+                <label>Custom:</label>
+                <input type="number" placeholder="—" min="0" max="720" oninput="customDTE(this.value)">
+              </div>
+            </div>
+          </div>
+
+          <!-- Delta -->
+          <div class="filter-group">
+            <div class="filter-group__label">
+              Delta Range
+              <i class="info-icon">ⓘ
+                <span class="tooltip">How much the option price moves per $1 change in stock price. 0.30 = 30 cents per dollar. Calls are positive, puts are negative.</span>
+              </i>
+            </div>
+            <div class="range-slider" id="deltaSlider">
+              <div class="range-slider__track"></div>
+              <div class="range-slider__fill" id="deltaFill"></div>
+              <input type="range" min="0" max="100" value="20" id="deltaMin" oninput="updateSlider('delta')">
+              <input type="range" min="0" max="100" value="40" id="deltaMax" oninput="updateSlider('delta')">
+            </div>
+            <div class="filter-group__value">Range: <span id="deltaValue">0.20 – 0.40</span></div>
+          </div>
+
+          <!-- Theta -->
+          <div class="filter-group">
+            <div class="filter-group__label">
+              Theta Range
+              <i class="info-icon">ⓘ
+                <span class="tooltip">How much time value the option loses per day. -$0.15 means the option loses 15 cents daily. Sellers profit from theta decay.</span>
+              </i>
+            </div>
+            <div class="range-slider" id="thetaSlider">
+              <div class="range-slider__track"></div>
+              <div class="range-slider__fill" id="thetaFill"></div>
+              <input type="range" min="0" max="100" value="0" id="thetaMin" oninput="updateSlider('theta')">
+              <input type="range" min="0" max="100" value="100" id="thetaMax" oninput="updateSlider('theta')">
+            </div>
+            <div class="filter-group__value">Range: <span id="thetaValue">-$0.50 – $0.00</span></div>
+          </div>
+
+          <!-- Vega -->
+          <div class="filter-group">
+            <div class="filter-group__label">
+              Vega Range
+              <i class="info-icon">ⓘ
+                <span class="tooltip">How much the option gains per 1% increase in volatility. Higher vega means the option is more sensitive to volatility changes.</span>
+              </i>
+            </div>
+            <div class="range-slider" id="vegaSlider">
+              <div class="range-slider__track"></div>
+              <div class="range-slider__fill" id="vegaFill"></div>
+              <input type="range" min="0" max="100" value="0" id="vegaMin" oninput="updateSlider('vega')">
+              <input type="range" min="0" max="100" value="100" id="vegaMax" oninput="updateSlider('vega')">
+            </div>
+            <div class="filter-group__value">Range: <span id="vegaValue">$0.00 – $2.00</span></div>
+          </div>
+
+          <!-- Dropdowns Row -->
+          <div class="select-row">
+            <div class="select-group">
+              <label>Option Type:</label>
+              <select onchange="updateResults()">
+                <option value="all">All</option>
+                <option value="call">Calls Only</option>
+                <option value="put">Puts Only</option>
+              </select>
+            </div>
+            <div class="select-group">
+              <label>Moneyness:</label>
+              <select onchange="updateResults()">
+                <option value="all">All</option>
+                <option value="itm">ITM</option>
+                <option value="atm">ATM</option>
+                <option value="otm">OTM</option>
+              </select>
+            </div>
+            <div class="select-group">
+              <label>Min Volume:</label>
+              <input type="number" placeholder="—" min="0" style="width:70px; padding:5px 8px; font-size:12px; font-family:var(--font-mono); background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.15); border-radius:6px; color:var(--text-primary); outline:none;" oninput="updateResults()">
+            </div>
+          </div>
+
+          <!-- Result Count -->
+          <div class="result-count">
+            <div class="result-count-badge" id="resultBadge">
+              <span class="count" id="resultCount">8</span> results match
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Filters Bar (shown when panel collapsed) -->
+    <div class="active-filters" id="activeFilters">
+      <span style="font-size:12px; color:var(--text-muted);">Filters:</span>
+      <span class="active-filter-chip">IV: 60-85% <span class="dismiss" onclick="removeFilter('iv')">✕</span></span>
+      <span class="active-filter-chip">DTE: 30-45d <span class="dismiss" onclick="removeFilter('dte')">✕</span></span>
+      <span class="active-filter-chip">Vol/OI: &gt;1.5x <span class="dismiss" onclick="removeFilter('vol')">✕</span></span>
+      <span class="active-filter-chip">Δ: .20-.40 <span class="dismiss" onclick="removeFilter('delta')">✕</span></span>
+      <span class="spacer"></span>
+      <button class="btn-ghost" onclick="toggleFilters()">▼ Expand</button>
+      <button class="btn-ghost" onclick="resetFilters()">✕ Clear All</button>
+    </div>
+
+    <!-- Results Table -->
+    <div class="results-card">
+      <div class="results-header">
+        <h2>Scan Results</h2>
+        <div class="results-header__actions">
+          <button class="btn-ghost btn-ghost--blue">Export CSV</button>
+          <button class="btn-primary" onclick="alert('Run Scan triggered — would call /api/scan')">🔍 Run Scan</button>
+        </div>
+      </div>
+
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th class="sorted">Symbol</th>
+            <th>Type</th>
+            <th>Strike</th>
+            <th>Exp</th>
+            <th>IV %</th>
+            <th>Vol/OI</th>
+            <th>Delta</th>
+            <th>Bid</th>
+            <th>Ask</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Row 1: AAPL -->
+          <tr onclick="toggleRow('row1')">
+            <td>▸</td>
+            <td class="symbol">AAPL</td>
+            <td class="type-call">Call</td>
+            <td>$185</td>
+            <td>03/21</td>
+            <td class="iv-high">72%</td>
+            <td><span class="volume-badge volume-badge--unusual">■ 3.2x</span></td>
+            <td>0.35</td>
+            <td class="price">$4.20</td>
+            <td class="price">$4.35</td>
+          </tr>
+          <tr class="expansion-row">
+            <td colspan="10">
+              <div class="expansion-content" id="row1">
+                <div class="expansion-item"><strong>Theta:</strong> -$0.12/day</div>
+                <div class="expansion-item"><strong>Vega:</strong> $0.45</div>
+                <div class="expansion-item"><strong>Gamma:</strong> 0.02</div>
+                <div class="expansion-item"><strong>OI:</strong> 12,450</div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Row 2: TSLA -->
+          <tr onclick="toggleRow('row2')">
+            <td>▸</td>
+            <td class="symbol">TSLA</td>
+            <td class="type-put">Put</td>
+            <td>$240</td>
+            <td>03/14</td>
+            <td class="iv-high">81%</td>
+            <td><span class="volume-badge volume-badge--unusual">■ 5.1x</span></td>
+            <td>-0.28</td>
+            <td class="price">$6.10</td>
+            <td class="price">$6.30</td>
+          </tr>
+          <tr class="expansion-row">
+            <td colspan="10">
+              <div class="expansion-content" id="row2">
+                <div class="expansion-item"><strong>Theta:</strong> -$0.18/day</div>
+                <div class="expansion-item"><strong>Vega:</strong> $0.82</div>
+                <div class="expansion-item"><strong>Gamma:</strong> 0.01</div>
+                <div class="expansion-item"><strong>OI:</strong> 8,200</div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Row 3: NVDA -->
+          <tr onclick="toggleRow('row3')">
+            <td>▸</td>
+            <td class="symbol">NVDA</td>
+            <td class="type-call">Call</td>
+            <td>$720</td>
+            <td>03/21</td>
+            <td class="iv-mid">68%</td>
+            <td><span class="volume-badge volume-badge--normal">1.8x</span></td>
+            <td>0.32</td>
+            <td class="price">$12.50</td>
+            <td class="price">$12.80</td>
+          </tr>
+          <tr class="expansion-row">
+            <td colspan="10">
+              <div class="expansion-content" id="row3">
+                <div class="expansion-item"><strong>Theta:</strong> -$0.22/day</div>
+                <div class="expansion-item"><strong>Vega:</strong> $1.15</div>
+                <div class="expansion-item"><strong>Gamma:</strong> 0.01</div>
+                <div class="expansion-item"><strong>OI:</strong> 5,600</div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Row 4: META -->
+          <tr onclick="toggleRow('row4')">
+            <td>▸</td>
+            <td class="symbol">META</td>
+            <td class="type-call">Call</td>
+            <td>$500</td>
+            <td>04/18</td>
+            <td class="iv-high">75%</td>
+            <td><span class="volume-badge volume-badge--unusual">■ 2.8x</span></td>
+            <td>0.25</td>
+            <td class="price">$8.40</td>
+            <td class="price">$8.65</td>
+          </tr>
+          <tr class="expansion-row">
+            <td colspan="10">
+              <div class="expansion-content" id="row4">
+                <div class="expansion-item"><strong>Theta:</strong> -$0.14/day</div>
+                <div class="expansion-item"><strong>Vega:</strong> $0.55</div>
+                <div class="expansion-item"><strong>Gamma:</strong> 0.02</div>
+                <div class="expansion-item"><strong>OI:</strong> 9,800</div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Row 5: AMZN -->
+          <tr onclick="toggleRow('row5')">
+            <td>▸</td>
+            <td class="symbol">AMZN</td>
+            <td class="type-put">Put</td>
+            <td>$175</td>
+            <td>03/21</td>
+            <td class="iv-high">70%</td>
+            <td><span class="volume-badge volume-badge--normal">1.6x</span></td>
+            <td>-0.22</td>
+            <td class="price">$3.80</td>
+            <td class="price">$3.95</td>
+          </tr>
+          <tr class="expansion-row">
+            <td colspan="10">
+              <div class="expansion-content" id="row5">
+                <div class="expansion-item"><strong>Theta:</strong> -$0.09/day</div>
+                <div class="expansion-item"><strong>Vega:</strong> $0.38</div>
+                <div class="expansion-item"><strong>Gamma:</strong> 0.03</div>
+                <div class="expansion-item"><strong>OI:</strong> 6,100</div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Row 6: MSFT -->
+          <tr onclick="toggleRow('row6')">
+            <td>▸</td>
+            <td class="symbol">MSFT</td>
+            <td class="type-call">Call</td>
+            <td>$410</td>
+            <td>03/14</td>
+            <td class="iv-mid">64%</td>
+            <td><span class="volume-badge volume-badge--unusual">■ 4.5x</span></td>
+            <td>0.38</td>
+            <td class="price">$5.60</td>
+            <td class="price">$5.80</td>
+          </tr>
+          <tr class="expansion-row">
+            <td colspan="10">
+              <div class="expansion-content" id="row6">
+                <div class="expansion-item"><strong>Theta:</strong> -$0.16/day</div>
+                <div class="expansion-item"><strong>Vega:</strong> $0.62</div>
+                <div class="expansion-item"><strong>Gamma:</strong> 0.02</div>
+                <div class="expansion-item"><strong>OI:</strong> 11,300</div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Row 7: SPY -->
+          <tr onclick="toggleRow('row7')">
+            <td>▸</td>
+            <td class="symbol">SPY</td>
+            <td class="type-put">Put</td>
+            <td>$500</td>
+            <td>04/18</td>
+            <td class="iv-mid">66%</td>
+            <td><span class="volume-badge volume-badge--normal">1.9x</span></td>
+            <td>-0.30</td>
+            <td class="price">$7.20</td>
+            <td class="price">$7.40</td>
+          </tr>
+          <tr class="expansion-row">
+            <td colspan="10">
+              <div class="expansion-content" id="row7">
+                <div class="expansion-item"><strong>Theta:</strong> -$0.20/day</div>
+                <div class="expansion-item"><strong>Vega:</strong> $0.75</div>
+                <div class="expansion-item"><strong>Gamma:</strong> 0.01</div>
+                <div class="expansion-item"><strong>OI:</strong> 45,200</div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Row 8: QQQ -->
+          <tr onclick="toggleRow('row8')">
+            <td>▸</td>
+            <td class="symbol">QQQ</td>
+            <td class="type-call">Call</td>
+            <td>$440</td>
+            <td>03/21</td>
+            <td class="iv-high">71%</td>
+            <td><span class="volume-badge volume-badge--unusual">■ 2.6x</span></td>
+            <td>0.33</td>
+            <td class="price">$6.90</td>
+            <td class="price">$7.10</td>
+          </tr>
+          <tr class="expansion-row">
+            <td colspan="10">
+              <div class="expansion-content" id="row8">
+                <div class="expansion-item"><strong>Theta:</strong> -$0.15/day</div>
+                <div class="expansion-item"><strong>Vega:</strong> $0.58</div>
+                <div class="expansion-item"><strong>Gamma:</strong> 0.02</div>
+                <div class="expansion-item"><strong>OI:</strong> 32,700</div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Action Bar -->
+      <div class="action-bar">
+        <button class="btn-primary" onclick="showToast('1 trade tracked')">Track Selected</button>
+        <button class="btn-ghost btn-ghost--blue">Build Strategy ▸</button>
+        <button class="btn-ghost">Export CSV</button>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="page-footer">
+      <span>Updated 45 seconds ago via Yahoo Finance</span>
+      <button class="btn-ghost btn-ghost--blue" onclick="showToast('Scan refreshed')">↻ Refresh</button>
+    </div>
+  </div>
+
+  <!-- Save Preset Modal -->
+  <div class="save-modal" id="saveModal">
+    <div class="save-modal__content">
+      <h3>💾 Save Filter Preset</h3>
+      <input type="text" id="presetNameInput" placeholder="Enter preset name..." maxlength="30">
+      <ul class="save-modal__filters" id="modalFilterList">
+        <li>IV Percentile: 60-85%</li>
+        <li>DTE: 30-45 days</li>
+        <li>Volume/OI: &gt; 1.5x</li>
+        <li>Delta: 0.20-0.40</li>
+      </ul>
+      <div class="save-modal__actions">
+        <span class="save-modal__remaining">Remaining slots: 2 of 5</span>
+        <div class="save-modal__buttons">
+          <button class="btn-ghost" onclick="closeSaveModal()">Cancel</button>
+          <button class="btn-primary" onclick="savePreset()">💾 Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ===================== Slider Logic =====================
+    const sliderConfigs = {
+      iv:    { min: 0, max: 100, format: (a, b) => `${a} – ${b}%` },
+      vol:   { min: 0.5, max: 10, step: 0.1, format: (a, b) => `${(a * 9.5 / 100 + 0.5).toFixed(1)}x – ${(b * 9.5 / 100 + 0.5).toFixed(1)}x` },
+      delta: { min: 0, max: 1, step: 0.01, format: (a, b) => `${(a / 100).toFixed(2)} – ${(b / 100).toFixed(2)}` },
+      theta: { min: -0.5, max: 0, step: 0.01, format: (a, b) => `-$${((100 - a) * 0.5 / 100).toFixed(2)} – $${((100 - b) * 0.5 / 100).toFixed(2)}` },
+      vega:  { min: 0, max: 2, step: 0.01, format: (a, b) => `$${(a * 2 / 100).toFixed(2)} – $${(b * 2 / 100).toFixed(2)}` },
+    };
+
+    function updateSlider(name) {
+      const minEl = document.getElementById(name + 'Min');
+      const maxEl = document.getElementById(name + 'Max');
+      const fillEl = document.getElementById(name + 'Fill');
+      const valueEl = document.getElementById(name + 'Value');
+
+      let minVal = parseInt(minEl.value);
+      let maxVal = parseInt(maxEl.value);
+
+      // Prevent crossing
+      if (minVal > maxVal) {
+        [minVal, maxVal] = [maxVal, minVal];
+        minEl.value = minVal;
+        maxEl.value = maxVal;
+      }
+
+      // Update fill bar
+      fillEl.style.left = minVal + '%';
+      fillEl.style.width = (maxVal - minVal) + '%';
+
+      // Update label
+      const config = sliderConfigs[name];
+      if (name === 'iv') {
+        valueEl.textContent = `${minVal} – ${maxVal}%`;
+      } else if (name === 'vol') {
+        const a = (minVal * 9.5 / 100 + 0.5).toFixed(1);
+        const b = (maxVal * 9.5 / 100 + 0.5).toFixed(1);
+        valueEl.innerHTML = `${a}x – ${b}x`;
+      } else if (name === 'delta') {
+        valueEl.textContent = `${(minVal / 100).toFixed(2)} – ${(maxVal / 100).toFixed(2)}`;
+      } else if (name === 'theta') {
+        valueEl.textContent = `-$${((100 - minVal) * 0.5 / 100).toFixed(2)} – -$${((100 - maxVal) * 0.5 / 100).toFixed(2)}`;
+      } else if (name === 'vega') {
+        valueEl.textContent = `$${(minVal * 2 / 100).toFixed(2)} – $${(maxVal * 2 / 100).toFixed(2)}`;
+      }
+
+      // Animate result count
+      updateResultCount();
+    }
+
+    // Initialize all sliders
+    ['iv', 'vol', 'delta', 'theta', 'vega'].forEach(name => updateSlider(name));
+
+    // ===================== DTE Chips =====================
+    function selectDTE(el, range) {
+      document.querySelectorAll('.chip-group .filter-chip').forEach(c => c.classList.remove('filter-chip--selected'));
+      el.classList.add('filter-chip--selected');
+      updateResultCount();
+    }
+
+    function customDTE(value) {
+      if (value) {
+        document.querySelectorAll('.chip-group .filter-chip').forEach(c => c.classList.remove('filter-chip--selected'));
+      }
+      updateResultCount();
+    }
+
+    // ===================== Filter Panel Toggle =====================
+    function toggleFilters() {
+      const panel = document.getElementById('filterPanel');
+      const activeBar = document.getElementById('activeFilters');
+      panel.classList.toggle('collapsed');
+
+      if (panel.classList.contains('collapsed')) {
+        activeBar.classList.add('visible');
+      } else {
+        activeBar.classList.remove('visible');
+      }
+    }
+
+    // ===================== Result Count =====================
+    function updateResultCount() {
+      const badge = document.getElementById('resultBadge');
+      const countEl = document.getElementById('resultCount');
+
+      // Simulate dynamic count based on filter tightness
+      const ivMin = parseInt(document.getElementById('ivMin').value);
+      const ivMax = parseInt(document.getElementById('ivMax').value);
+      const ivRange = ivMax - ivMin;
+
+      const deltaMin = parseInt(document.getElementById('deltaMin').value);
+      const deltaMax = parseInt(document.getElementById('deltaMax').value);
+      const deltaRange = deltaMax - deltaMin;
+
+      // Simple formula: wider ranges = more results
+      const base = Math.floor((ivRange / 100) * 50 + (deltaRange / 100) * 30);
+      const count = Math.max(0, Math.min(base, 50));
+
+      countEl.textContent = count;
+
+      // Pulse animation
+      countEl.style.transform = 'scale(1.2)';
+      setTimeout(() => countEl.style.transform = 'scale(1)', 200);
+
+      // Zero state
+      if (count === 0) {
+        badge.classList.add('result-count-badge--zero');
+      } else {
+        badge.classList.remove('result-count-badge--zero');
+      }
+    }
+
+    // ===================== Row Expansion =====================
+    function toggleRow(id) {
+      const el = document.getElementById(id);
+      el.classList.toggle('visible');
+    }
+
+    // ===================== Presets =====================
+    function loadPreset(name) {
+      // Deactivate all
+      document.querySelectorAll('.preset-chip').forEach(c => c.classList.remove('preset-chip--active'));
+
+      // Activate clicked
+      event.target.classList.add('preset-chip--active');
+
+      // Apply preset values
+      if (name === 'highIV') {
+        document.getElementById('ivMin').value = 60;
+        document.getElementById('ivMax').value = 85;
+        document.getElementById('deltaMin').value = 20;
+        document.getElementById('deltaMax').value = 40;
+      } else if (name === 'earnings') {
+        document.getElementById('ivMin').value = 75;
+        document.getElementById('ivMax').value = 100;
+        document.getElementById('deltaMin').value = 30;
+        document.getElementById('deltaMax').value = 50;
+      } else if (name === 'deltaScalp') {
+        document.getElementById('ivMin').value = 40;
+        document.getElementById('ivMax').value = 70;
+        document.getElementById('deltaMin').value = 40;
+        document.getElementById('deltaMax').value = 60;
+      }
+
+      // Update all sliders
+      ['iv', 'vol', 'delta', 'theta', 'vega'].forEach(name => updateSlider(name));
+      showToast(`Preset "${event.target.textContent.trim()}" applied`);
+    }
+
+    // ===================== Save Preset Modal =====================
+    function openSaveModal() {
+      document.getElementById('saveModal').classList.add('visible');
+      document.getElementById('presetNameInput').focus();
+
+      // Update filter summary in modal
+      const ivVal = document.getElementById('ivValue').textContent;
+      const deltaVal = document.getElementById('deltaValue').textContent;
+      const volVal = document.getElementById('volValue').textContent;
+      document.getElementById('modalFilterList').innerHTML = `
+        <li>IV Percentile: ${ivVal}</li>
+        <li>Volume/OI: ${volVal}</li>
+        <li>Delta: ${deltaVal}</li>
+        <li>DTE: 30-45 days</li>
+      `;
+    }
+
+    function closeSaveModal() {
+      document.getElementById('saveModal').classList.remove('visible');
+    }
+
+    function savePreset() {
+      const name = document.getElementById('presetNameInput').value.trim();
+      if (!name) {
+        document.getElementById('presetNameInput').style.borderColor = '#ef5350';
+        return;
+      }
+      closeSaveModal();
+      showToast(`Preset "${name}" saved`);
+    }
+
+    // Close modal on outside click
+    document.getElementById('saveModal').addEventListener('click', function(e) {
+      if (e.target === this) closeSaveModal();
+    });
+
+    // ===================== Reset Filters =====================
+    function resetFilters() {
+      document.getElementById('ivMin').value = 0;
+      document.getElementById('ivMax').value = 100;
+      document.getElementById('volMin').value = 0;
+      document.getElementById('volMax').value = 100;
+      document.getElementById('deltaMin').value = 0;
+      document.getElementById('deltaMax').value = 100;
+      document.getElementById('thetaMin').value = 0;
+      document.getElementById('thetaMax').value = 100;
+      document.getElementById('vegaMin').value = 0;
+      document.getElementById('vegaMax').value = 100;
+
+      document.querySelectorAll('.chip-group .filter-chip').forEach(c => c.classList.remove('filter-chip--selected'));
+      document.querySelectorAll('.preset-chip').forEach(c => c.classList.remove('preset-chip--active'));
+
+      ['iv', 'vol', 'delta', 'theta', 'vega'].forEach(name => updateSlider(name));
+      showToast('Filters reset');
+    }
+
+    function removeFilter(name) {
+      // Reset specific filter
+      if (name === 'iv') {
+        document.getElementById('ivMin').value = 0;
+        document.getElementById('ivMax').value = 100;
+        updateSlider('iv');
+      } else if (name === 'vol') {
+        document.getElementById('volMin').value = 0;
+        document.getElementById('volMax').value = 100;
+        updateSlider('vol');
+      } else if (name === 'delta') {
+        document.getElementById('deltaMin').value = 0;
+        document.getElementById('deltaMax').value = 100;
+        updateSlider('delta');
+      } else if (name === 'dte') {
+        document.querySelectorAll('.chip-group .filter-chip').forEach(c => c.classList.remove('filter-chip--selected'));
+      }
+      event.target.closest('.active-filter-chip').style.display = 'none';
+      updateResultCount();
+    }
+
+    function updateResults() {
+      updateResultCount();
+    }
+
+    // ===================== Toast =====================
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('visible');
+      setTimeout(() => toast.classList.remove('visible'), 2500);
+    }
+  </script>
+</body>
+</html>
