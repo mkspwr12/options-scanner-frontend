@@ -1,0 +1,917 @@
+/* Scanner CSS Module — scoped styles for filter/results components */
+/* Design tokens live in globals.css :root                       */
+
+/* ─── Scanner Section ────────────────────────────────────────── */
+
+.scannerSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg, 16px);
+}
+
+/* ─── Presets Bar ────────────────────────────────────────────── */
+
+.presetsBar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm, 8px);
+}
+
+.presetsBarHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm, 8px);
+}
+
+.presetsBarLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--filter-active-text, #64b5f6);
+}
+
+.presetsBarCount {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.presetsBarChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm, 8px);
+  align-items: center;
+}
+
+.addPresetButton {
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--filter-active-text, #64b5f6);
+  background: var(--filter-active-bg, rgba(25, 118, 210, 0.12));
+  border: 1px dashed var(--filter-active-border, rgba(25, 118, 210, 0.3));
+  border-radius: 16px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.addPresetButton:hover {
+  background: rgba(25, 118, 210, 0.2);
+  border-color: var(--filter-active, #1976d2);
+}
+
+/* ─── Preset Chip ────────────────────────────────────────────── */
+
+.presetChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.presetChipActive {
+  border-color: var(--filter-active, #1976d2);
+  box-shadow: 0 0 0 2px var(--filter-active-bg, rgba(25, 118, 210, 0.12));
+}
+
+.presetChipLabel {
+  padding: 5px 10px;
+  font-size: 12px;
+  color: #e6edf7;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.presetChipLabel:hover {
+  color: var(--filter-active-text, #64b5f6);
+}
+
+.presetChipDelete {
+  padding: 4px 8px 4px 0;
+  font-size: 10px;
+  color: #94a3b8;
+  background: none;
+  border: none;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.15s;
+}
+
+.presetChipDelete:hover {
+  opacity: 1;
+  color: #ef5350;
+}
+
+/* ─── Filter Panel ───────────────────────────────────────────── */
+
+.filterPanel {
+  background: rgba(9, 16, 31, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.filterPanelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-md, 12px) var(--space-lg, 16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.filterPanelToggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm, 8px);
+  font-size: 14px;
+  font-weight: 600;
+  color: #e6edf7;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.filterPanelToggleIcon {
+  font-size: 10px;
+  transition: transform 0.2s;
+}
+
+.filterPanelActions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md, 12px);
+}
+
+.resetButton {
+  padding: 4px 12px;
+  font-size: 12px;
+  color: #94a3b8;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+}
+
+.resetButton:hover {
+  color: #e6edf7;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.filterPanelContent {
+  padding: var(--space-lg, 16px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl, 24px);
+}
+
+/* ─── Filter Group ───────────────────────────────────────────── */
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm, 8px);
+}
+
+.filterGroupHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs, 4px);
+}
+
+.filterGroupLabel {
+  font-size: 13px;
+  font-weight: 500;
+  color: #b7c3d9;
+}
+
+.filterGroupControl {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm, 8px);
+}
+
+/* ─── Range Slider ───────────────────────────────────────────── */
+
+.rangeSlider {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs, 4px);
+  padding: 0 var(--space-sm, 8px);
+}
+
+.rangeSliderValues {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--filter-active-text, #64b5f6);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.rangeSliderTrack {
+  position: relative;
+  height: 28px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.rangeSliderTrack::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: var(--slider-track-height, 4px);
+  transform: translateY(-50%);
+  background: var(--slider-track, rgba(255, 255, 255, 0.15));
+  border-radius: 2px;
+}
+
+.rangeSliderFill {
+  position: absolute;
+  top: 50%;
+  height: var(--slider-track-height, 4px);
+  transform: translateY(-50%);
+  background: var(--slider-fill, #1976d2);
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+.rangeSliderThumb {
+  position: absolute;
+  top: 50%;
+  width: var(--slider-thumb-size, 20px);
+  height: var(--slider-thumb-size, 20px);
+  border-radius: 50%;
+  background: var(--slider-thumb, #e6edf7);
+  border: 2px solid var(--slider-fill, #1976d2);
+  transform: translate(-50%, -50%);
+  cursor: grab;
+  outline: none;
+  z-index: 1;
+  transition: box-shadow 0.15s;
+}
+
+.rangeSliderThumb:hover,
+.rangeSliderThumb:focus-visible {
+  box-shadow: 0 0 0 4px var(--filter-active-bg, rgba(25, 118, 210, 0.2));
+}
+
+.rangeSliderThumb:active {
+  cursor: grabbing;
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+/* ─── Filter Chip ────────────────────────────────────────────── */
+
+.chipGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs, 4px);
+}
+
+.filterChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-family: inherit;
+  color: #b7c3d9;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.filterChip:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #e6edf7;
+}
+
+.filterChipSelected {
+  background: var(--filter-active-bg, rgba(25, 118, 210, 0.12));
+  border-color: var(--filter-active, #1976d2);
+  color: var(--filter-active-text, #64b5f6);
+}
+
+.filterChipDismissible {
+  padding-right: 8px;
+}
+
+.filterChipDismiss {
+  font-size: 10px;
+  opacity: 0.6;
+  margin-left: 2px;
+}
+
+.filterChipDismissible:hover .filterChipDismiss {
+  opacity: 1;
+}
+
+/* ─── Select ─────────────────────────────────────────────────── */
+
+.filterSelectRow {
+  display: flex;
+  gap: var(--space-lg, 16px);
+  flex-wrap: wrap;
+}
+
+.selectWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs, 4px);
+  flex: 1;
+  min-width: 140px;
+}
+
+.selectLabel {
+  font-size: 12px;
+  font-weight: 500;
+  color: #b7c3d9;
+}
+
+.selectInput {
+  padding: 6px 10px;
+  font-size: 13px;
+  font-family: inherit;
+  color: #e6edf7;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  outline: none;
+  cursor: pointer;
+  appearance: auto;
+}
+
+.selectInput:focus {
+  border-color: var(--filter-active, #1976d2);
+  box-shadow: 0 0 0 2px var(--filter-active-bg, rgba(25, 118, 210, 0.12));
+}
+
+.selectInput option {
+  background: #0d1529;
+  color: #e6edf7;
+}
+
+/* ─── Number Input ───────────────────────────────────────────── */
+
+.numberInputWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs, 4px);
+  flex: 1;
+  min-width: 120px;
+}
+
+.numberInputLabel {
+  font-size: 12px;
+  font-weight: 500;
+  color: #b7c3d9;
+}
+
+.numberInput {
+  padding: 6px 10px;
+  font-size: 13px;
+  font-family: inherit;
+  color: #e6edf7;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  outline: none;
+  width: 100%;
+}
+
+.numberInput:focus {
+  border-color: var(--filter-active, #1976d2);
+  box-shadow: 0 0 0 2px var(--filter-active-bg, rgba(25, 118, 210, 0.12));
+}
+
+/* Chrome number input spinner */
+.numberInput::-webkit-inner-spin-button,
+.numberInput::-webkit-outer-spin-button {
+  opacity: 0.3;
+}
+
+/* ─── Tooltip ────────────────────────────────────────────────── */
+
+.tooltipWrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.tooltipTrigger {
+  padding: 0 4px;
+  font-size: 14px;
+  color: #94a3b8;
+  background: none;
+  border: none;
+  cursor: help;
+  line-height: 1;
+}
+
+.tooltipTrigger:hover,
+.tooltipTrigger:focus {
+  color: var(--filter-active-text, #64b5f6);
+}
+
+.tooltipContent {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 280px;
+  padding: 10px 12px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #e6edf7;
+  background: #1a2744;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  z-index: var(--z-tooltip, 50);
+  pointer-events: none;
+}
+
+.tooltipContent::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: #1a2744;
+}
+
+/* ─── Result Count Badge ─────────────────────────────────────── */
+
+.resultCountBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--filter-active-text, #64b5f6);
+  background: var(--filter-active-bg, rgba(25, 118, 210, 0.12));
+  border-radius: 12px;
+  transition: transform 0.2s;
+}
+
+.resultBadgePulse {
+  animation: badgePulse 0.2s ease-out;
+}
+
+@keyframes badgePulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* ─── Active Filters Bar ─────────────────────────────────────── */
+
+.activeFiltersBar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm, 8px);
+  flex-wrap: wrap;
+}
+
+.activeFiltersChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs, 4px);
+  flex: 1;
+}
+
+.clearAllButton {
+  padding: 4px 10px;
+  font-size: 11px;
+  color: #94a3b8;
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: color 0.15s;
+  white-space: nowrap;
+}
+
+.clearAllButton:hover {
+  color: #ef5350;
+  border-color: rgba(239, 83, 80, 0.3);
+}
+
+/* ─── Error & Loading ────────────────────────────────────────── */
+
+.errorBanner {
+  padding: var(--space-md, 12px) var(--space-lg, 16px);
+  background: rgba(239, 83, 80, 0.12);
+  border: 1px solid rgba(239, 83, 80, 0.3);
+  border-radius: 6px;
+  color: #ef9a9a;
+  font-size: 13px;
+}
+
+.loadingIndicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xxl, 32px);
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+/* ─── Results Table (Desktop ≥1024px) ────────────────────────── */
+
+.resultsDesktop {
+  display: block;
+}
+
+.resultsMobile {
+  display: none;
+}
+
+@media (max-width: 1023px) {
+  .resultsDesktop { display: none; }
+}
+
+@media (max-width: 767px) {
+  .resultsMobile { display: block; }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* Tablet: show cards but slightly wider */
+  .resultsMobile { display: block; }
+}
+
+.resultsTableWrapper {
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.resultsTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.resultsTableTh {
+  padding: 10px 12px;
+  font-weight: 600;
+  color: #94a3b8;
+  text-align: left;
+  background: rgba(9, 16, 31, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.resultsTableTh:hover {
+  color: #e6edf7;
+}
+
+.sortIndicator {
+  font-size: 10px;
+}
+
+.resultsTableRow {
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.resultsTableRow:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.resultsTableTd {
+  padding: 8px 12px;
+  color: #e6edf7;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+}
+
+.textRight {
+  text-align: right;
+}
+
+.rowHighIV {
+  border-left: 3px solid var(--iv-high, #ef5350);
+}
+
+.rowUnusualVol {
+  background: var(--amber-unusual-bg, rgba(245, 166, 35, 0.08));
+}
+
+/* ─── Expanded Row ───────────────────────────────────────────── */
+
+.expandedRow {
+  background: rgba(25, 118, 210, 0.04);
+}
+
+.expandedRowContent {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-lg, 16px);
+  padding: var(--space-md, 12px) var(--space-lg, 16px);
+}
+
+.expandedDetail {
+  display: flex;
+  gap: var(--space-xs, 4px);
+  font-size: 12px;
+}
+
+.expandedLabel {
+  color: #94a3b8;
+}
+
+/* ─── Track Button ───────────────────────────────────────────── */
+
+.trackButton {
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 500;
+  color: white;
+  background: #4caf50;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.trackButton:hover {
+  background: #43a047;
+}
+
+/* ─── Results Cards (Mobile <768px) ──────────────────────────── */
+
+.resultsCards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md, 12px);
+}
+
+.resultCard {
+  padding: var(--space-md, 12px) var(--space-lg, 16px);
+  background: rgba(9, 16, 31, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm, 8px);
+}
+
+.cardHighIV {
+  border-left: 3px solid var(--iv-high, #ef5350);
+}
+
+.cardUnusualVol {
+  background: var(--amber-unusual-bg, rgba(245, 166, 35, 0.08));
+}
+
+.resultCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.resultCardSymbol {
+  font-size: 15px;
+  font-weight: 700;
+  color: #e6edf7;
+}
+
+.resultCardType {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #b7c3d9;
+}
+
+.resultCardRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.resultCardMetrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-sm, 8px);
+}
+
+.resultCardMetric {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.resultCardMetricLabel {
+  font-size: 10px;
+  color: #94a3b8;
+  text-transform: uppercase;
+}
+
+.resultCardMetric span:last-child {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e6edf7;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.metricHighIV {
+  color: var(--iv-high, #ef5350) !important;
+}
+
+.metricUnusualVol {
+  color: var(--amber-unusual, #f5a623) !important;
+}
+
+.resultCardPricing {
+  display: flex;
+  gap: var(--space-lg, 16px);
+  font-size: 12px;
+  color: #94a3b8;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ─── Empty State ────────────────────────────────────────────── */
+
+.resultsEmpty {
+  text-align: center;
+  padding: var(--space-xxl, 32px);
+  color: #94a3b8;
+}
+
+.resultsEmpty p:first-child {
+  font-size: 14px;
+  margin-bottom: var(--space-sm, 8px);
+}
+
+.resultsEmptyHint {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* ─── Modal ──────────────────────────────────────────────────── */
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-modal, 100);
+}
+
+.modalContent {
+  width: 90%;
+  max-width: 420px;
+  padding: var(--space-xl, 24px);
+  background: #152042;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.modalTitle {
+  margin: 0 0 var(--space-lg, 16px) 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #e6edf7;
+}
+
+.modalFilterSummary {
+  margin-bottom: var(--space-lg, 16px);
+  padding: var(--space-md, 12px);
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 6px;
+}
+
+.modalFilterSummaryLabel {
+  font-size: 11px;
+  font-weight: 600;
+  color: #94a3b8;
+  display: block;
+  margin-bottom: var(--space-sm, 8px);
+}
+
+.modalFilterSummaryChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs, 4px);
+}
+
+.modalChip {
+  padding: 2px 8px;
+  font-size: 11px;
+  color: var(--filter-active-text, #64b5f6);
+  background: var(--filter-active-bg, rgba(25, 118, 210, 0.12));
+  border-radius: 10px;
+}
+
+.modalInput {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-family: inherit;
+  color: #e6edf7;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  outline: none;
+  margin-bottom: var(--space-sm, 8px);
+}
+
+.modalInput:focus {
+  border-color: var(--filter-active, #1976d2);
+  box-shadow: 0 0 0 2px var(--filter-active-bg, rgba(25, 118, 210, 0.12));
+}
+
+.modalError {
+  font-size: 12px;
+  color: #ef5350;
+  margin: 0 0 var(--space-sm, 8px) 0;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-sm, 8px);
+  margin-top: var(--space-lg, 16px);
+}
+
+.modalCancel {
+  padding: 8px 16px;
+  font-size: 13px;
+  font-family: inherit;
+  color: #94a3b8;
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.modalCancel:hover {
+  color: #e6edf7;
+}
+
+.modalSave {
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  color: white;
+  background: var(--filter-active, #1976d2);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.modalSave:hover {
+  background: #1565c0;
+}
+
+/* ─── Responsive Adjustments ─────────────────────────────────── */
+
+@media (max-width: 767px) {
+  .filterPanelContent {
+    gap: var(--space-lg, 16px);
+  }
+
+  .filterSelectRow {
+    flex-direction: column;
+  }
+
+  .tooltipContent {
+    width: 220px;
+    left: 0;
+    transform: none;
+  }
+
+  .tooltipContent::after {
+    left: 16px;
+  }
+
+  .resultCardMetrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

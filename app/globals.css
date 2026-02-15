@@ -1,5 +1,42 @@
 :root {
   color-scheme: dark;
+
+  /* Filter colors */
+  --filter-active: #1976d2;
+  --filter-active-bg: rgba(25, 118, 210, 0.12);
+  --filter-active-border: rgba(25, 118, 210, 0.3);
+  --filter-active-text: #64b5f6;
+
+  /* Unusual activity indicators */
+  --amber-unusual: #f5a623;
+  --amber-unusual-bg: rgba(245, 166, 35, 0.15);
+  --amber-unusual-border: rgba(245, 166, 35, 0.3);
+
+  /* IV coloring */
+  --iv-high: #ef5350;
+  --iv-low: #66bb6a;
+
+  /* Slider */
+  --slider-track: rgba(255, 255, 255, 0.15);
+  --slider-fill: #1976d2;
+  --slider-thumb: #e6edf7;
+  --slider-thumb-size: 20px;
+  --slider-track-height: 4px;
+
+  /* Spacing scale */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 24px;
+  --space-xxl: 32px;
+
+  /* Z-index scale */
+  --z-base: 0;
+  --z-sticky: 10;
+  --z-tooltip: 50;
+  --z-modal: 100;
+  --z-toast: 200;
 }
 
 * {

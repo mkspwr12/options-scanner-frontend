@@ -1,10 +1,13 @@
 "use client"
 
 import { useEffect, useState } from 'react'
+import { ScannerSection } from './components/scanner/ScannerSection'
+import type { ScanResult } from './types/scanner'
 
 const DEFAULT_API_BASE = 'https://options-scanner-backend-2exk6s.azurewebsites.net'
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE || DEFAULT_API_BASE
 const isDev = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+const POLL_INTERVAL_MS = 60000
 
 // Simple logger that also displays in UI
 const log = (level: 'info' | 'error' | 'debug', message: string, data?: any) => {
@@ -42,18 +45,66 @@ export default function HomePage() {
     log('debug', message)
   }
 
+  const fetchScanData = async (source: 'init' | 'manual' | 'poll') => {
+    try {
+      addDebugLog(`🔍 ${source === 'manual' ? 'Manual' : 'Auto'} scan: ${API_BASE}/api/scan`)
+      const scanResponse = await fetch(`${API_BASE}/api/scan`)
+      addDebugLog(`Scan response: ${scanResponse.status}`)
+      if (scanResponse.ok) {
+        const scanData = await scanResponse.json()
+        addDebugLog(`✓ Received ${scanData.opportunities?.length || 0} opportunities`)
+        setOpportunities(scanData.opportunities || [])
+      } else {
+        addDebugLog(`⚠ Scan endpoint returned ${scanResponse.status}`)
+      }
+    } catch (error: any) {
+      const errorMsg = error?.message || String(error)
+      addDebugLog(`✗ Scan fetch error: ${errorMsg}`)
+    }
+  }
+
+  const fetchPortfolioData = async (source: 'init' | 'poll') => {
+    try {
+      addDebugLog(`💼 ${source === 'poll' ? 'Auto' : 'Init'} portfolio: ${API_BASE}/api/portfolio`)
+      const portfolioResponse = await fetch(`${API_BASE}/api/portfolio`)
+      addDebugLog(`Portfolio response: ${portfolioResponse.status}`)
+      if (portfolioResponse.ok) {
+        const portfolioData = await portfolioResponse.json()
+        addDebugLog('✓ Received portfolio data')
+        setPortfolio(portfolioData.portfolio || null)
+      } else {
+        addDebugLog(`⚠ Portfolio endpoint returned ${portfolioResponse.status}`)
+      }
+    } catch (error: any) {
+      const errorMsg = error?.message || String(error)
+      addDebugLog(`✗ Portfolio fetch error: ${errorMsg}`)
+    }
+  }
+
+  const fetchMultiLegData = async (source: 'init' | 'poll') => {
+    try {
+      addDebugLog(`🎯 ${source === 'poll' ? 'Auto' : 'Init'} multi-leg: ${API_BASE}/api/multi-leg-opportunities`)
+      const multiLegResponse = await fetch(`${API_BASE}/api/multi-leg-opportunities`)
+      addDebugLog(`Multi-leg response: ${multiLegResponse.status}`)
+      if (multiLegResponse.ok) {
+        const multiLegData = await multiLegResponse.json()
+        addDebugLog(`✓ Received ${multiLegData.opportunities?.length || 0} multi-leg opportunities`)
+        setMultiLegOpportunities(multiLegData.opportunities || [])
+      } else if (multiLegResponse.status !== 404) {
+        addDebugLog(`⚠ Multi-leg endpoint returned ${multiLegResponse.status}`)
+      }
+    } catch (error: any) {
+      const errorMsg = error?.message || String(error)
+      if (!errorMsg.includes('404')) {
+        addDebugLog(`⚠ Multi-leg fetch error: ${errorMsg}`)
+      }
+    }
+  }
+
   const runScan = async () => {
     setIsScanning(true)
     try {
-      addDebugLog('🔍 Starting manual scan...')
-      const scanResponse = await fetch(`${API_BASE}/api/scan`)
-      if (scanResponse.ok) {
-        const scanData = await scanResponse.json()
-        setOpportunities(scanData.opportunities || [])
-        addDebugLog(`✓ Scan complete: ${scanData.opportunities?.length || 0} opportunities found`)
-      }
-    } catch (error: any) {
-      addDebugLog(`✗ Scan failed: ${error.message}`)
+      await fetchScanData('manual')
     } finally {
       setIsScanning(false)
     }
@@ -147,39 +198,9 @@ export default function HomePage() {
         addDebugLog(`⚠ DB health error: ${errorMsg}`)
       }
 
-      // Fetch scan data
-      try {
-        addDebugLog(`Fetching scan data from ${API_BASE}/api/scan`)
-        const scanResponse = await fetch(`${API_BASE}/api/scan`)
-        addDebugLog(`Scan response: ${scanResponse.status}`)
-        if (scanResponse.ok) {
-          const scanData = await scanResponse.json()
-          addDebugLog(`✓ Received ${scanData.opportunities?.length || 0} opportunities`)
-          setOpportunities(scanData.opportunities || [])
-        } else {
-          addDebugLog(`⚠ Scan endpoint returned ${scanResponse.status}`)
-        }
-      } catch (error: any) {
-        const errorMsg = error?.message || String(error)
-        addDebugLog(`✗ Scan fetch error: ${errorMsg}`)
-      }
-
-      // Fetch portfolio data
-      try {
-        addDebugLog(`Fetching portfolio from ${API_BASE}/api/portfolio`)
-        const portfolioResponse = await fetch(`${API_BASE}/api/portfolio`)
-        addDebugLog(`Portfolio response: ${portfolioResponse.status}`)
-        if (portfolioResponse.ok) {
-          const portfolioData = await portfolioResponse.json()
-          addDebugLog('✓ Received portfolio data')
-          setPortfolio(portfolioData.portfolio || null)
-        } else {
-          addDebugLog(`⚠ Portfolio endpoint returned ${portfolioResponse.status}`)
-        }
-      } catch (error: any) {
-        const errorMsg = error?.message || String(error)
-        addDebugLog(`✗ Portfolio fetch error: ${errorMsg}`)
-      }
+      // Fetch scan and portfolio data
+      await fetchScanData('init')
+      await fetchPortfolioData('init')
 
       // Fetch watchlist
       try {
@@ -198,28 +219,22 @@ export default function HomePage() {
         addDebugLog(`✗ Watchlist fetch error: ${errorMsg}`)
       }
 
-      // Fetch multi-leg opportunities
-      try {
-        addDebugLog(`Fetching multi-leg opportunities from ${API_BASE}/api/multi-leg-opportunities`)
-        const multiLegResponse = await fetch(`${API_BASE}/api/multi-leg-opportunities`)
-        addDebugLog(`Multi-leg response: ${multiLegResponse.status}`)
-        if (multiLegResponse.ok) {
-          const multiLegData = await multiLegResponse.json()
-          addDebugLog(`✓ Received ${multiLegData.opportunities?.length || 0} multi-leg opportunities`)
-          setMultiLegOpportunities(multiLegData.opportunities || [])
-        } else if (multiLegResponse.status !== 404) {
-          addDebugLog(`⚠ Multi-leg endpoint returned ${multiLegResponse.status}`)
-        }
-      } catch (error: any) {
-        const errorMsg = error?.message || String(error)
-        // Silently fail if endpoint doesn't exist yet
-        if (!errorMsg.includes('404')) {
-          addDebugLog(`⚠ Multi-leg fetch error: ${errorMsg}`)
-        }
-      }
+      await fetchMultiLegData('init')
     }
 
     check()
+  }, [])
+
+  useEffect(() => {
+    if (!API_BASE) return
+
+    const interval = setInterval(() => {
+      fetchScanData('poll')
+      fetchPortfolioData('poll')
+      fetchMultiLegData('poll')
+    }, POLL_INTERVAL_MS)
+
+    return () => clearInterval(interval)
   }, [])
 
   return (
@@ -294,37 +309,36 @@ export default function HomePage() {
       </details>
 
       <section className="card-grid">
-        <div className="card">
-          <h3>🔍 Scanner</h3>
-          <p className="muted">Latest opportunities from FastAPI</p>
-          {opportunities.length === 0 ? (
-            <p className="muted">No scan results yet.</p>
-          ) : (
-            <div>
-              <p className="muted">{opportunities.length} opportunities found</p>
-              <div style={{ marginTop: '12px', maxHeight: '200px', overflowY: 'auto', fontSize: '12px' }}>
-                {opportunities.slice(0, 5).map((opp: any) => (
-                  <div key={opp.id} style={{ padding: '6px', borderBottom: '1px solid #eee', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div>
-                      <strong>{opp.symbol}</strong> {opp.optionType} ${opp.strikePrice}
-                      <div style={{ fontSize: '10px', color: '#666' }}>Current: ${opp.currentPrice}</div>
-                    </div>
-                    <button 
-                      onClick={() => {
-                        const quantity = prompt(`Enter quantity for ${opp.symbol} ${opp.optionType}:`, '1')
-                        if (quantity) trackTrade(opp, parseFloat(quantity))
-                      }}
-                      style={{ padding: '4px 8px', fontSize: '11px', cursor: 'pointer', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '3px' }}
-                    >
-                      Track
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+        <div className="card" style={{ gridColumn: '1 / -1' }}>
+          <h3>🔍 Scanner — Advanced Filtering</h3>
+          <ScannerSection onTrack={(result: ScanResult) => {
+            const quantity = prompt(`Enter quantity for ${result.symbol} ${result.optionType}:`, '1')
+            if (quantity) {
+              const newTrade = {
+                id: `trade-${Date.now()}`,
+                opportunityId: '',
+                symbol: result.symbol,
+                strikePrice: result.strike,
+                expirationDate: result.expiration,
+                optionType: result.optionType,
+                entryPrice: result.last,
+                currentPrice: result.last,
+                quantity: parseFloat(quantity),
+                underlyingPrice: result.underlyingPrice,
+                greeks: { delta: result.delta, theta: result.theta, vega: result.vega, gamma: result.gamma },
+                entryDate: Date.now(),
+                unrealizedPL: 0,
+                unrealizedPLPercent: 0,
+                status: 'active'
+              }
+              setTrackedTrades(prev => [...prev, newTrade])
+              addDebugLog(`✓ Tracked trade: ${result.symbol} ${result.optionType} x${quantity}`)
+            }
+          }} />
         </div>
+      </section>
 
+      <section className="card-grid" style={{ marginTop: '0' }}>
         <div className="card">
           <h3>💼 Portfolio</h3>
           <p className="muted">Positions and P/L from backend</p>
