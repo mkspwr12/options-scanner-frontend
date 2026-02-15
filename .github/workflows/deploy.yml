@@ -75,11 +75,22 @@ jobs:
       - name: Create deployment package
         run: |
           rm -f deploy.zip
-          # Deploy PRE-BUILT app - include .next/ build output + node_modules + server
-          zip -r deploy.zip .next/ node_modules/ app/ package.json package-lock.json tsconfig.json next.config.mjs server.js public/
           
-          echo "=== Deployment package (pre-built) ==="
-          echo ".next/BUILD_ID: $(cat .next/BUILD_ID)"
+          # Copy static assets into standalone output
+          cp -r .next/static .next/standalone/.next/static
+          
+          # Copy public folder if it exists
+          if [ -d "public" ]; then
+            cp -r public .next/standalone/public
+          fi
+          
+          # Zip only the standalone directory (self-contained server + deps)
+          cd .next/standalone
+          zip -r ../../deploy.zip .
+          cd ../..
+          
+          echo "=== Deployment package (standalone) ==="
+          echo "BUILD_ID: $(cat .next/standalone/.next/BUILD_ID)"
           du -sh deploy.zip
 
       - name: Configure Startup Command
@@ -87,7 +98,7 @@ jobs:
           az webapp config set \
             --resource-group options-scanner-rg \
             --name ${{ env.AZURE_WEBAPP_NAME }} \
-            --startup-file "npm start" \
+            --startup-file "node server.js" \
             --linux-fx-version "NODE|20-lts"
 
       - name: Deploy to Azure Web App
