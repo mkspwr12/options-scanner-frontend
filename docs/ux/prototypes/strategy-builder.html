@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Options Scanner — Multi-Leg Strategy Builder Prototype</title>
+  <style>
+    :root {
+      --bg-base: #0b1224;
+      --bg-elevated: #132046;
+      --bg-card: rgba(9, 16, 31, 0.65);
+      --border-card: rgba(255, 255, 255, 0.08);
+      --text-primary: #e6edf7;
+      --text-secondary: #b7c3d9;
+      --text-muted: #94a3b8;
+      --blue: #1976d2;
+      --blue-light: #64b5f6;
+      --blue-bg: rgba(25, 118, 210, 0.12);
+      --green: #66bb6a;
+      --green-bg: rgba(76, 175, 80, 0.15);
+      --red: #ef5350;
+      --red-bg: rgba(244, 67, 54, 0.15);
+      --amber: #f5a623;
+      --card-radius: 16px;
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: var(--font-mono);
+      background: radial-gradient(ellipse at 60% 0%, #132046 0%, #0b1224 50%, #08101f 100%);
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding: 24px;
+    }
+    .container { max-width: 1400px; margin: 0 auto; }
+
+    /* ===== Header ===== */
+    .page-header { margin-bottom: 24px; }
+    .page-header h1 {
+      font-size: 32px; font-weight: 700;
+      background: linear-gradient(135deg, #e6edf7, #94a3b8);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .page-header p { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
+    .breadcrumb {
+      font-size: 12px; color: var(--text-muted); margin-bottom: 8px;
+    }
+    .breadcrumb a { color: var(--blue-light); text-decoration: none; }
+    .breadcrumb a:hover { text-decoration: underline; }
+
+    /* ===== Strategy Type Selector ===== */
+    .type-selector {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .type-card {
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      padding: 24px 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--card-radius);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+    .type-card:hover {
+      border-color: rgba(25, 118, 210, 0.4);
+      background: rgba(25, 118, 210, 0.08);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+    .type-card--active {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 1px var(--blue), 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+    .type-card__icon { font-size: 28px; height: 40px; display: flex; align-items: center; }
+    .type-card__name { font-size: 14px; font-weight: 600; }
+    .type-card__meta { font-size: 11px; color: var(--text-muted); line-height: 1.4; }
+
+    .hint {
+      font-size: 12px; color: var(--text-muted); margin-bottom: 20px;
+      padding: 10px 14px; background: var(--blue-bg);
+      border: 1px solid rgba(25,118,210,0.2);
+      border-radius: 8px;
+    }
+
+    /* ===== Builder Layout ===== */
+    .builder { display: none; }
+    .builder.visible { display: grid; grid-template-columns: 55% 45%; gap: 20px; }
+    .builder__left, .builder__right { display: flex; flex-direction: column; gap: 16px; }
+
+    /* ===== Ticker + Expiration ===== */
+    .config-row {
+      display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
+    }
+    .config-group { display: flex; align-items: center; gap: 8px; }
+    .config-group label { font-size: 12px; color: var(--text-muted); white-space: nowrap; }
+    .config-group select, .config-group input[type="text"] {
+      padding: 8px 12px; font-size: 13px; font-family: var(--font-mono);
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px; color: var(--text-primary); outline: none;
+    }
+    .config-group select:focus, .config-group input:focus { border-color: var(--blue); }
+    .price-badge {
+      font-size: 14px; font-weight: 700; color: var(--text-primary);
+    }
+    .price-change { font-size: 12px; margin-left: 4px; }
+    .price-change--up { color: var(--green); }
+    .price-change--down { color: var(--red); }
+
+    /* ===== Strategy Badge ===== */
+    .strategy-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 12px; font-size: 12px; font-weight: 600;
+      border-radius: 6px; background: var(--blue-bg);
+      border: 1px solid rgba(25,118,210,0.3); color: var(--blue-light);
+    }
+
+    /* ===== Leg Rows ===== */
+    .legs-card {
+      background: var(--bg-card); border: 1px solid var(--border-card);
+      border-radius: var(--card-radius); padding: 16px;
+    }
+    .legs-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 12px; }
+    .leg-row {
+      display: grid;
+      grid-template-columns: 80px 80px 100px 60px 1fr;
+      gap: 8px; align-items: center;
+      padding: 12px; margin-bottom: 8px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      transition: border-color 0.15s;
+    }
+    .leg-row:hover { border-color: rgba(255,255,255,0.15); }
+    .leg-label {
+      font-size: 11px; font-weight: 600; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .leg-select {
+      padding: 6px 8px; font-size: 12px; font-family: var(--font-mono);
+      border-radius: 6px; border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.05); color: var(--text-primary);
+      cursor: pointer; outline: none;
+    }
+    .leg-select--buy { border-color: rgba(102,187,106,0.4); color: var(--green); }
+    .leg-select--sell { border-color: rgba(239,83,80,0.4); color: var(--red); }
+    .leg-greeks {
+      grid-column: 1 / -1;
+      font-size: 11px; color: var(--text-muted);
+      display: flex; gap: 16px; padding-top: 4px;
+      border-top: 1px dashed rgba(255,255,255,0.06);
+      margin-top: 4px;
+    }
+    .leg-greeks span strong { color: var(--text-secondary); }
+    .add-leg-btn {
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      width: 100%; padding: 10px;
+      font-size: 12px; font-family: var(--font-mono); font-weight: 500;
+      border-radius: 10px;
+      border: 1px dashed rgba(255,255,255,0.15);
+      background: transparent; color: var(--text-muted);
+      cursor: pointer; transition: all 0.15s;
+    }
+    .add-leg-btn:hover {
+      border-color: var(--blue);
+      color: var(--blue-light);
+      background: rgba(25,118,210,0.05);
+    }
+
+    /* ===== Metrics Panel ===== */
+    .metrics-panel {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: rgba(255,255,255,0.06);
+      border-radius: 10px; overflow: hidden;
+    }
+    .metric {
+      padding: 12px 14px; background: rgba(9,16,31,0.65);
+    }
+    .metric__label {
+      font-size: 10px; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.3px; margin-bottom: 4px;
+    }
+    .metric__value {
+      font-size: 16px; font-weight: 700;
+      transition: transform 0.2s ease;
+    }
+    .metric__value--profit { color: var(--green); }
+    .metric__value--loss { color: var(--red); }
+    .metric__subtitle { font-size: 10px; color: #64748b; margin-top: 2px; }
+
+    /* ===== P&L Chart ===== */
+    .chart-card {
+      background: var(--bg-card); border: 1px solid var(--border-card);
+      border-radius: var(--card-radius); padding: 16px;
+      position: sticky; top: 24px;
+    }
+    .chart-card h3 {
+      font-size: 14px; font-weight: 600; margin-bottom: 12px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .chart-card h3 .chart-actions {
+      display: flex; gap: 8px;
+    }
+    .chart-canvas-wrap {
+      position: relative; width: 100%; aspect-ratio: 4 / 3;
+      background: rgba(0,0,0,0.2); border-radius: 10px; overflow: hidden;
+    }
+    canvas#plChart {
+      width: 100%; height: 100%; display: block;
+    }
+    .chart-legend {
+      display: flex; gap: 16px; margin-top: 10px; font-size: 11px;
+    }
+    .chart-legend__item {
+      display: flex; align-items: center; gap: 4px; color: var(--text-muted);
+    }
+    .chart-legend__dot {
+      width: 10px; height: 10px; border-radius: 2px;
+    }
+    .current-price-label {
+      font-size: 12px; color: var(--text-secondary);
+      margin-top: 10px; text-align: center;
+    }
+
+    /* ===== Validation Banner ===== */
+    .validation-banner {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 14px; border-radius: 8px;
+      font-size: 12px; line-height: 1.4;
+    }
+    .validation-banner--info {
+      background: rgba(25,118,210,0.1);
+      border: 1px solid rgba(25,118,210,0.3); color: var(--blue-light);
+    }
+    .validation-banner--warning {
+      background: rgba(245,166,35,0.1);
+      border: 1px solid rgba(245,166,35,0.3); color: var(--amber);
+    }
+
+    /* ===== Action Bar ===== */
+    .action-bar {
+      display: flex; gap: 8px; margin-top: 4px;
+    }
+    .btn-primary {
+      padding: 10px 20px; font-size: 13px; font-family: var(--font-mono);
+      font-weight: 600; background: var(--blue); border: none;
+      border-radius: 8px; color: white; cursor: pointer; transition: all 0.15s;
+    }
+    .btn-primary:hover {
+      background: #1e88e5;
+      box-shadow: 0 4px 12px rgba(25,118,210,0.3);
+    }
+    .btn-primary--success { background: #388e3c; }
+    .btn-ghost {
+      padding: 10px 16px; font-size: 12px; font-family: var(--font-mono);
+      background: transparent; border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px; color: var(--text-muted); cursor: pointer; transition: all 0.15s;
+    }
+    .btn-ghost:hover {
+      background: rgba(255,255,255,0.05); color: var(--text-primary);
+    }
+
+    /* ===== Toast ===== */
+    .toast {
+      position: fixed; bottom: 24px; right: 24px;
+      padding: 12px 20px; background: #1b5e20;
+      border: 1px solid rgba(76,175,80,0.4); border-radius: 10px;
+      color: #c8e6c9; font-size: 13px; font-family: var(--font-mono);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+      transform: translateY(100px); opacity: 0;
+      transition: all 0.3s ease; z-index: 200;
+    }
+    .toast.visible { transform: translateY(0); opacity: 1; }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 1023px) {
+      .type-selector { grid-template-columns: repeat(3, 1fr); }
+      .builder.visible { grid-template-columns: 1fr 1fr; gap: 16px; }
+    }
+    @media (max-width: 767px) {
+      body { padding: 12px; }
+      .page-header h1 { font-size: 24px; }
+      .type-selector { grid-template-columns: repeat(2, 1fr); }
+      .builder.visible {
+        grid-template-columns: 1fr;
+      }
+      .builder__right { order: -1; } /* Chart on top */
+      .leg-row {
+        grid-template-columns: 1fr 1fr;
+      }
+      .metrics-panel { grid-template-columns: repeat(2, 1fr); }
+      .config-row { flex-direction: column; align-items: stretch; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="#">Scanner</a> / <a href="#">Strategy Builder</a>
+    </div>
+    <header class="page-header">
+      <h1>Strategy Builder</h1>
+      <p>Build and analyze multi-leg options strategies</p>
+    </header>
+
+    <!-- Strategy Type Selector -->
+    <div class="type-selector" id="typeSelector">
+      <div class="type-card" onclick="selectStrategy('vertical', this)">
+        <div class="type-card__icon">↗↘</div>
+        <div class="type-card__name">Vertical Spread</div>
+        <div class="type-card__meta">2 legs · Directional<br>Capped risk</div>
+      </div>
+      <div class="type-card" onclick="selectStrategy('ironCondor', this)">
+        <div class="type-card__icon">━━█━━</div>
+        <div class="type-card__name">Iron Condor</div>
+        <div class="type-card__meta">4 legs · Neutral<br>Range-bound</div>
+      </div>
+      <div class="type-card" onclick="selectStrategy('straddle', this)">
+        <div class="type-card__icon">↕️</div>
+        <div class="type-card__name">Straddle / Strangle</div>
+        <div class="type-card__meta">2 legs · Volatility<br>IV play</div>
+      </div>
+      <div class="type-card" onclick="selectStrategy('calendar', this)">
+        <div class="type-card__icon">📅</div>
+        <div class="type-card__name">Calendar / Diagonal</div>
+        <div class="type-card__meta">2 legs · Time decay<br>Arbitrage</div>
+      </div>
+      <div class="type-card" onclick="selectStrategy('butterfly', this)">
+        <div class="type-card__icon">/\</div>
+        <div class="type-card__name">Butterfly</div>
+        <div class="type-card__meta">3 legs · Neutral<br>Low premium</div>
+      </div>
+      <div class="type-card" onclick="selectStrategy('custom', this)">
+        <div class="type-card__icon">✚</div>
+        <div class="type-card__name">Custom</div>
+        <div class="type-card__meta">1-4 legs · Any combo<br>Full control</div>
+      </div>
+    </div>
+
+    <div class="hint" id="hint">
+      💡 Not sure? Start with <strong>Vertical Spread</strong> — it's the most common strategy for defined-risk directional trades.
+    </div>
+
+    <!-- Builder Interface -->
+    <div class="builder" id="builder">
+      <div class="builder__left">
+        <!-- Config Row -->
+        <div class="config-row">
+          <span class="strategy-badge" id="strategyBadge">Bull Call Spread</span>
+          <div class="config-group">
+            <label>Underlying:</label>
+            <input type="text" value="AAPL" id="tickerInput" style="width:80px;" onchange="loadTicker()">
+          </div>
+          <span class="price-badge">$185.40 <span class="price-change price-change--up">+0.8%</span></span>
+          <div class="config-group">
+            <label>Exp:</label>
+            <select id="expSelect" onchange="updateChart()">
+              <option>Mar 21, 2026 (35 DTE)</option>
+              <option>Apr 18, 2026 (63 DTE)</option>
+              <option>May 16, 2026 (91 DTE)</option>
+              <option>Jun 20, 2026 (126 DTE)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Legs -->
+        <div class="legs-card">
+          <h3>Legs</h3>
+          <div id="legsContainer">
+            <!-- Leg 1 -->
+            <div class="leg-row" id="legRow1">
+              <span class="leg-label">Leg 1</span>
+              <select class="leg-select leg-select--buy" id="action1" onchange="updateLegStyle(1); updateMetrics()">
+                <option value="buy" selected>Buy</option>
+                <option value="sell">Sell</option>
+              </select>
+              <select class="leg-select" id="type1" onchange="updateMetrics()">
+                <option value="call" selected>Call</option>
+                <option value="put">Put</option>
+              </select>
+              <select class="leg-select" id="strike1" onchange="updateMetrics()">
+                <option value="175">$175</option>
+                <option value="180">$180</option>
+                <option value="185" selected>$185</option>
+                <option value="190">$190</option>
+                <option value="195">$195</option>
+                <option value="200">$200</option>
+                <option value="205">$205</option>
+              </select>
+              <select class="leg-select" style="width:50px">
+                <option>x1</option>
+                <option>x2</option>
+                <option>x5</option>
+                <option>x10</option>
+              </select>
+              <div class="leg-greeks">
+                <span><strong>Mid:</strong> $4.28</span>
+                <span><strong>Δ:</strong> 0.52</span>
+                <span><strong>Θ:</strong> -$0.15</span>
+                <span><strong>IV:</strong> 32.4%</span>
+              </div>
+            </div>
+
+            <!-- Leg 2 -->
+            <div class="leg-row" id="legRow2">
+              <span class="leg-label">Leg 2</span>
+              <select class="leg-select leg-select--sell" id="action2" onchange="updateLegStyle(2); updateMetrics()">
+                <option value="buy">Buy</option>
+                <option value="sell" selected>Sell</option>
+              </select>
+              <select class="leg-select" id="type2" onchange="updateMetrics()">
+                <option value="call" selected>Call</option>
+                <option value="put">Put</option>
+              </select>
+              <select class="leg-select" id="strike2" onchange="updateMetrics()">
+                <option value="185">$185</option>
+                <option value="190">$190</option>
+                <option value="195" selected>$195</option>
+                <option value="200">$200</option>
+                <option value="205">$205</option>
+                <option value="210">$210</option>
+                <option value="215">$215</option>
+              </select>
+              <select class="leg-select" style="width:50px">
+                <option>x1</option>
+                <option>x2</option>
+                <option>x5</option>
+                <option>x10</option>
+              </select>
+              <div class="leg-greeks">
+                <span><strong>Mid:</strong> $1.48</span>
+                <span><strong>Δ:</strong> 0.25</span>
+                <span><strong>Θ:</strong> -$0.08</span>
+                <span><strong>IV:</strong> 34.1%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Extra legs container for iron condor etc -->
+          <div id="extraLegs"></div>
+
+          <button class="add-leg-btn" id="addLegBtn" onclick="addLeg()">+ Add Leg</button>
+        </div>
+
+        <!-- Metrics -->
+        <div class="metrics-panel" id="metricsPanel">
+          <div class="metric">
+            <div class="metric__label">Max Profit</div>
+            <div class="metric__value metric__value--profit" id="maxProfit">$280</div>
+            <div class="metric__subtitle">56% of risk</div>
+          </div>
+          <div class="metric">
+            <div class="metric__label">Max Loss</div>
+            <div class="metric__value metric__value--loss" id="maxLoss">$220</div>
+            <div class="metric__subtitle">cost basis</div>
+          </div>
+          <div class="metric">
+            <div class="metric__label">Breakeven</div>
+            <div class="metric__value" id="breakeven">$187.80</div>
+          </div>
+          <div class="metric">
+            <div class="metric__label">Risk / Reward</div>
+            <div class="metric__value" id="riskReward">1 : 1.27</div>
+          </div>
+          <div class="metric">
+            <div class="metric__label">PoP (est.)</div>
+            <div class="metric__value" id="pop">~42%</div>
+          </div>
+          <div class="metric">
+            <div class="metric__label">Net Debit</div>
+            <div class="metric__value" id="netDebit">$2.80</div>
+            <div class="metric__subtitle">$280 / contract</div>
+          </div>
+        </div>
+
+        <!-- Validation -->
+        <div class="validation-banner validation-banner--info" id="validationBanner">
+          ℹ️ Tip: Adjust strikes to change risk/reward. Wider spread = higher max profit but higher max loss.
+        </div>
+
+        <!-- Actions -->
+        <div class="action-bar">
+          <button class="btn-primary" id="trackBtn" onclick="trackStrategy()">🎯 Track Strategy</button>
+          <button class="btn-ghost" onclick="showToast('Strategy exported to CSV')">📄 Export CSV</button>
+          <button class="btn-ghost" onclick="showToast('Link copied to clipboard')">📤 Share</button>
+        </div>
+      </div>
+
+      <!-- Right Column: P&L Chart -->
+      <div class="builder__right">
+        <div class="chart-card">
+          <h3>
+            P&L at Expiration
+            <div class="chart-actions">
+              <button class="btn-ghost" style="padding:4px 8px;font-size:11px" onclick="showToast('Chart exported as PNG')">Export PNG</button>
+            </div>
+          </h3>
+          <div class="chart-canvas-wrap">
+            <canvas id="plChart"></canvas>
+          </div>
+          <div class="chart-legend">
+            <span class="chart-legend__item"><span class="chart-legend__dot" style="background:#4CAF50"></span> Profit</span>
+            <span class="chart-legend__item"><span class="chart-legend__dot" style="background:#f44336"></span> Loss</span>
+            <span class="chart-legend__item"><span class="chart-legend__dot" style="background:#f5a623"></span> Breakeven</span>
+            <span class="chart-legend__item"><span class="chart-legend__dot" style="background:rgba(255,255,255,0.4)"></span> Current Price</span>
+          </div>
+          <div class="current-price-label">AAPL: <strong>$185.40</strong> — current underlying price</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ========== State ==========
+    let currentStrategy = null;
+    let legCount = 2;
+    const strategies = {
+      vertical:    { label: 'Bull Call Spread', legs: 2 },
+      ironCondor:  { label: 'Iron Condor',      legs: 4 },
+      straddle:    { label: 'Long Straddle',     legs: 2 },
+      calendar:    { label: 'Calendar Spread',   legs: 2 },
+      butterfly:   { label: 'Butterfly',         legs: 3 },
+      custom:      { label: 'Custom Strategy',   legs: 2 },
+    };
+
+    // ========== Strategy Selection ==========
+    function selectStrategy(type, el) {
+      // Update card visuals
+      document.querySelectorAll('.type-card').forEach(c => c.classList.remove('type-card--active'));
+      el.classList.add('type-card--active');
+
+      currentStrategy = type;
+      document.getElementById('hint').style.display = 'none';
+      document.getElementById('builder').classList.add('visible');
+      document.getElementById('strategyBadge').textContent = strategies[type].label;
+
+      // Pre-fill legs based on type
+      resetLegs();
+      if (type === 'ironCondor') {
+        prefillIronCondor();
+      } else if (type === 'straddle') {
+        prefillStraddle();
+      } else if (type === 'butterfly') {
+        prefillButterfly();
+      } else {
+        // Default: vertical spread / calendar / custom
+        document.getElementById('action1').value = 'buy';
+        document.getElementById('action2').value = 'sell';
+        document.getElementById('type1').value = 'call';
+        document.getElementById('type2').value = 'call';
+        document.getElementById('strike1').value = '185';
+        document.getElementById('strike2').value = '195';
+        updateLegStyle(1);
+        updateLegStyle(2);
+      }
+
+      updateMetrics();
+      drawChart();
+    }
+
+    function resetLegs() {
+      document.getElementById('extraLegs').innerHTML = '';
+      legCount = 2;
+    }
+
+    function prefillIronCondor() {
+      document.getElementById('action1').value = 'buy';
+      document.getElementById('type1').value = 'put';
+      document.getElementById('strike1').value = '175';
+      document.getElementById('action2').value = 'sell';
+      document.getElementById('type2').value = 'put';
+      document.getElementById('strike2').value = '180';
+      updateLegStyle(1);
+      updateLegStyle(2);
+
+      addLegWithData('sell', 'call', '190', '$1.85', '0.18', '-$0.08', '33.2%');
+      addLegWithData('buy', 'call', '195', '$0.90', '0.10', '-$0.05', '35.0%');
+
+      document.getElementById('strategyBadge').textContent = 'Iron Condor';
+    }
+
+    function prefillStraddle() {
+      document.getElementById('action1').value = 'buy';
+      document.getElementById('type1').value = 'call';
+      document.getElementById('strike1').value = '185';
+      document.getElementById('action2').value = 'buy';
+      document.getElementById('type2').value = 'put';
+      document.getElementById('strike2').value = '185';
+      updateLegStyle(1);
+      updateLegStyle(2);
+      document.getElementById('strategyBadge').textContent = 'Long Straddle';
+    }
+
+    function prefillButterfly() {
+      document.getElementById('action1').value = 'buy';
+      document.getElementById('type1').value = 'call';
+      document.getElementById('strike1').value = '180';
+      document.getElementById('action2').value = 'sell';
+      document.getElementById('type2').value = 'call';
+      document.getElementById('strike2').value = '185';
+      updateLegStyle(1);
+      updateLegStyle(2);
+      addLegWithData('buy', 'call', '190', '$1.55', '0.30', '-$0.10', '32.5%');
+      document.getElementById('strategyBadge').textContent = 'Long Call Butterfly';
+    }
+
+    // ========== Leg Management ==========
+    function addLeg() {
+      if (legCount >= 4) {
+        showToast('Maximum 4 legs allowed');
+        return;
+      }
+      addLegWithData('sell', 'call', '200', '$0.80', '0.12', '-$0.04', '36.0%');
+    }
+
+    function addLegWithData(action, type, strike, mid, delta, theta, iv) {
+      legCount++;
+      const container = document.getElementById('extraLegs');
+      const row = document.createElement('div');
+      row.className = 'leg-row';
+      row.id = 'legRow' + legCount;
+      const actionClass = action === 'buy' ? 'leg-select--buy' : 'leg-select--sell';
+      row.innerHTML = `
+        <span class="leg-label">Leg ${legCount}</span>
+        <select class="leg-select ${actionClass}" onchange="updateMetrics()">
+          <option value="buy" ${action === 'buy' ? 'selected' : ''}>Buy</option>
+          <option value="sell" ${action === 'sell' ? 'selected' : ''}>Sell</option>
+        </select>
+        <select class="leg-select" onchange="updateMetrics()">
+          <option value="call" ${type === 'call' ? 'selected' : ''}>Call</option>
+          <option value="put" ${type === 'put' ? 'selected' : ''}>Put</option>
+        </select>
+        <select class="leg-select" onchange="updateMetrics()">
+          <option value="175">$175</option>
+          <option value="180" ${strike === '180' ? 'selected' : ''}>$180</option>
+          <option value="185" ${strike === '185' ? 'selected' : ''}>$185</option>
+          <option value="190" ${strike === '190' ? 'selected' : ''}>$190</option>
+          <option value="195" ${strike === '195' ? 'selected' : ''}>$195</option>
+          <option value="200" ${strike === '200' ? 'selected' : ''}>$200</option>
+          <option value="205">$205</option>
+        </select>
+        <select class="leg-select" style="width:50px"><option>x1</option><option>x2</option></select>
+        <div class="leg-greeks">
+          <span><strong>Mid:</strong> ${mid}</span>
+          <span><strong>Δ:</strong> ${delta}</span>
+          <span><strong>Θ:</strong> ${theta}</span>
+          <span><strong>IV:</strong> ${iv}</span>
+        </div>
+      `;
+      row.style.opacity = '0';
+      row.style.transform = 'translateY(-10px)';
+      container.appendChild(row);
+      // Animate in
+      requestAnimationFrame(() => {
+        row.style.transition = 'all 0.2s ease';
+        row.style.opacity = '1';
+        row.style.transform = 'translateY(0)';
+      });
+      updateMetrics();
+      drawChart();
+
+      if (legCount >= 4) {
+        document.getElementById('addLegBtn').style.display = 'none';
+      }
+    }
+
+    function updateLegStyle(n) {
+      const sel = document.getElementById('action' + n);
+      sel.className = 'leg-select ' + (sel.value === 'buy' ? 'leg-select--buy' : 'leg-select--sell');
+    }
+
+    // ========== Metrics ==========
+    function updateMetrics() {
+      const s1 = parseInt(document.getElementById('strike1').value);
+      const s2 = parseInt(document.getElementById('strike2').value);
+      const spread = Math.abs(s2 - s1);
+      const netDebit = (Math.random() * 1.5 + 1.5).toFixed(2);
+      const maxProfit = ((spread - parseFloat(netDebit)) * 100).toFixed(0);
+      const maxLoss = (parseFloat(netDebit) * 100).toFixed(0);
+      const breakeven = (Math.min(s1, s2) + parseFloat(netDebit)).toFixed(2);
+
+      if (currentStrategy === 'ironCondor') {
+        animateValue('maxProfit', '$145');
+        animateValue('maxLoss', '$355');
+        animateValue('breakeven', '$178 / $192');
+        animateValue('riskReward', '1 : 0.41');
+        animateValue('pop', '~68%');
+        animateValue('netDebit', '$1.45 (cr)');
+        document.getElementById('maxProfit').className = 'metric__value metric__value--profit';
+        document.getElementById('maxLoss').className = 'metric__value metric__value--loss';
+        document.getElementById('validationBanner').innerHTML = '⚠️ Earnings on 4/25. Consider closing before earnings to avoid IV crush.';
+        document.getElementById('validationBanner').className = 'validation-banner validation-banner--warning';
+      } else if (currentStrategy === 'straddle') {
+        animateValue('maxProfit', 'Unlimited');
+        animateValue('maxLoss', '$576');
+        animateValue('breakeven', '$179 / $191');
+        animateValue('riskReward', '∞');
+        animateValue('pop', '~35%');
+        animateValue('netDebit', '$5.76');
+        document.getElementById('maxProfit').className = 'metric__value metric__value--profit';
+        document.getElementById('maxLoss').className = 'metric__value metric__value--loss';
+        document.getElementById('validationBanner').innerHTML = 'ℹ️ This strategy profits from large moves in either direction. Best before earnings or catalysts.';
+        document.getElementById('validationBanner').className = 'validation-banner validation-banner--info';
+      } else {
+        animateValue('maxProfit', '$' + maxProfit);
+        animateValue('maxLoss', '$' + maxLoss);
+        animateValue('breakeven', '$' + breakeven);
+        animateValue('riskReward', '1 : ' + (parseInt(maxProfit) / parseInt(maxLoss)).toFixed(2));
+        animateValue('pop', '~' + Math.floor(40 + Math.random() * 15) + '%');
+        animateValue('netDebit', '$' + netDebit);
+        document.getElementById('maxProfit').className = 'metric__value metric__value--profit';
+        document.getElementById('maxLoss').className = 'metric__value metric__value--loss';
+        document.getElementById('validationBanner').innerHTML = 'ℹ️ Tip: Adjust strikes to change risk/reward. Wider spread = higher max profit but higher max loss.';
+        document.getElementById('validationBanner').className = 'validation-banner validation-banner--info';
+      }
+
+      drawChart();
+    }
+
+    function animateValue(id, newVal) {
+      const el = document.getElementById(id);
+      el.textContent = newVal;
+      el.style.transform = 'scale(1.1)';
+      setTimeout(() => el.style.transform = 'scale(1)', 200);
+    }
+
+    // ========== P&L Chart (Canvas) ==========
+    function drawChart() {
+      const canvas = document.getElementById('plChart');
+      const ctx = canvas.getContext('2d');
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+
+      const W = rect.width;
+      const H = rect.height;
+      const pad = { top: 30, right: 20, bottom: 40, left: 50 };
+      const cw = W - pad.left - pad.right;
+      const ch = H - pad.top - pad.bottom;
+
+      ctx.clearRect(0, 0, W, H);
+
+      // Generate P&L data
+      const s1 = parseInt(document.getElementById('strike1').value);
+      const s2 = parseInt(document.getElementById('strike2').value);
+      const low = Math.min(s1, s2) - 15;
+      const high = Math.max(s1, s2) + 15;
+      const netDebit = 2.80;
+      const currentPrice = 185.40;
+
+      const points = [];
+      for (let price = low; price <= high; price += 0.5) {
+        let pl;
+        if (currentStrategy === 'ironCondor') {
+          // Simplified iron condor P&L
+          const putBuy = 175, putSell = 180, callSell = 190, callBuy = 195;
+          const credit = 1.45;
+          if (price <= putBuy) pl = -(putSell - putBuy - credit);
+          else if (price <= putSell) pl = (price - putBuy) - (putSell - putBuy) + credit;
+          else if (price <= callSell) pl = credit;
+          else if (price <= callBuy) pl = credit - (price - callSell);
+          else pl = -(callBuy - callSell - credit);
+          pl *= 100;
+        } else if (currentStrategy === 'straddle') {
+          const strike = s1;
+          const premium = 5.76;
+          pl = (Math.abs(price - strike) - premium) * 100;
+        } else {
+          // Vertical spread
+          const buyStrike = Math.min(s1, s2);
+          const sellStrike = Math.max(s1, s2);
+          if (price <= buyStrike) pl = -netDebit * 100;
+          else if (price >= sellStrike) pl = (sellStrike - buyStrike - netDebit) * 100;
+          else pl = ((price - buyStrike) - netDebit) * 100;
+        }
+        points.push({ price, pl });
+      }
+
+      const minPL = Math.min(...points.map(p => p.pl));
+      const maxPL = Math.max(...points.map(p => p.pl));
+      const plRange = maxPL - minPL || 1;
+
+      function x(price) { return pad.left + ((price - low) / (high - low)) * cw; }
+      function y(pl) { return pad.top + ch - ((pl - minPL) / plRange) * ch; }
+
+      // Zero line
+      const zeroY = y(0);
+
+      // Fill profit/loss zones
+      ctx.beginPath();
+      ctx.moveTo(x(points[0].price), zeroY);
+      for (const p of points) {
+        ctx.lineTo(x(p.price), Math.min(y(p.pl), zeroY));
+      }
+      ctx.lineTo(x(points[points.length - 1].price), zeroY);
+      ctx.closePath();
+      ctx.fillStyle = 'rgba(76, 175, 80, 0.12)';
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.moveTo(x(points[0].price), zeroY);
+      for (const p of points) {
+        ctx.lineTo(x(p.price), Math.max(y(p.pl), zeroY));
+      }
+      ctx.lineTo(x(points[points.length - 1].price), zeroY);
+      ctx.closePath();
+      ctx.fillStyle = 'rgba(244, 67, 54, 0.12)';
+      ctx.fill();
+
+      // Grid lines
+      ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+      ctx.lineWidth = 1;
+      for (let i = 0; i <= 4; i++) {
+        const gy = pad.top + (ch / 4) * i;
+        ctx.beginPath(); ctx.moveTo(pad.left, gy); ctx.lineTo(pad.left + cw, gy); ctx.stroke();
+      }
+
+      // Zero line (bold)
+      ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(pad.left, zeroY); ctx.lineTo(pad.left + cw, zeroY); ctx.stroke();
+
+      // P&L line
+      ctx.beginPath();
+      ctx.moveTo(x(points[0].price), y(points[0].pl));
+      for (const p of points) {
+        ctx.lineTo(x(p.price), y(p.pl));
+      }
+      ctx.strokeStyle = '#e6edf7';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // Breakeven dots
+      for (let i = 1; i < points.length; i++) {
+        if ((points[i-1].pl < 0 && points[i].pl >= 0) || (points[i-1].pl >= 0 && points[i].pl < 0)) {
+          const bx = x(points[i].price);
+          ctx.setLineDash([4, 4]);
+          ctx.strokeStyle = '#f5a623';
+          ctx.lineWidth = 1;
+          ctx.beginPath(); ctx.moveTo(bx, pad.top); ctx.lineTo(bx, pad.top + ch); ctx.stroke();
+          ctx.setLineDash([]);
+
+          // Label
+          ctx.fillStyle = '#f5a623';
+          ctx.font = '10px JetBrains Mono, monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText('BE $' + points[i].price.toFixed(0), bx, pad.top + ch + 14);
+        }
+      }
+
+      // Current price line
+      if (currentPrice >= low && currentPrice <= high) {
+        const cpx = x(currentPrice);
+        ctx.setLineDash([2, 2]);
+        ctx.strokeStyle = 'rgba(255,255,255,0.4)';
+        ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(cpx, pad.top); ctx.lineTo(cpx, pad.top + ch); ctx.stroke();
+        ctx.setLineDash([]);
+
+        ctx.fillStyle = 'rgba(255,255,255,0.6)';
+        ctx.font = '10px JetBrains Mono, monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText('$' + currentPrice, cpx, pad.top - 8);
+      }
+
+      // Y-axis labels
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '10px JetBrains Mono, monospace';
+      ctx.textAlign = 'right';
+      for (let i = 0; i <= 4; i++) {
+        const val = minPL + (plRange / 4) * (4 - i);
+        ctx.fillText('$' + val.toFixed(0), pad.left - 8, pad.top + (ch / 4) * i + 4);
+      }
+
+      // X-axis labels
+      ctx.textAlign = 'center';
+      const step = Math.ceil((high - low) / 6);
+      for (let p = Math.ceil(low); p <= high; p += step) {
+        ctx.fillText('$' + p, x(p), pad.top + ch + 28);
+      }
+    }
+
+    // ========== Track Strategy ==========
+    function trackStrategy() {
+      const btn = document.getElementById('trackBtn');
+      btn.textContent = '✓ Tracked!';
+      btn.className = 'btn-primary btn-primary--success';
+      const label = document.getElementById('strategyBadge').textContent;
+      const ticker = document.getElementById('tickerInput').value;
+      showToast(label + ' (' + ticker + ') added to portfolio');
+      setTimeout(() => {
+        btn.textContent = '🎯 Track Strategy';
+        btn.className = 'btn-primary';
+      }, 3000);
+    }
+
+    function loadTicker() { updateMetrics(); }
+    function updateChart() { drawChart(); }
+
+    // ========== Toast ==========
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('visible');
+      setTimeout(() => toast.classList.remove('visible'), 2500);
+    }
+
+    // ========== Canvas resize ==========
+    window.addEventListener('resize', () => { if (currentStrategy) drawChart(); });
+
+    // ========== Mouse hover on chart ==========
+    document.getElementById('plChart').addEventListener('mousemove', function(e) {
+      // Simple crosshair — full implementation would show tooltip
+      if (currentStrategy) drawChart(); // redraw base then overlay crosshair
+    });
+  </script>
+</body>
+</html>
