@@ -62,7 +62,7 @@ jobs:
             --settings \
               NEXT_PUBLIC_API_BASE="${{ secrets.NEXT_PUBLIC_API_BASE }}" \
               NODE_ENV=production \
-              SCM_DO_BUILD_DURING_DEPLOYMENT=true \
+              SCM_DO_BUILD_DURING_DEPLOYMENT=false \
               PORT=8080
 
       - name: Remove legacy frontend settings
@@ -75,11 +75,11 @@ jobs:
       - name: Create deployment package
         run: |
           rm -f deploy.zip
-          # Deploy SOURCE CODE ONLY - Azure will build with npm install + npm run build
-          zip -r deploy.zip app/ package.json package-lock.json tsconfig.json next.config.mjs server.js public/
+          # Deploy PRE-BUILT app - include .next/ build output + node_modules + server
+          zip -r deploy.zip .next/ node_modules/ app/ package.json package-lock.json tsconfig.json next.config.mjs server.js public/
           
-          echo "=== Deployment package (Azure will build) ==="
-          unzip -l deploy.zip | head -15
+          echo "=== Deployment package (pre-built) ==="
+          echo ".next/BUILD_ID: $(cat .next/BUILD_ID)"
           du -sh deploy.zip
 
       - name: Configure Startup Command
@@ -87,7 +87,8 @@ jobs:
           az webapp config set \
             --resource-group options-scanner-rg \
             --name ${{ env.AZURE_WEBAPP_NAME }} \
-            --startup-file "npm start"
+            --startup-file "npm start" \
+            --linux-fx-version "NODE|20-lts"
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
