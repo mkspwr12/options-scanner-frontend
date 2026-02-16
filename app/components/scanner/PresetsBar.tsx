@@ -17,14 +17,7 @@ export function PresetsBar() {
   const [showSaveModal, setShowSaveModal] = useState(false);
 
   const handleLoadPreset = (id: string) => {
-    const preset = presets.find((p) => p.id === id);
-    if (!preset) return;
-
-    // Update filters directly — bypasses debounce for immediate application
-    dispatch({ type: 'SET_FILTER', payload: preset.filters });
-    // We'd need to also set activePresetId, but our reducer handles that
-    // via a custom approach: we set all filter values which triggers SET_FILTER
-    // To properly track active preset, we dispatch a LOAD_PRESET after setting filters
+    dispatch({ type: 'LOAD_PRESET', payload: id });
   };
 
   const handleSavePreset = (name: string): { ok: boolean; error?: string } => {

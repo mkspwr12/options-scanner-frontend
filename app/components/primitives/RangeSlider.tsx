@@ -35,13 +35,20 @@ export const RangeSlider = React.memo(function RangeSlider({
   const [visualValue, setVisualValue] = useState<[number, number]>(value);
   const isDragging = useRef<'min' | 'max' | null>(null);
   const rafId = useRef<number | null>(null);
+  const latestVisualRef = useRef<[number, number]>(value);
 
   // Sync prop changes to visual state
   useEffect(() => {
     if (!isDragging.current) {
       setVisualValue(value);
+      latestVisualRef.current = value;
     }
   }, [value]);
+
+  // Keep ref in sync with visual state for pointer-up commit
+  useEffect(() => {
+    latestVisualRef.current = visualValue;
+  }, [visualValue]);
 
   const fmt = formatValue ?? ((v: number) => `${v}${unit}`);
 
@@ -93,10 +100,10 @@ export const RangeSlider = React.memo(function RangeSlider({
   const handlePointerUp = useCallback(() => {
     if (isDragging.current) {
       isDragging.current = null;
-      // Commit visual state to actual filter state
-      onChange(visualValue);
+      // Commit latest visual state via ref to avoid stale closure
+      onChange(latestVisualRef.current);
     }
-  }, [onChange, visualValue]);
+  }, [onChange]);
 
   const handleKeyDown = useCallback(
     (thumb: 'min' | 'max') => (e: KeyboardEvent<HTMLDivElement>) => {

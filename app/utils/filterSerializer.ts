@@ -3,6 +3,11 @@
 import type { FilterState } from '../types/scanner';
 import { DEFAULT_FILTERS } from './filterDefaults';
 
+function clamp(value: number, min: number, max: number): number {
+  if (isNaN(value)) return min;
+  return Math.min(max, Math.max(min, value));
+}
+
 /**
  * Convert FilterState to URL query parameters.
  * Only includes parameters that differ from defaults (reduces URL length).
@@ -188,9 +193,4 @@ export function countActiveFilters(filters: FilterState): number {
   if (filters.minVolume !== null && filters.minVolume > 0) count++;
 
   return count;
-}
-
-function clamp(value: number, min: number, max: number): number {
-  if (isNaN(value)) return min;
-  return Math.min(max, Math.max(min, value));
 }

@@ -60,12 +60,6 @@ function mapResult(raw: Record<string, unknown>): ScanResult {
 }
 
 interface UseScanFiltersResult {
-  results: ScanResult[];
-  totalCount: number;
-  filteredCount: number;
-  isLoading: boolean;
-  error: string | null;
-  cacheAgeSeconds: number;
   refetch: () => void;
 }
 
@@ -79,15 +73,7 @@ export function useScanFilters(
 ): UseScanFiltersResult {
   const debouncedFilters = useDebounce(filters, FILTER_DEBOUNCE_MS);
   const abortRef = useRef<AbortController | null>(null);
-  const resultRef = useRef<UseScanFiltersResult>({
-    results: [],
-    totalCount: 0,
-    filteredCount: 0,
-    isLoading: false,
-    error: null,
-    cacheAgeSeconds: 0,
-    refetch: () => {},
-  });
+  const fetchRef = useRef<() => void>(() => {});
 
   const fetchResults = useCallback(async (filtersToFetch: FilterState) => {
     const hash = hashFilters(filtersToFetch);
@@ -168,8 +154,8 @@ export function useScanFilters(
     };
   }, []);
 
-  // Build the return ref from context (consumers read from context directly)
-  resultRef.current.refetch = () => fetchResults(debouncedFilters);
+  // Keep refetch stable via ref (consumers read data from context directly)
+  fetchRef.current = () => fetchResults(debouncedFilters);
 
-  return resultRef.current;
+  return { refetch: () => fetchRef.current() };
 }
