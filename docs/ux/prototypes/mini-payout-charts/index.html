@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Payout Charts - Prototype</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-bg-dark: #0f1117;
+            --color-bg-card: #1a1d29;
+            --color-border: #2d3142;
+            --color-text-primary: #ffffff;
+            --color-text-secondary: #8892a6;
+            --color-blue: #2563eb;
+            --color-blue-hover: #1e40af;
+            --color-green: #10b981;
+            --color-yellow: #f59e0b;
+            --color-red: #ef4444;
+            --color-orange: #f59e0b;
+            --color-gray: #8892a6;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--color-bg-dark);
+            color: var(--color-text-primary);
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: var(--color-text-secondary);
+            margin-bottom: 32px;
+        }
+
+        /* Table View (Desktop) */
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .results-table thead {
+            background: rgba(37, 99, 235, 0.1);
+        }
+
+        .results-table th {
+            text-align: left;
+            padding: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .results-table td {
+            padding: 12px;
+            border-top: 1px solid var(--color-border);
+        }
+
+        .results-table tbody tr {
+            transition: background 150ms ease;
+        }
+
+        .results-table tbody tr:hover {
+            background: rgba(37, 99, 235, 0.05);
+            cursor: pointer;
+        }
+
+        .ticker-cell {
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .type-indicator {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: 6px;
+        }
+
+        .type-call {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--color-green);
+        }
+
+        .type-put {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--color-red);
+        }
+
+        /* Mini Payout Chart */
+        .chart-container {
+            position: relative;
+            width: 100px;
+            height: 50px;
+        }
+
+        .mini-chart {
+            border: 1px solid var(--color-border);
+            border-radius: 4px;
+            cursor: pointer;
+            background: var(--color-bg-dark);
+            transition: border-color 150ms ease;
+        }
+
+        .mini-chart:hover {
+            border-color: var(--color-blue);
+        }
+
+        /* Tooltip */
+        .chart-tooltip {
+            position: absolute;
+            top: -120px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+            padding: 12px;
+            font-size: 13px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 200ms ease;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .chart-container:hover .chart-tooltip {
+            opacity: 1;
+        }
+
+        .chart-tooltip::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 6px solid var(--color-border);
+        }
+
+        .tooltip-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 4px;
+        }
+
+        .tooltip-label {
+            color: var(--color-text-secondary);
+        }
+
+        .tooltip-value {
+            font-weight: 600;
+        }
+
+        /* Probability Badge */
+        .probability-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .badge-green {
+            background: var(--color-green);
+            color: #ffffff;
+        }
+
+        .badge-yellow {
+            background: var(--color-yellow);
+            color: #1a1d29;
+        }
+
+        .badge-red {
+            background: var(--color-red);
+            color: #ffffff;
+        }
+
+        /* Mobile Card View */
+        .results-cards {
+            display: none;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .result-card {
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 150ms ease;
+        }
+
+        .result-card:hover {
+            border-color: var(--color-blue);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .card-metadata {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+
+        .card-metadata-item {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .card-metadata-label {
+            color: var(--color-text-secondary);
+        }
+
+        .card-chart {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 150ms ease;
+        }
+
+        .btn-primary {
+            background: var(--color-blue);
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background: var(--color-blue-hover);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .results-table-container {
+                display: none;
+            }
+
+            .results-cards {
+                display: grid;
+            }
+        }
+
+        /* Performance indicator */
+        .perf-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+            padding: 12px;
+            font-size: 12px;
+            color: var(--color-text-secondary);
+            z-index: 1000;
+        }
+
+        .perf-metric {
+            margin-bottom: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Single Options Scan Results</h1>
+        <p class="subtitle">150 opportunities found | Sorted by probability</p>
+
+        <!-- Desktop Table View -->
+        <div class="results-table-container">
+            <table class="results-table" role="grid" aria-label="Single options scan results">
+                <thead>
+                    <tr>
+                        <th>Ticker</th>
+                        <th>Strike</th>
+                        <th>Expiration</th>
+                        <th>Premium</th>
+                        <th>Delta</th>
+                        <th>IV</th>
+                        <th>Payout Chart</th>
+                        <th>Probability</th>
+                    </tr>
+                </thead>
+                <tbody id="resultsTableBody">
+                    <!-- Results populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Mobile Card View -->
+        <div class="results-cards" id="resultsCards">
+            <!-- Cards populated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Performance Indicator -->
+    <div class="perf-indicator">
+        <div class="perf-metric">Charts rendered: <strong id="chartCount">0</strong></div>
+        <div class="perf-metric">Avg render time: <strong id="avgRenderTime">0ms</strong></div>
+        <div class="perf-metric">Total time: <strong id="totalRenderTime">0ms</strong></div>
+    </div>
+
+    <script>
+        // Sample data
+        const sampleResults = [
+            {
+                ticker: 'AAPL',
+                type: 'call',
+                strike: 175,
+                expiration: 30,
+                premium: 3.50,
+                delta: 0.45,
+                iv: 32,
+                probability: 65,
+                payoutData: {
+                    pricePoints: [165, 170, 175, 180, 185],
+                    profitPoints: [-350, -200, 0, 350, 350],
+                    breakeven: 178.50,
+                    maxProfit: 350,
+                    maxLoss: -350
+                }
+            },
+            {
+                ticker: 'TSLA',
+                type: 'put',
+                strike: 240,
+                expiration: 45,
+                premium: 5.20,
+                delta: 0.38,
+                iv: 45,
+                probability: 52,
+                payoutData: {
+                    pricePoints: [220, 230, 240, 250, 260],
+                    profitPoints: [520, 420, 0, -520, -520],
+                    breakeven: 234.80,
+                    maxProfit: 520,
+                    maxLoss: -520
+                }
+            },
+            {
+                ticker: 'MSFT',
+                type: 'call',
+                strike: 410,
+                expiration: 20,
+                premium: 2.80,
+                delta: 0.30,
+                iv: 28,
+                probability: 38,
+                payoutData: {
+                    pricePoints: [395, 405, 410, 420, 430],
+                    profitPoints: [-280, -180, 0, 280, 280],
+                    breakeven: 412.80,
+                    maxProfit: 280,
+                    maxLoss: -280
+                }
+            },
+            {
+                ticker: 'NVDA',
+                type: 'call',
+                strike: 500,
+                expiration: 35,
+                premium: 8.50,
+                delta: 0.52,
+                iv: 55,
+                probability: 68,
+                payoutData: {
+                    pricePoints: [480, 490, 500, 510, 520],
+                    profitPoints: [-850, -400, 0, 850, 850],
+                    breakeven: 508.50,
+                    maxProfit: 850,
+                    maxLoss: -850
+                }
+            },
+            {
+                ticker: 'GOOGL',
+                type: 'put',
+                strike: 140,
+                expiration: 25,
+                premium: 3.20,
+                delta: 0.35,
+                iv: 30,
+                probability: 41,
+                payoutData: {
+                    pricePoints: [130, 135, 140, 145, 150],
+                    profitPoints: [320, 200, 0, -320, -320],
+                    breakeven: 136.80,
+                    maxProfit: 320,
+                    maxLoss: -320
+                }
+            },
+            {
+                ticker: 'AMZN',
+                type: 'call',
+                strike: 175,
+                expiration: 40,
+                premium: 4.80,
+                delta: 0.48,
+                iv: 38,
+                probability: 61,
+                payoutData: {
+                    pricePoints: [165, 170, 175, 185, 195],
+                    profitPoints: [-480, -300, 0, 480, 480],
+                    breakeven: 179.80,
+                    maxProfit: 480,
+                    maxLoss: -480
+                }
+            },
+            {
+                ticker: 'META',
+                type: 'call',
+                strike: 520,
+                expiration: 28,
+                premium: 12.50,
+                delta: 0.60,
+                iv: 42,
+                probability: 72,
+                payoutData: {
+                    pricePoints: [500, 510, 520, 540, 560],
+                    profitPoints: [-1250, -500, 0, 1250, 1250],
+                    breakeven: 532.50,
+                    maxProfit: 1250,
+                    maxLoss: -1250
+                }
+            },
+            {
+                ticker: 'SPY',
+                type: 'put',
+                strike: 480,
+                expiration: 15,
+                premium: 2.10,
+                delta: 0.28,
+                iv: 18,
+                probability: 35,
+                payoutData: {
+                    pricePoints: [470, 475, 480, 485, 490],
+                    profitPoints: [210, 150, 0, -210, -210],
+                    breakeven: 477.90,
+                    maxProfit: 210,
+                    maxLoss: -210
+                }
+            }
+        ];
+
+        // Performance tracking
+        let chartRenderTimes = [];
+        let chartsRendered = 0;
+
+        // Draw mini payout chart on canvas
+        function drawMiniChart(canvas, payoutData) {
+            const startTime = performance.now();
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            const padding = 4;
+
+            // Clear canvas
+            ctx.clearRect(0, 0, width, height);
+
+            const { pricePoints, profitPoints, breakeven } = payoutData;
+
+            // Calculate min/max for scaling
+            const minProfit = Math.min(...profitPoints);
+            const maxProfit = Math.max(...profitPoints);
+            const minPrice = Math.min(...pricePoints);
+            const maxPrice = Math.max(...pricePoints);
+
+            // Scale functions
+            const scaleX = (price) => padding + ((price - minPrice) / (maxPrice - minPrice)) * (width - 2 * padding);
+            const scaleY = (profit) => height - padding - ((profit - minProfit) / (maxProfit - minProfit)) * (height - 2 * padding);
+
+            // Draw zero line
+            const zeroY = scaleY(0);
+            ctx.strokeStyle = '#8892a6';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([2, 2]);
+            ctx.beginPath();
+            ctx.moveTo(padding, zeroY);
+            ctx.lineTo(width - padding, zeroY);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Draw breakeven line
+            if (breakeven) {
+                const breakevenX = scaleX(breakeven);
+                ctx.strokeStyle = '#f59e0b';
+                ctx.lineWidth = 1;
+                ctx.setLineDash([2, 2]);
+                ctx.beginPath();
+                ctx.moveTo(breakevenX, padding);
+                ctx.moveTo(breakevenX, height - padding);
+                ctx.stroke();
+                ctx.setLineDash([]);
+            }
+
+            // Draw profit line
+            ctx.strokeStyle = '#2563eb';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            pricePoints.forEach((price, i) => {
+                const x = scaleX(price);
+                const y = scaleY(profitPoints[i]);
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            });
+            ctx.stroke();
+
+            // Fill area under profit line
+            ctx.fillStyle = 'rgba(37, 99, 235, 0.2)';
+            ctx.beginPath();
+            pricePoints.forEach((price, i) => {
+                const x = scaleX(price);
+                const y = scaleY(profitPoints[i]);
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            });
+            ctx.lineTo(scaleX(pricePoints[pricePoints.length - 1]), zeroY);
+            ctx.lineTo(scaleX(pricePoints[0]), zeroY);
+            ctx.closePath();
+            ctx.fill();
+
+            // Track performance
+            const endTime = performance.now();
+            chartRenderTimes.push(endTime - startTime);
+            chartsRendered++;
+            updatePerfIndicator();
+        }
+
+        // Update performance indicator
+        function updatePerfIndicator() {
+            const avgTime = chartRenderTimes.reduce((a, b) => a + b, 0) / chartRenderTimes.length;
+            const totalTime = chartRenderTimes.reduce((a, b) => a + b, 0);
+            document.getElementById('chartCount').textContent = chartsRendered;
+            document.getElementById('avgRenderTime').textContent = avgTime.toFixed(2) + 'ms';
+            document.getElementById('totalRenderTime').textContent = totalTime.toFixed(2) + 'ms';
+        }
+
+        // Get probability badge HTML
+        function getProbabilityBadge(probability) {
+            let variant = 'red';
+            let icon = '🔴';
+            if (probability >= 60) {
+                variant = 'green';
+                icon = '✅';
+            } else if (probability >= 40) {
+                variant = 'yellow';
+                icon = '⚠️';
+            }
+
+            return `<span class="probability-badge badge-${variant}" aria-label="${probability}% probability of profit">${probability}% ${icon}</span>`;
+        }
+
+        // Populate table
+        function populateTable() {
+            const tbody = document.getElementById('resultsTableBody');
+            tbody.innerHTML = '';
+
+            sampleResults.forEach((result, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="ticker-cell">
+                        ${result.ticker}
+                        <span class="type-indicator type-${result.type}">${result.type.toUpperCase()}</span>
+                    </td>
+                    <td>$${result.strike}</td>
+                    <td>${result.expiration} DTE</td>
+                    <td>$${result.premium.toFixed(2)}</td>
+                    <td>${result.delta.toFixed(2)}</td>
+                    <td>${result.iv}%</td>
+                    <td>
+                        <div class="chart-container">
+                            <canvas class="mini-chart" width="100" height="50" id="chart-${index}"></canvas>
+                            <div class="chart-tooltip">
+                                <div class="tooltip-row">
+                                    <span class="tooltip-label">Max Profit:</span>
+                                    <span class="tooltip-value">$${Math.abs(result.payoutData.maxProfit)}</span>
+                                </div>
+                                <div class="tooltip-row">
+                                    <span class="tooltip-label">Breakeven:</span>
+                                    <span class="tooltip-value">$${result.payoutData.breakeven.toFixed(2)}</span>
+                                </div>
+                                <div class="tooltip-row">
+                                    <span class="tooltip-label">Max Loss:</span>
+                                    <span class="tooltip-value">$${Math.abs(result.payoutData.maxLoss)}</span>
+                                </div>
+                                <div class="tooltip-row">
+                                    <span class="tooltip-label">Win Rate:</span>
+                                    <span class="tooltip-value">${result.probability}%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>${getProbabilityBadge(result.probability)}</td>
+                `;
+                tbody.appendChild(row);
+
+                // Draw chart after a short delay (simulates staggered rendering)
+                setTimeout(() => {
+                    const canvas = document.getElementById(`chart-${index}`);
+                    drawMiniChart(canvas, result.payoutData);
+                }, index * 20); // Stagger by 20ms each
+            });
+        }
+
+        // Populate mobile cards
+        function populateCards() {
+            const container = document.getElementById('resultsCards');
+            container.innerHTML = '';
+
+            sampleResults.forEach((result, index) => {
+                const card = document.createElement('article');
+                card.className = 'result-card';
+                card.innerHTML = `
+                    <div class="card-header">
+                        <div class="card-title">
+                            ${result.ticker} $${result.strike} ${result.type.toUpperCase()}
+                        </div>
+                        ${getProbabilityBadge(result.probability)}
+                    </div>
+                    <div class="card-metadata">
+                        <div class="card-metadata-item">
+                            <span class="card-metadata-label">Expiration:</span>
+                            <span>${result.expiration} DTE</span>
+                        </div>
+                        <div class="card-metadata-item">
+                            <span class="card-metadata-label">Premium:</span>
+                            <span>$${result.premium.toFixed(2)}</span>
+                        </div>
+                        <div class="card-metadata-item">
+                            <span class="card-metadata-label">Delta:</span>
+                            <span>${result.delta.toFixed(2)}</span>
+                        </div>
+                        <div class="card-metadata-item">
+                            <span class="card-metadata-label">IV:</span>
+                            <span>${result.iv}%</span>
+                        </div>
+                    </div>
+                    <div class="card-chart">
+                        <canvas class="mini-chart" width="100" height="50" id="chart-mobile-${index}"></canvas>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn btn-primary">View Details</button>
+                    </div>
+                `;
+                container.appendChild(card);
+
+                // Draw chart
+                setTimeout(() => {
+                    const canvas = document.getElementById(`chart-mobile-${index}`);
+                    drawMiniChart(canvas, result.payoutData);
+                }, index * 20);
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            populateTable();
+            populateCards();
+        });
+
+        // Reduced motion support
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            // Disable staggered animation delays
+            document.querySelectorAll('canvas').forEach((canvas, index) => {
+                const result = sampleResults[index % sampleResults.length];
+                drawMiniChart(canvas, result.payoutData);
+            });
+        }
+    </script>
+</body>
+</html>
