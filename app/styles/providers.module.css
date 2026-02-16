@@ -1,0 +1,367 @@
+/* Data Providers — CSS Module (Issue #4)   */
+/* Design tokens from globals.css :root     */
+
+/* ─── Section ──────────────────────────────────────────── */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg, 16px);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.addButton {
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  color: #fff;
+  background: var(--filter-active, #1976d2);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.addButton:hover {
+  opacity: 0.85;
+}
+
+/* ─── Card List ────────────────────────────────────────── */
+
+.cardList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md, 12px);
+}
+
+/* ─── Provider Card ────────────────────────────────────── */
+
+.card {
+  background: #1a1a2e;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: var(--space-lg, 16px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm, 8px);
+  transition: border-color 0.15s;
+}
+
+.cardActive {
+  border-color: #00d4ff;
+  box-shadow: 0 0 0 1px rgba(0, 212, 255, 0.2);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm, 8px);
+}
+
+.cardIcon {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.cardName {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+/* ─── Status Badge ─────────────────────────────────────── */
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: capitalize;
+  border: 1px solid;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+/* ─── Health Bar ───────────────────────────────────────── */
+
+.healthBarContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.healthBarLabel {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.healthBarTrack {
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.healthBarFill {
+  height: 100%;
+  border-radius: 2px;
+  background: #66bb6a;
+  transition: width 0.3s ease;
+}
+
+/* ─── Latency ──────────────────────────────────────────── */
+
+.latency {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+/* ─── Card Actions ─────────────────────────────────────── */
+
+.cardActions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm, 8px);
+  flex-wrap: wrap;
+  margin-top: var(--space-xs, 4px);
+}
+
+.toggleLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #e2e8f0;
+  cursor: pointer;
+}
+
+.actionButton {
+  padding: 4px 10px;
+  font-size: 12px;
+  font-family: inherit;
+  color: #e2e8f0;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.actionButton:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.actionButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.actionButtonDanger {
+  padding: 4px 10px;
+  font-size: 12px;
+  font-family: inherit;
+  color: #ef5350;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(239, 83, 80, 0.3);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.actionButtonDanger:hover:not(:disabled) {
+  background: rgba(239, 83, 80, 0.12);
+}
+
+/* ─── Priority Arrows ──────────────────────────────────── */
+
+.priorityArrows {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0;
+  margin-left: auto;
+}
+
+.arrowButton {
+  padding: 0 4px;
+  font-size: 10px;
+  line-height: 14px;
+  color: #94a3b8;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.arrowButton:hover {
+  color: #e2e8f0;
+}
+
+/* ─── Failover Banner ──────────────────────────────────── */
+
+.failoverBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md, 12px);
+  padding: var(--space-sm, 8px) var(--space-lg, 16px);
+  background: rgba(245, 166, 35, 0.12);
+  border: 1px solid rgba(245, 166, 35, 0.3);
+  border-radius: 6px;
+  color: #f5a623;
+  font-size: 13px;
+}
+
+.failoverText {
+  flex: 1;
+}
+
+.failoverReset {
+  padding: 4px 10px;
+  font-size: 12px;
+  font-family: inherit;
+  font-weight: 600;
+  color: #f5a623;
+  background: rgba(245, 166, 35, 0.15);
+  border: 1px solid rgba(245, 166, 35, 0.3);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.failoverReset:hover {
+  background: rgba(245, 166, 35, 0.25);
+}
+
+/* ─── Modal ────────────────────────────────────────────── */
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal, 100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+.modal {
+  width: 100%;
+  max-width: 460px;
+  background: #16213e;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: var(--space-xl, 24px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.modalTitle {
+  margin: 0 0 var(--space-lg, 16px);
+  font-size: 16px;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+/* ─── Form ─────────────────────────────────────────────── */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md, 12px);
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.formLabel {
+  font-size: 12px;
+  font-weight: 500;
+  color: #94a3b8;
+}
+
+.formInput {
+  padding: 8px 12px;
+  font-size: 13px;
+  font-family: inherit;
+  color: #e2e8f0;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.formInput:focus {
+  border-color: var(--filter-active, #1976d2);
+}
+
+.formInput:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.formError {
+  margin: 0;
+  font-size: 12px;
+  color: #ef5350;
+}
+
+.formButtons {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-sm, 8px);
+  margin-top: var(--space-sm, 8px);
+}
+
+.cancelButton {
+  padding: 6px 14px;
+  font-size: 13px;
+  font-family: inherit;
+  color: #94a3b8;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+}
+
+.cancelButton:hover {
+  color: #e2e8f0;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.saveButton {
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  color: #fff;
+  background: var(--filter-active, #1976d2);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.saveButton:hover {
+  opacity: 0.85;
+}

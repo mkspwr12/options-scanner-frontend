@@ -1,0 +1,1051 @@
+2026-02-15T19:19:18.4220124Z State: Starting, Action: EstablishingSiteNetworks, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: , DetailsLevel: INFO
+2026-02-15T19:19:36.7509345Z State: Starting, Action: StartingSiteContainers, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: , DetailsLevel: INFO
+2026-02-15T19:19:36.7514881Z Container start method called.
+2026-02-15T19:19:36.7604651Z State: Starting, Action: PullingImage, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Pulling image 10.1.0.4:13209/appsvc/node:20-lts_20260115.4.tuxprod for options-scanner-frontend-2exk6s., DetailsLevel: INFO
+2026-02-15T19:19:36.7712689Z Establishing network.
+2026-02-15T19:19:36.7716545Z Pulling image: appsvc/node:20-lts_20260115.4.tuxprod.
+2026-02-15T19:19:37.4265725Z Container is starting.
+2026-02-15T19:19:37.4349078Z State: Starting, Action: MountingVolumes, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Mounting volumes for options-scanner-frontend-2exk6s., DetailsLevel: INFO
+2026-02-15T19:19:37.4363491Z Establishing user namespace if not established already.
+2026-02-15T19:19:37.4450263Z Establishing network if not established already.
+2026-02-15T19:19:37.4744149Z Mounting volumes.
+2026-02-15T19:19:37.4853593Z Nested mountpoint site/wwwroot
+2026-02-15T19:19:37.5968794Z Nested mountpoint volatile/logs
+2026-02-15T19:19:37.6963532Z Nested mountpoint 
+2026-02-15T19:19:38.1702986Z Nested mountpoint 
+2026-02-15T19:19:38.5208356Z Nested mountpoint 
+2026-02-15T19:19:38.7120615Z Nested mountpoint 
+2026-02-15T19:19:48.2193872Z State: Starting, Action: CreatingContainer, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Finished pulling container image and mounting volumes for options-scanner-frontend-2exk6s. Allocatinng the rest of the container resources to finish container creation., DetailsLevel: INFO
+2026-02-15T19:19:48.2267833Z Creating container.
+2026-02-15T19:19:48.2270700Z Creating pipes for streaming container io.
+2026-02-15T19:19:48.2272692Z Creating stdout named pipe at /podr/container/pipe/13505b51c2fd_options-scanner-frontend-2exk6s/stdout_f0668bfc33fe461ab824dab126cdb464.
+2026-02-15T19:19:48.2570733Z Successfully created stdout named pipe at: /podr/container/pipe/13505b51c2fd_options-scanner-frontend-2exk6s/stdout_f0668bfc33fe461ab824dab126cdb464.
+2026-02-15T19:19:48.2665154Z Opening named pipe /podr/container/pipe/13505b51c2fd_options-scanner-frontend-2exk6s/stdout_f0668bfc33fe461ab824dab126cdb464 for reading in non-blocking mode.
+2026-02-15T19:19:48.2749213Z Successfully opened named pipe: /podr/container/pipe/13505b51c2fd_options-scanner-frontend-2exk6s/stdout_f0668bfc33fe461ab824dab126cdb464.
+2026-02-15T19:19:48.2753432Z Successfully removed non-blocking flag from /podr/container/pipe/13505b51c2fd_options-scanner-frontend-2exk6s/stdout_f0668bfc33fe461ab824dab126cdb464.
+2026-02-15T19:19:48.2848627Z Creating stderr named pipe at /podr/container/pipe/13505b51c2fd_options-scanner-frontend-2exk6s/stderr_9e78457360e04df4af65bc0ba3417258.
+2026-02-15T19:19:48.3697836Z Successfully created stderr named pipe at: /podr/container/pipe/13505b51c2fd_options-scanner-frontend-2exk6s/stderr_9e78457360e04df4af65bc0ba3417258.
+2026-02-15T19:19:48.3722033Z Opening named pipe /podr/container/pipe/13505b51c2fd_options-scanner-frontend-2exk6s/stderr_9e78457360e04df4af65bc0ba3417258 for reading in non-blocking mode.
+2026-02-15T19:19:48.4084481Z Successfully opened named pipe: /podr/container/pipe/13505b51c2fd_options-scanner-frontend-2exk6s/stderr_9e78457360e04df4af65bc0ba3417258.
+2026-02-15T19:19:48.4463325Z Successfully removed non-blocking flag from /podr/container/pipe/13505b51c2fd_options-scanner-frontend-2exk6s/stderr_9e78457360e04df4af65bc0ba3417258.
+2026-02-15T19:19:48.4478771Z Creating container with image: appsvc/node:20-lts_20260115.4.tuxprod from registry: 10.1.0.4:13209 and fully qualified image name: 10.1.0.4:13209/appsvc/node:20-lts_20260115.4.tuxprod
+2026-02-15T19:19:50.3757437Z Starting container: 13505b51c2fd_options-scanner-frontend-2exk6s.
+2026-02-15T19:19:50.8031136Z Starting watchers and probes.
+2026-02-15T19:19:50.8321136Z Starting metrics collection.
+2026-02-15T19:19:50.8327459Z Container is running.
+2026-02-15T19:19:50.8329373Z State: Starting, Action: CreatingContainer, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Container options-scanner-frontend-2exk6s successfully created and is running., DetailsLevel: INFO
+2026-02-15T19:19:51.5637204Z Container start method finished after 14811 ms.
+2026-02-15T19:19:51.5819211Z State: Starting, Action: InitiatingSiteWarmUpProbe, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Container options-scanner-frontend-2exk6s successfully created and is running., DetailsLevel: INFO
+2026-02-15T19:19:51.6009868Z State: Starting, Action: WaitingForSiteWarmUpProbeSuccess, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: INFO
+2026-02-15T19:23:41.9629037Z Site startup probe failed after 230.1331868 seconds.
+2026-02-15T19:23:44.4181145Z State: Starting, Action: WaitingForSiteWarmUpProbeSuccess, LastError: ContainerTimeout, LastErrorTimestamp: 02/15/2026 19:23:44, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: ERR
+2026-02-15T19:23:44.6926575Z Failed to start site. Revert by stopping site.
+2026-02-15T19:23:45.6297270Z State: Stopping, Action: StoppingSite, LastError: ContainerTimeout, LastErrorTimestamp: 02/15/2026 19:23:44, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: ERR
+2026-02-15T19:23:45.9703650Z State: Stopping, Action: StoppingSiteContainers, LastError: ContainerTimeout, LastErrorTimestamp: 02/15/2026 19:23:44, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: ERR
+2026-02-15T19:23:46.2237674Z Container is terminating. Grace period: 5 seconds.
+2026-02-15T19:23:46.8222940Z Stop and delete container. Retry count = 0
+2026-02-15T19:23:46.8325313Z Stopping container: 13505b51c2fd_options-scanner-frontend-2exk6s.
+2026-02-15T19:23:55.0670236Z Deleting container: 13505b51c2fd_options-scanner-frontend-2exk6s. Retry count = 0
+2026-02-15T19:23:56.5213430Z Container get mounts received unexpected exception.
+2026-02-15T19:23:56.7404422Z Container get mounts received unexpected exception.
+2026-02-15T19:23:56.7804105Z Container get processes received unexpected exception.
+2026-02-15T19:23:57.2872064Z Container get processes received unexpected exception.
+2026-02-15T19:23:57.7451416Z Container spec TerminationMessagePolicy  path 
+2026-02-15T19:23:57.7837851Z Container is terminated. Total time elapsed: 11550 ms.
+2026-02-15T19:23:57.7860440Z Site container: options-scanner-frontend-2exk6s terminated during site startup.
+2026-02-15T19:23:57.8128049Z State: Stopping, Action: CancellingStartup, LastError: ContainerTimeout, LastErrorTimestamp: 02/15/2026 19:23:44, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: options-scanner-frontend-2exk6s terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-02-15T19:23:57.9443470Z Site: options-scanner-frontend-2exk6s stopped.
+2026-02-15T20:08:25.289Z INFO  - Pulling image: mcr.microsoft.com/appsvc/middleware:stage2
+-15T19:24:31.068Z INFO  - 708274aafe49 Pulling fs layer
+2026-02-15T19:24:31.096Z INFO  - 171283debaf8 Pulling fs layer
+2026-02-15T19:24:31.106Z INFO  - c759901ec9bc Pulling fs layer
+2026-02-15T19:24:31.107Z INFO  - 05498c6eb463 Pulling fs layer
+2026-02-15T19:24:31.206Z INFO  - 777014c51184 Pulling fs layer
+2026-02-15T19:24:31.206Z INFO  - 873fa1b5bf09 Pulling fs layer
+2026-02-15T19:24:31.310Z INFO  - 41e943b0c053 Pulling fs layer
+2026-02-15T19:24:31.319Z INFO  - d7d47574d30e Pulling fs layer
+2026-02-15T19:24:31.326Z INFO  - b33cbd4fc846 Pulling fs layer
+2026-02-15T19:24:31.326Z INFO  - b3949c436654 Pulling fs layer
+2026-02-15T19:24:31.326Z INFO  - 1a7e32eec392 Pulling fs layer
+2026-02-15T19:24:31.326Z INFO  - b3d422f69a81 Pulling fs layer
+2026-02-15T19:24:31.326Z INFO  - b92b015876f3 Pulling fs layer
+2026-02-15T19:24:31.326Z INFO  - 536462d09103 Pulling fs layer
+2026-02-15T19:24:31.326Z INFO  - 7a8ec07190fc Pulling fs layer
+2026-02-15T19:24:31.326Z INFO  - 6fa208c185d4 Pulling fs layer
+2026-02-15T19:24:31.326Z INFO  - d1e9bb8c5b98 Pulling fs layer
+2026-02-15T19:24:31.326Z INFO  - 9d6960ead04b Pulling fs layer
+2026-02-15T19:24:31.327Z INFO  - 4f4fb700ef54 Pulling fs layer
+2026-02-15T19:24:31.327Z INFO  - ec258ce17fda Pulling fs layer
+2026-02-15T19:24:31.327Z INFO  - d46933934862 Pulling fs layer
+2026-02-15T19:24:31.327Z INFO  - 9e3ef46f1f81 Pulling fs layer
+2026-02-15T19:24:31.397Z INFO  - d46933934862 Waiting
+2026-02-15T19:24:31.405Z INFO  - 9e3ef46f1f81 Waiting
+2026-02-15T19:24:31.676Z INFO  - a6d6d210f8f9 Pulling fs layer
+2026-02-15T19:24:31.676Z INFO  - f5f6fbc3bff2 Pulling fs layer
+2026-02-15T19:24:31.676Z INFO  - 7271bf59cee4 Pulling fs layer
+2026-02-15T19:24:31.676Z INFO  - b8821fe77c7f Pulling fs layer
+2026-02-15T19:24:31.819Z INFO  - 5383a2add74c Pulling fs layer
+2026-02-15T19:24:31.819Z INFO  - 7e0b6dacd52b Pulling fs layer
+2026-02-15T19:24:31.819Z INFO  - dbaf98cc16fe Pulling fs layer
+2026-02-15T19:24:31.819Z INFO  - bd37128355ec Pulling fs layer
+2026-02-15T19:24:31.819Z INFO  - 6be0415226d0 Pulling fs layer
+2026-02-15T19:24:31.819Z INFO  - 4bc8fc64d74e Pulling fs layer
+2026-02-15T19:24:31.819Z INFO  - 3e9befd00248 Pulling fs layer
+2026-02-15T19:24:31.819Z INFO  - a6d6d210f8f9 Waiting
+2026-02-15T19:24:31.819Z INFO  - f5f6fbc3bff2 Waiting
+2026-02-15T19:24:31.819Z INFO  - 7271bf59cee4 Waiting
+2026-02-15T19:24:31.819Z INFO  - b8821fe77c7f Waiting
+2026-02-15T19:24:31.819Z INFO  - 5383a2add74c Waiting
+2026-02-15T19:24:31.819Z INFO  - 7e0b6dacd52b Waiting
+2026-02-15T19:24:31.820Z INFO  - dbaf98cc16fe Waiting
+2026-02-15T19:24:31.820Z INFO  - bd37128355ec Waiting
+2026-02-15T19:24:31.820Z INFO  - 6be0415226d0 Waiting
+2026-02-15T19:24:31.878Z INFO  - ff8568b880f6 Pulling fs layer
+2026-02-15T19:24:31.878Z INFO  - b7bc14a518f7 Pulling fs layer
+2026-02-15T19:24:31.878Z INFO  - 3e9befd00248 Waiting
+2026-02-15T19:24:31.878Z INFO  - 4bc8fc64d74e Waiting
+2026-02-15T19:24:31.878Z INFO  - ff8568b880f6 Waiting
+2026-02-15T19:24:32.023Z INFO  - c4474be6e27e Pulling fs layer
+2026-02-15T19:24:32.023Z INFO  - a288251fa543 Pulling fs layer
+2026-02-15T19:24:32.023Z INFO  - 2fa0b9ca0508 Pulling fs layer
+2026-02-15T19:24:32.023Z INFO  - b6588f6e2913 Pulling fs layer
+2026-02-15T19:24:32.023Z INFO  - 14877b021626 Pulling fs layer
+2026-02-15T19:24:32.023Z INFO  - b7bc14a518f7 Waiting
+2026-02-15T19:24:32.023Z INFO  - c4474be6e27e Waiting
+2026-02-15T19:24:32.024Z INFO  - a288251fa543 Waiting
+2026-02-15T19:24:32.024Z INFO  - 2fa0b9ca0508 Waiting
+2026-02-15T19:24:32.024Z INFO  - b6588f6e2913 Waiting
+2026-02-15T19:24:32.024Z INFO  - 14877b021626 Waiting
+2026-02-15T19:24:32.072Z INFO  - 777014c51184 Downloading 131B / 131B
+2026-02-15T19:24:32.114Z INFO  - 873fa1b5bf09 Downloading 213KB / 213KB
+2026-02-15T19:24:32.134Z INFO  - 41e943b0c053 Downloading 2KB / 2KB
+2026-02-15T19:24:32.141Z INFO  - 05498c6eb463 Download complete
+2026-02-15T19:24:32.141Z INFO  - 777014c51184 Verifying Checksum
+2026-02-15T19:24:32.141Z INFO  - 777014c51184 Download complete
+2026-02-15T19:24:32.144Z INFO  - 873fa1b5bf09 Verifying Checksum
+2026-02-15T19:24:32.171Z INFO  - 873fa1b5bf09 Download complete
+2026-02-15T19:24:32.171Z INFO  - 41e943b0c053 Verifying Checksum
+2026-02-15T19:24:32.171Z INFO  - 41e943b0c053 Download complete
+2026-02-15T19:24:32.237Z INFO  - 171283debaf8 Downloading 822KB / 39MB
+2026-02-15T19:24:32.238Z INFO  - c759901ec9bc Downloading 188KB / 3MB
+2026-02-15T19:24:32.238Z INFO  - d1e9bb8c5b98 Downloading 35KB / 1MB
+2026-02-15T19:24:32.240Z INFO  - b3949c436654 Downloading 35KB / 1MB
+2026-02-15T19:24:32.267Z INFO  - b3d422f69a81 Downloading 3KB / 12KB
+2026-02-15T19:24:32.315Z INFO  - 6fa208c185d4 Downloading 35KB / 1MB
+2026-02-15T19:24:32.328Z INFO  - 9d6960ead04b Downloading 3KB / 3KB
+2026-02-15T19:24:32.355Z INFO  - 4f4fb700ef54 Downloading 32B / 32B
+2026-02-15T19:24:32.355Z INFO  - b33cbd4fc846 Downloading 186B / 186B
+2026-02-15T19:24:32.401Z INFO  - 536462d09103 Downloading 131KB / 282KB
+2026-02-15T19:24:32.409Z INFO  - 1a7e32eec392 Downloading 39KB / 39KB
+2026-02-15T19:24:32.569Z INFO  - d7d47574d30e Downloading 99KB / 347KB
+2026-02-15T19:24:32.578Z INFO  - b3d422f69a81 Downloading 12KB / 12KB
+2026-02-15T19:24:32.579Z INFO  - b92b015876f3 Downloading 14KB / 14KB
+2026-02-15T19:24:32.579Z INFO  - 7a8ec07190fc Downloading 10KB / 10KB
+2026-02-15T19:24:32.579Z INFO  - 9d6960ead04b Verifying Checksum
+2026-02-15T19:24:32.579Z INFO  - 9d6960ead04b Download complete
+2026-02-15T19:24:32.579Z INFO  - 4f4fb700ef54 Verifying Checksum
+2026-02-15T19:24:32.579Z INFO  - 4f4fb700ef54 Download complete
+2026-02-15T19:24:32.579Z INFO  - b33cbd4fc846 Verifying Checksum
+2026-02-15T19:24:32.579Z INFO  - b33cbd4fc846 Download complete
+2026-02-15T19:24:32.579Z INFO  - 1a7e32eec392 Verifying Checksum
+2026-02-15T19:24:32.579Z INFO  - 1a7e32eec392 Download complete
+2026-02-15T19:24:32.579Z INFO  - b3d422f69a81 Verifying Checksum
+2026-02-15T19:24:32.579Z INFO  - b3d422f69a81 Download complete
+2026-02-15T19:24:32.696Z INFO  - b92b015876f3 Verifying Checksum
+2026-02-15T19:24:32.706Z INFO  - b92b015876f3 Download complete
+2026-02-15T19:24:32.714Z INFO  - 7a8ec07190fc Verifying Checksum
+2026-02-15T19:24:32.714Z INFO  - 7a8ec07190fc Download complete
+2026-02-15T19:24:32.714Z INFO  - d1e9bb8c5b98 Downloading 146KB / 1MB
+2026-02-15T19:24:32.714Z INFO  - 536462d09103 Downloading 227KB / 282KB
+2026-02-15T19:24:32.714Z INFO  - 536462d09103 Downloading 282KB / 282KB
+2026-02-15T19:24:32.714Z INFO  - d7d47574d30e Downloading 323KB / 347KB
+2026-02-15T19:24:32.714Z INFO  - d7d47574d30e Downloading 347KB / 347KB
+2026-02-15T19:24:32.714Z INFO  - d1e9bb8c5b98 Downloading 178KB / 1MB
+2026-02-15T19:24:32.714Z INFO  - f5f6fbc3bff2 Downloading 947B / 947B
+2026-02-15T19:24:32.714Z INFO  - 536462d09103 Verifying Checksum
+2026-02-15T19:24:32.714Z INFO  - 536462d09103 Download complete
+2026-02-15T19:24:32.714Z INFO  - d7d47574d30e Verifying Checksum
+2026-02-15T19:24:32.714Z INFO  - d7d47574d30e Download complete
+2026-02-15T19:24:32.714Z INFO  - f5f6fbc3bff2 Verifying Checksum
+2026-02-15T19:24:32.714Z INFO  - f5f6fbc3bff2 Download complete
+2026-02-15T19:24:32.773Z INFO  - b3949c436654 Downloading 259KB / 1MB
+2026-02-15T19:24:32.773Z INFO  - 6be0415226d0 Downloading 150B / 150B
+2026-02-15T19:24:32.773Z INFO  - 7271bf59cee4 Downloading 1KB / 1KB
+2026-02-15T19:24:32.812Z INFO  - 6be0415226d0 Verifying Checksum
+2026-02-15T19:24:32.812Z INFO  - 6be0415226d0 Download complete
+2026-02-15T19:24:32.812Z INFO  - 7271bf59cee4 Verifying Checksum
+2026-02-15T19:24:32.812Z INFO  - 7271bf59cee4 Download complete
+2026-02-15T19:24:33.396Z INFO  - b3949c436654 Downloading 739KB / 1MB
+2026-02-15T19:24:33.399Z INFO  - d1e9bb8c5b98 Downloading 466KB / 1MB
+2026-02-15T19:24:33.399Z INFO  - ec258ce17fda Downloading 955KB / 44MB
+2026-02-15T19:24:33.399Z INFO  - 4bc8fc64d74e Downloading 3KB / 13KB
+2026-02-15T19:24:33.399Z INFO  - 7e0b6dacd52b Downloading 1KB / 1KB
+2026-02-15T19:24:33.399Z INFO  - b8821fe77c7f Downloading 137B / 137B
+2026-02-15T19:24:33.399Z INFO  - dbaf98cc16fe Downloading 1KB / 1KB
+2026-02-15T19:24:33.448Z INFO  - 4bc8fc64d74e Downloading 13KB / 13KB
+2026-02-15T19:24:33.456Z INFO  - 7e0b6dacd52b Verifying Checksum
+2026-02-15T19:24:33.456Z INFO  - 7e0b6dacd52b Download complete
+2026-02-15T19:24:33.466Z INFO  - b8821fe77c7f Verifying Checksum
+2026-02-15T19:24:33.475Z INFO  - b8821fe77c7f Download complete
+2026-02-15T19:24:33.475Z INFO  - dbaf98cc16fe Verifying Checksum
+2026-02-15T19:24:33.475Z INFO  - dbaf98cc16fe Download complete
+2026-02-15T19:24:33.475Z INFO  - 4bc8fc64d74e Verifying Checksum
+2026-02-15T19:24:33.475Z INFO  - 4bc8fc64d74e Download complete
+2026-02-15T19:24:34.190Z INFO  - 171283debaf8 Downloading 1MB / 39MB
+2026-02-15T19:24:34.716Z INFO  - ff8568b880f6 Downloading 271B / 271B
+2026-02-15T19:24:34.716Z INFO  - bd37128355ec Verifying Checksum
+2026-02-15T19:24:34.743Z INFO  - 3e9befd00248 Downloading 1KB / 1KB
+2026-02-15T19:24:34.743Z INFO  - b3949c436654 Verifying Checksum
+2026-02-15T19:24:34.744Z INFO  - b3949c436654 Download complete
+2026-02-15T19:24:34.744Z INFO  - ff8568b880f6 Verifying Checksum
+2026-02-15T19:24:34.744Z INFO  - ff8568b880f6 Download complete
+2026-02-15T19:24:34.744Z INFO  - 3e9befd00248 Verifying Checksum
+2026-02-15T19:24:34.744Z INFO  - 3e9befd00248 Download complete
+2026-02-15T19:24:34.744Z INFO  - 9e3ef46f1f81 Downloading 451KB / 20MB
+2026-02-15T19:24:34.744Z INFO  - 708274aafe49 Downloading 963KB / 46MB
+2026-02-15T19:24:34.744Z INFO  - bd37128355ec Download complete
+2026-02-15T19:24:34.746Z INFO  - d1e9bb8c5b98 Downloading 1MB / 1MB
+2026-02-15T19:24:34.746Z INFO  - c4474be6e27e Downloading 125B / 125B
+2026-02-15T19:24:34.746Z INFO  - 2fa0b9ca0508 Downloading 1KB / 1KB
+2026-02-15T19:24:34.746Z INFO  - c4474be6e27e Verifying Checksum
+2026-02-15T19:24:34.746Z INFO  - c4474be6e27e Download complete
+2026-02-15T19:24:34.746Z INFO  - 2fa0b9ca0508 Verifying Checksum
+2026-02-15T19:24:34.746Z INFO  - 2fa0b9ca0508 Download complete
+2026-02-15T19:24:34.746Z INFO  - a6d6d210f8f9 Downloading 1MB / 6MB
+2026-02-15T19:24:34.747Z INFO  - d1e9bb8c5b98 Downloading 1MB / 1MB
+2026-02-15T19:24:34.747Z INFO  - a288251fa543 Downloading 418B / 418B
+2026-02-15T19:24:34.747Z INFO  - 14877b021626 Downloading 133B / 133B
+2026-02-15T19:24:34.784Z INFO  - a288251fa543 Verifying Checksum
+2026-02-15T19:24:34.784Z INFO  - a288251fa543 Download complete
+2026-02-15T19:24:35.068Z INFO  - d1e9bb8c5b98 Verifying Checksum
+2026-02-15T19:24:35.069Z INFO  - d1e9bb8c5b98 Download complete
+2026-02-15T19:24:35.069Z INFO  - 14877b021626 Verifying Checksum
+2026-02-15T19:24:35.069Z INFO  - 14877b021626 Download complete
+2026-02-15T19:24:35.069Z INFO  - b7bc14a518f7 Downloading 270B / 270B
+2026-02-15T19:24:35.069Z INFO  - 6fa208c185d4 Download complete
+2026-02-15T19:24:35.069Z INFO  - b7bc14a518f7 Verifying Checksum
+2026-02-15T19:24:35.069Z INFO  - b7bc14a518f7 Download complete
+2026-02-15T19:24:35.069Z INFO  - c759901ec9bc Downloading 1MB / 3MB
+2026-02-15T19:24:35.069Z INFO  - 171283debaf8 Downloading 2MB / 39MB
+2026-02-15T19:24:35.119Z INFO  - b6588f6e2913 Downloading 611KB / 2MB
+2026-02-15T19:24:35.284Z INFO  - c759901ec9bc Downloading 2MB / 3MB
+2026-02-15T19:24:35.352Z INFO  - ec258ce17fda Downloading 1MB / 44MB
+2026-02-15T19:24:35.412Z INFO  - 9e3ef46f1f81 Downloading 1MB / 20MB
+2026-02-15T19:24:35.561Z INFO  - 5383a2add74c Downloading 1MB / 67MB
+2026-02-15T19:24:35.580Z INFO  - b6588f6e2913 Downloading 835KB / 2MB
+2026-02-15T19:24:35.580Z INFO  - c759901ec9bc Downloading 2MB / 3MB
+2026-02-15T19:24:35.635Z INFO  - d46933934862 Downloading 963KB / 46MB
+2026-02-15T19:24:35.658Z INFO  - b6588f6e2913 Downloading 995KB / 2MB
+2026-02-15T19:24:35.753Z INFO  - a6d6d210f8f9 Downloading 2MB / 6MB
+2026-02-15T19:24:35.754Z INFO  - 9e3ef46f1f81 Downloading 2MB / 20MB
+2026-02-15T19:24:35.754Z INFO  - ec258ce17fda Downloading 2MB / 44MB
+2026-02-15T19:24:35.804Z INFO  - 708274aafe49 Downloading 1MB / 46MB
+2026-02-15T19:24:36.029Z INFO  - a6d6d210f8f9 Downloading 2MB / 6MB
+2026-02-15T19:24:36.030Z INFO  - c759901ec9bc Downloading 2MB / 3MB
+2026-02-15T19:24:36.137Z INFO  - a6d6d210f8f9 Downloading 2MB / 6MB
+2026-02-15T19:24:36.458Z INFO  - c759901ec9bc Downloading 2MB / 3MB
+2026-02-15T19:24:36.545Z INFO  - a6d6d210f8f9 Downloading 3MB / 6MB
+2026-02-15T19:24:36.678Z INFO  - 708274aafe49 Downloading 2MB / 46MB
+2026-02-15T19:24:36.995Z INFO  - d46933934862 Downloading 1MB / 46MB
+2026-02-15T19:24:36.995Z INFO  - c759901ec9bc Downloading 3MB / 3MB
+2026-02-15T19:24:36.995Z INFO  - a6d6d210f8f9 Downloading 3MB / 6MB
+2026-02-15T19:24:36.995Z INFO  - 171283debaf8 Downloading 3MB / 39MB
+2026-02-15T19:24:36.995Z INFO  - 5383a2add74c Downloading 3MB / 67MB
+2026-02-15T19:24:37.007Z INFO  - b6588f6e2913 Downloading 1MB / 2MB
+2026-02-15T19:24:37.014Z INFO  - 9e3ef46f1f81 Downloading 2MB / 20MB
+2026-02-15T19:24:37.145Z INFO  - b6588f6e2913 Downloading 1MB / 2MB
+2026-02-15T19:24:37.424Z INFO  - 171283debaf8 Downloading 4MB / 39MB
+2026-02-15T19:24:37.424Z INFO  - 9e3ef46f1f81 Downloading 3MB / 20MB
+2026-02-15T19:24:37.424Z INFO  - a6d6d210f8f9 Downloading 3MB / 6MB
+2026-02-15T19:24:37.425Z INFO  - c759901ec9bc Downloading 3MB / 3MB
+2026-02-15T19:24:37.660Z INFO  - 9e3ef46f1f81 Downloading 3MB / 20MB
+2026-02-15T19:24:37.703Z INFO  - d46933934862 Downloading 2MB / 46MB
+2026-02-15T19:24:37.813Z INFO  - ec258ce17fda Downloading 3MB / 44MB
+2026-02-15T19:24:37.902Z INFO  - a6d6d210f8f9 Downloading 4MB / 6MB
+2026-02-15T19:24:37.902Z INFO  - 708274aafe49 Downloading 3MB / 46MB
+2026-02-15T19:24:37.911Z INFO  - b6588f6e2913 Verifying Checksum
+2026-02-15T19:24:37.919Z INFO  - b6588f6e2913 Download complete
+2026-02-15T19:24:37.980Z INFO  - a6d6d210f8f9 Downloading 4MB / 6MB
+2026-02-15T19:24:38.077Z INFO  - a6d6d210f8f9 Downloading 4MB / 6MB
+2026-02-15T19:24:38.276Z INFO  - 5383a2add74c Downloading 4MB / 67MB
+2026-02-15T19:24:38.277Z INFO  - c759901ec9bc Download complete
+2026-02-15T19:24:38.633Z INFO  - d46933934862 Downloading 3MB / 46MB
+2026-02-15T19:24:38.634Z INFO  - a6d6d210f8f9 Downloading 4MB / 6MB
+2026-02-15T19:24:38.924Z INFO  - 171283debaf8 Downloading 4MB / 39MB
+2026-02-15T19:24:38.926Z INFO  - a6d6d210f8f9 Downloading 5MB / 6MB
+2026-02-15T19:24:39.241Z INFO  - ec258ce17fda Downloading 4MB / 44MB
+2026-02-15T19:24:39.250Z INFO  - 9e3ef46f1f81 Downloading 4MB / 20MB
+2026-02-15T19:24:39.252Z INFO  - 708274aafe49 Downloading 4MB / 46MB
+2026-02-15T19:24:39.320Z INFO  - a6d6d210f8f9 Downloading 5MB / 6MB
+2026-02-15T19:24:39.972Z INFO  - a6d6d210f8f9 Downloading 5MB / 6MB
+2026-02-15T19:24:40.060Z INFO  - 171283debaf8 Downloading 5MB / 39MB
+2026-02-15T19:24:40.061Z INFO  - 9e3ef46f1f81 Downloading 4MB / 20MB
+2026-02-15T19:24:40.121Z INFO  - a6d6d210f8f9 Downloading 5MB / 6MB
+2026-02-15T19:24:40.285Z INFO  - 708274aafe49 Downloading 5MB / 46MB
+2026-02-15T19:24:40.503Z INFO  - 9e3ef46f1f81 Downloading 5MB / 20MB
+2026-02-15T19:24:40.672Z INFO  - a6d6d210f8f9 Downloading 5MB / 6MB
+2026-02-15T19:24:40.672Z INFO  - d46933934862 Downloading 4MB / 46MB
+2026-02-15T19:24:40.672Z INFO  - ec258ce17fda Downloading 5MB / 44MB
+2026-02-15T19:24:40.721Z INFO  - a6d6d210f8f9 Verifying Checksum
+2026-02-15T19:24:40.721Z INFO  - a6d6d210f8f9 Download complete
+2026-02-15T19:24:40.826Z INFO  - 708274aafe49 Downloading 6MB / 46MB
+2026-02-15T19:24:40.928Z INFO  - 5383a2add74c Downloading 5MB / 67MB
+2026-02-15T19:24:40.928Z INFO  - 9e3ef46f1f81 Downloading 5MB / 20MB
+2026-02-15T19:24:40.987Z INFO  - 171283debaf8 Downloading 6MB / 39MB
+2026-02-15T19:24:41.064Z INFO  - 708274aafe49 Downloading 7MB / 46MB
+2026-02-15T19:24:41.272Z INFO  - 9e3ef46f1f81 Downloading 5MB / 20MB
+2026-02-15T19:24:41.672Z INFO  - ec258ce17fda Downloading 6MB / 44MB
+2026-02-15T19:24:41.690Z INFO  - 9e3ef46f1f81 Downloading 6MB / 20MB
+2026-02-15T19:24:41.690Z INFO  - 171283debaf8 Downloading 7MB / 39MB
+2026-02-15T19:24:41.728Z INFO  - d46933934862 Downloading 5MB / 46MB
+2026-02-15T19:24:41.728Z INFO  - 708274aafe49 Downloading 8MB / 46MB
+2026-02-15T19:24:42.036Z INFO  - 9e3ef46f1f81 Downloading 6MB / 20MB
+2026-02-15T19:24:42.036Z INFO  - 5383a2add74c Downloading 6MB / 67MB
+2026-02-15T19:24:42.160Z INFO  - 9e3ef46f1f81 Downloading 7MB / 20MB
+2026-02-15T19:24:42.236Z INFO  - d46933934862 Downloading 6MB / 46MB
+2026-02-15T19:24:42.419Z INFO  - ec258ce17fda Downloading 7MB / 44MB
+2026-02-15T19:24:42.420Z INFO  - 171283debaf8 Downloading 8MB / 39MB
+2026-02-15T19:24:42.577Z INFO  - 9e3ef46f1f81 Downloading 7MB / 20MB
+2026-02-15T19:24:42.696Z INFO  - 708274aafe49 Downloading 9MB / 46MB
+2026-02-15T19:24:42.746Z INFO  - ec258ce17fda Downloading 8MB / 44MB
+2026-02-15T19:24:43.080Z INFO  - 9e3ef46f1f81 Downloading 8MB / 20MB
+2026-02-15T19:24:43.120Z INFO  - d46933934862 Downloading 7MB / 46MB
+2026-02-15T19:24:43.304Z INFO  - 171283debaf8 Downloading 8MB / 39MB
+2026-02-15T19:24:43.404Z INFO  - 5383a2add74c Downloading 8MB / 67MB
+2026-02-15T19:24:43.684Z INFO  - 9e3ef46f1f81 Downloading 8MB / 20MB
+2026-02-15T19:24:43.684Z INFO  - 708274aafe49 Downloading 10MB / 46MB
+2026-02-15T19:24:44.580Z INFO  - ec258ce17fda Downloading 9MB / 44MB
+2026-02-15T19:24:44.995Z INFO  - 171283debaf8 Downloading 9MB / 39MB
+2026-02-15T19:24:45.564Z INFO  - 9e3ef46f1f81 Downloading 9MB / 20MB
+2026-02-15T19:24:45.564Z INFO  - d46933934862 Downloading 8MB / 46MB
+2026-02-15T19:24:45.565Z INFO  - ec258ce17fda Downloading 10MB / 44MB
+2026-02-15T19:24:45.565Z INFO  - 708274aafe49 Downloading 11MB / 46MB
+2026-02-15T19:24:45.673Z INFO  - 171283debaf8 Downloading 10MB / 39MB
+2026-02-15T19:24:45.719Z INFO  - 5383a2add74c Downloading 9MB / 67MB
+2026-02-15T19:24:46.248Z INFO  - 5383a2add74c Downloading 10MB / 67MB
+2026-02-15T19:24:46.328Z INFO  - 9e3ef46f1f81 Downloading 9MB / 20MB
+2026-02-15T19:24:46.595Z INFO  - d46933934862 Downloading 9MB / 46MB
+2026-02-15T19:24:46.673Z INFO  - 9e3ef46f1f81 Downloading 10MB / 20MB
+2026-02-15T19:24:46.673Z INFO  - 708274aafe49 Downloading 12MB / 46MB
+2026-02-15T19:24:46.859Z INFO  - ec258ce17fda Downloading 11MB / 44MB
+2026-02-15T19:24:47.042Z INFO  - 9e3ef46f1f81 Downloading 10MB / 20MB
+2026-02-15T19:24:47.121Z INFO  - 9e3ef46f1f81 Downloading 10MB / 20MB
+2026-02-15T19:24:47.185Z INFO  - 5383a2add74c Downloading 11MB / 67MB
+2026-02-15T19:24:47.185Z INFO  - d46933934862 Downloading 10MB / 46MB
+2026-02-15T19:24:47.688Z INFO  - ec258ce17fda Downloading 12MB / 44MB
+2026-02-15T19:24:47.688Z INFO  - 171283debaf8 Downloading 12MB / 39MB
+2026-02-15T19:24:47.688Z INFO  - 9e3ef46f1f81 Downloading 11MB / 20MB
+2026-02-15T19:24:48.287Z INFO  - ec258ce17fda Downloading 13MB / 44MB
+2026-02-15T19:24:48.287Z INFO  - 708274aafe49 Downloading 13MB / 46MB
+2026-02-15T19:24:48.593Z INFO  - d46933934862 Downloading 11MB / 46MB
+2026-02-15T19:24:48.663Z INFO  - 171283debaf8 Downloading 12MB / 39MB
+2026-02-15T19:24:48.867Z INFO  - 9e3ef46f1f81 Downloading 12MB / 20MB
+2026-02-15T19:24:48.867Z INFO  - 708274aafe49 Downloading 14MB / 46MB
+2026-02-15T19:24:49.772Z INFO  - 5383a2add74c Downloading 12MB / 67MB
+2026-02-15T19:24:49.827Z INFO  - ec258ce17fda Downloading 14MB / 44MB
+2026-02-15T19:24:49.878Z INFO  - 9e3ef46f1f81 Downloading 12MB / 20MB
+2026-02-15T19:24:50.195Z INFO  - 171283debaf8 Downloading 13MB / 39MB
+2026-02-15T19:24:50.249Z INFO  - d46933934862 Downloading 12MB / 46MB
+2026-02-15T19:24:50.281Z INFO  - 708274aafe49 Downloading 15MB / 46MB
+2026-02-15T19:24:50.415Z INFO  - ec258ce17fda Downloading 15MB / 44MB
+2026-02-15T19:24:50.548Z INFO  - 9e3ef46f1f81 Downloading 12MB / 20MB
+2026-02-15T19:24:51.535Z INFO  - 9e3ef46f1f81 Downloading 13MB / 20MB
+2026-02-15T19:24:51.860Z INFO  - 5383a2add74c Downloading 12MB / 67MB
+2026-02-15T19:24:52.516Z INFO  - 171283debaf8 Downloading 14MB / 39MB
+2026-02-15T19:24:52.883Z INFO  - d46933934862 Downloading 13MB / 46MB
+2026-02-15T19:24:53.951Z INFO  - ec258ce17fda Downloading 16MB / 44MB
+2026-02-15T19:24:54.036Z INFO  - 9e3ef46f1f81 Downloading 13MB / 20MB
+2026-02-15T19:24:54.085Z INFO  - 171283debaf8 Downloading 15MB / 39MB
+2026-02-15T19:24:54.148Z INFO  - d46933934862 Downloading 14MB / 46MB
+2026-02-15T19:24:54.462Z INFO  - 5383a2add74c Downloading 13MB / 67MB
+2026-02-15T19:24:54.463Z INFO  - 9e3ef46f1f81 Downloading 14MB / 20MB
+2026-02-15T19:24:54.463Z INFO  - 708274aafe49 Downloading 15MB / 46MB
+2026-02-15T19:24:55.124Z INFO  - 171283debaf8 Downloading 16MB / 39MB
+2026-02-15T19:24:55.775Z INFO  - d46933934862 Downloading 15MB / 46MB
+2026-02-15T19:24:55.864Z INFO  - 9e3ef46f1f81 Downloading 14MB / 20MB
+2026-02-15T19:24:56.151Z INFO  - ec258ce17fda Downloading 17MB / 44MB
+2026-02-15T19:24:56.320Z INFO  - 171283debaf8 Downloading 17MB / 39MB
+2026-02-15T19:24:56.320Z INFO  - 708274aafe49 Downloading 16MB / 46MB
+2026-02-15T19:24:56.919Z INFO  - 9e3ef46f1f81 Downloading 15MB / 20MB
+2026-02-15T19:24:56.920Z INFO  - 5383a2add74c Downloading 14MB / 67MB
+2026-02-15T19:24:56.987Z INFO  - 708274aafe49 Downloading 17MB / 46MB
+2026-02-15T19:24:57.097Z INFO  - 5383a2add74c Downloading 15MB / 67MB
+2026-02-15T19:24:57.383Z INFO  - ec258ce17fda Downloading 18MB / 44MB
+2026-02-15T19:24:57.433Z INFO  - d46933934862 Downloading 15MB / 46MB
+2026-02-15T19:24:58.023Z INFO  - 171283debaf8 Downloading 18MB / 39MB
+2026-02-15T19:24:58.181Z INFO  - 5383a2add74c Downloading 16MB / 67MB
+2026-02-15T19:24:58.793Z INFO  - 9e3ef46f1f81 Downloading 15MB / 20MB
+2026-02-15T19:24:59.194Z INFO  - d46933934862 Downloading 16MB / 46MB
+2026-02-15T19:24:59.334Z INFO  - 708274aafe49 Downloading 18MB / 46MB
+2026-02-15T19:24:59.441Z INFO  - ec258ce17fda Downloading 19MB / 44MB
+2026-02-15T19:25:00.607Z INFO  - 171283debaf8 Downloading 19MB / 39MB
+2026-02-15T19:25:01.065Z INFO  - 5383a2add74c Downloading 17MB / 67MB
+2026-02-15T19:25:02.244Z INFO  - 9e3ef46f1f81 Downloading 16MB / 20MB
+2026-02-15T19:25:02.450Z INFO  - 5383a2add74c Downloading 18MB / 67MB
+2026-02-15T19:25:02.451Z INFO  - ec258ce17fda Downloading 20MB / 44MB
+2026-02-15T19:25:02.529Z INFO  - d46933934862 Downloading 17MB / 46MB
+2026-02-15T19:25:02.655Z INFO  - 708274aafe49 Downloading 19MB / 46MB
+2026-02-15T19:25:03.725Z INFO  - 9e3ef46f1f81 Downloading 16MB / 20MB
+2026-02-15T19:25:04.144Z INFO  - 171283debaf8 Downloading 19MB / 39MB
+2026-02-15T19:25:04.236Z INFO  - 9e3ef46f1f81 Downloading 17MB / 20MB
+2026-02-15T19:25:05.042Z INFO  - 171283debaf8 Downloading 20MB / 39MB
+2026-02-15T19:25:05.220Z INFO  - 5383a2add74c Downloading 19MB / 67MB
+2026-02-15T19:25:05.648Z INFO  - ec258ce17fda Downloading 21MB / 44MB
+2026-02-15T19:25:05.912Z INFO  - 9e3ef46f1f81 Downloading 17MB / 20MB
+2026-02-15T19:25:06.332Z INFO  - ec258ce17fda Downloading 21MB / 44MB
+2026-02-15T19:25:06.332Z INFO  - d46933934862 Downloading 18MB / 46MB
+2026-02-15T19:25:06.593Z INFO  - 171283debaf8 Downloading 21MB / 39MB
+2026-02-15T19:25:06.818Z INFO  - 5383a2add74c Downloading 20MB / 67MB
+2026-02-15T19:25:06.958Z INFO  - 9e3ef46f1f81 Downloading 17MB / 20MB
+2026-02-15T19:25:08.352Z INFO  - 708274aafe49 Downloading 20MB / 46MB
+2026-02-15T19:25:08.736Z INFO  - 5383a2add74c Downloading 20MB / 67MB
+2026-02-15T19:25:09.182Z INFO  - 9e3ef46f1f81 Downloading 18MB / 20MB
+2026-02-15T19:25:09.380Z INFO  - d46933934862 Downloading 19MB / 46MB
+2026-02-15T19:25:09.493Z INFO  - ec258ce17fda Downloading 22MB / 44MB
+2026-02-15T19:25:09.676Z INFO  - 171283debaf8 Downloading 22MB / 39MB
+2026-02-15T19:25:09.891Z INFO  - 9e3ef46f1f81 Downloading 18MB / 20MB
+2026-02-15T19:25:11.767Z INFO  - 708274aafe49 Downloading 21MB / 46MB
+2026-02-15T19:25:12.052Z INFO  - 171283debaf8 Downloading 23MB / 39MB
+2026-02-15T19:25:12.052Z INFO  - 9e3ef46f1f81 Downloading 19MB / 20MB
+2026-02-15T19:25:12.590Z INFO  - 5383a2add74c Downloading 21MB / 67MB
+2026-02-15T19:25:12.689Z INFO  - 708274aafe49 Downloading 22MB / 46MB
+2026-02-15T19:25:12.865Z INFO  - 9e3ef46f1f81 Downloading 19MB / 20MB
+2026-02-15T19:25:13.164Z INFO  - d46933934862 Downloading 20MB / 46MB
+2026-02-15T19:25:13.308Z INFO  - 171283debaf8 Downloading 23MB / 39MB
+2026-02-15T19:25:13.367Z INFO  - ec258ce17fda Downloading 24MB / 44MB
+2026-02-15T19:25:13.583Z INFO  - 9e3ef46f1f81 Downloading 20MB / 20MB
+2026-02-15T19:25:13.671Z INFO  - 171283debaf8 Downloading 24MB / 39MB
+2026-02-15T19:25:14.302Z INFO  - 708274aafe49 Downloading 23MB / 46MB
+2026-02-15T19:25:14.729Z INFO  - 171283debaf8 Downloading 25MB / 39MB
+2026-02-15T19:25:14.932Z INFO  - d46933934862 Downloading 21MB / 46MB
+2026-02-15T19:25:14.942Z INFO  - 9e3ef46f1f81 Verifying Checksum
+2026-02-15T19:25:14.942Z INFO  - 9e3ef46f1f81 Download complete
+2026-02-15T19:25:15.323Z INFO  - 5383a2add74c Downloading 23MB / 67MB
+2026-02-15T19:25:15.782Z INFO  - ec258ce17fda Downloading 25MB / 44MB
+2026-02-15T19:25:15.880Z INFO  - 171283debaf8 Downloading 26MB / 39MB
+2026-02-15T19:25:15.988Z INFO  - 708274aafe49 Downloading 24MB / 46MB
+2026-02-15T19:25:16.322Z INFO  - d46933934862 Downloading 22MB / 46MB
+2026-02-15T19:25:16.796Z INFO  - 708274aafe49 Downloading 25MB / 46MB
+2026-02-15T19:25:16.901Z INFO  - ec258ce17fda Downloading 26MB / 44MB
+2026-02-15T19:25:17.004Z INFO  - 5383a2add74c Downloading 24MB / 67MB
+2026-02-15T19:25:17.688Z INFO  - 171283debaf8 Downloading 27MB / 39MB
+2026-02-15T19:25:19.639Z INFO  - 708274aafe49 Downloading 26MB / 46MB
+2026-02-15T19:25:19.639Z INFO  - ec258ce17fda Downloading 27MB / 44MB
+2026-02-15T19:25:19.639Z INFO  - d46933934862 Downloading 23MB / 46MB
+2026-02-15T19:25:20.290Z INFO  - 171283debaf8 Downloading 28MB / 39MB
+2026-02-15T19:25:21.012Z INFO  - 171283debaf8 Downloading 28MB / 39MB
+2026-02-15T19:25:21.137Z INFO  - 5383a2add74c Downloading 26MB / 67MB
+2026-02-15T19:25:21.424Z INFO  - d46933934862 Downloading 24MB / 46MB
+2026-02-15T19:25:21.777Z INFO  - ec258ce17fda Downloading 28MB / 44MB
+2026-02-15T19:25:21.778Z INFO  - 708274aafe49 Downloading 27MB / 46MB
+2026-02-15T19:25:22.186Z INFO  - 5383a2add74c Downloading 27MB / 67MB
+2026-02-15T19:25:22.352Z INFO  - 171283debaf8 Downloading 29MB / 39MB
+2026-02-15T19:25:23.326Z INFO  - ec258ce17fda Downloading 29MB / 44MB
+2026-02-15T19:25:23.906Z INFO  - 708274aafe49 Downloading 28MB / 46MB
+2026-02-15T19:25:24.323Z INFO  - d46933934862 Downloading 25MB / 46MB
+2026-02-15T19:25:24.748Z INFO  - 171283debaf8 Downloading 30MB / 39MB
+2026-02-15T19:25:25.790Z INFO  - ec258ce17fda Downloading 29MB / 44MB
+2026-02-15T19:25:25.967Z INFO  - d46933934862 Downloading 26MB / 46MB
+2026-02-15T19:25:26.840Z INFO  - 708274aafe49 Downloading 29MB / 46MB
+2026-02-15T19:25:27.628Z INFO  - d46933934862 Downloading 27MB / 46MB
+2026-02-15T19:25:27.925Z INFO  - 171283debaf8 Downloading 31MB / 39MB
+2026-02-15T19:25:28.308Z INFO  - 5383a2add74c Downloading 28MB / 67MB
+2026-02-15T19:25:29.692Z INFO  - 708274aafe49 Downloading 30MB / 46MB
+2026-02-15T19:25:29.692Z INFO  - ec258ce17fda Downloading 30MB / 44MB
+2026-02-15T19:25:30.062Z INFO  - d46933934862 Downloading 28MB / 46MB
+2026-02-15T19:25:30.261Z INFO  - 171283debaf8 Downloading 32MB / 39MB
+2026-02-15T19:25:32.288Z INFO  - 5383a2add74c Downloading 29MB / 67MB
+2026-02-15T19:25:32.289Z INFO  - 171283debaf8 Downloading 33MB / 39MB
+2026-02-15T19:25:32.289Z INFO  - d46933934862 Downloading 29MB / 46MB
+2026-02-15T19:25:33.381Z INFO  - ec258ce17fda Downloading 31MB / 44MB
+2026-02-15T19:25:33.381Z INFO  - 708274aafe49 Downloading 30MB / 46MB
+2026-02-15T19:25:34.482Z INFO  - ec258ce17fda Downloading 32MB / 44MB
+2026-02-15T19:25:34.839Z INFO  - 5383a2add74c Downloading 31MB / 67MB
+2026-02-15T19:25:35.496Z INFO  - 171283debaf8 Downloading 34MB / 39MB
+2026-02-15T19:25:35.496Z INFO  - d46933934862 Downloading 30MB / 46MB
+2026-02-15T19:25:35.496Z INFO  - 708274aafe49 Downloading 31MB / 46MB
+2026-02-15T19:25:37.019Z INFO  - d46933934862 Downloading 30MB / 46MB
+2026-02-15T19:25:37.056Z INFO  - ec258ce17fda Downloading 33MB / 44MB
+2026-02-15T19:25:37.124Z INFO  - 5383a2add74c Downloading 32MB / 67MB
+2026-02-15T19:25:37.747Z INFO  - 171283debaf8 Downloading 34MB / 39MB
+2026-02-15T19:25:38.165Z INFO  - d46933934862 Downloading 31MB / 46MB
+2026-02-15T19:25:38.266Z INFO  - ec258ce17fda Downloading 34MB / 44MB
+2026-02-15T19:25:38.879Z INFO  - 5383a2add74c Downloading 33MB / 67MB
+2026-02-15T19:25:39.124Z INFO  - 171283debaf8 Downloading 35MB / 39MB
+2026-02-15T19:25:40.625Z INFO  - 708274aafe49 Downloading 32MB / 46MB
+2026-02-15T19:25:40.765Z INFO  - d46933934862 Downloading 32MB / 46MB
+2026-02-15T19:25:42.670Z INFO  - 5383a2add74c Downloading 35MB / 67MB
+2026-02-15T19:25:42.670Z INFO  - ec258ce17fda Downloading 35MB / 44MB
+2026-02-15T19:25:42.670Z INFO  - 171283debaf8 Downloading 36MB / 39MB
+2026-02-15T19:25:43.654Z INFO  - 5383a2add74c Downloading 35MB / 67MB
+2026-02-15T19:25:44.989Z INFO  - 171283debaf8 Downloading 37MB / 39MB
+2026-02-15T19:25:45.417Z INFO  - ec258ce17fda Downloading 36MB / 44MB
+2026-02-15T19:25:46.040Z INFO  - 171283debaf8 Downloading 38MB / 39MB
+2026-02-15T19:25:46.108Z INFO  - 708274aafe49 Downloading 34MB / 46MB
+2026-02-15T19:25:46.109Z INFO  - d46933934862 Downloading 33MB / 46MB
+2026-02-15T19:25:46.372Z INFO  - ec258ce17fda Downloading 37MB / 44MB
+2026-02-15T19:25:46.589Z INFO  - 171283debaf8 Downloading 38MB / 39MB
+2026-02-15T19:25:47.066Z INFO  - 5383a2add74c Downloading 36MB / 67MB
+2026-02-15T19:25:47.174Z INFO  - 171283debaf8 Verifying Checksum
+2026-02-15T19:25:47.204Z INFO  - 171283debaf8 Download complete
+2026-02-15T19:25:47.312Z INFO  - ec258ce17fda Downloading 37MB / 44MB
+2026-02-15T19:25:47.352Z INFO  - d46933934862 Downloading 34MB / 46MB
+2026-02-15T19:25:47.608Z INFO  - 708274aafe49 Downloading 35MB / 46MB
+2026-02-15T19:25:47.673Z INFO  - 5383a2add74c Downloading 37MB / 67MB
+2026-02-15T19:25:47.787Z INFO  - d46933934862 Downloading 35MB / 46MB
+2026-02-15T19:25:47.889Z INFO  - 708274aafe49 Downloading 36MB / 46MB
+2026-02-15T19:25:47.998Z INFO  - ec258ce17fda Downloading 38MB / 44MB
+2026-02-15T19:25:48.197Z INFO  - 708274aafe49 Downloading 37MB / 46MB
+2026-02-15T19:25:48.197Z INFO  - 5383a2add74c Downloading 38MB / 67MB
+2026-02-15T19:25:48.756Z INFO  - d46933934862 Downloading 36MB / 46MB
+2026-02-15T19:25:48.993Z INFO  - ec258ce17fda Downloading 39MB / 44MB
+2026-02-15T19:25:50.058Z INFO  - 5383a2add74c Downloading 39MB / 67MB
+2026-02-15T19:25:50.832Z INFO  - 708274aafe49 Downloading 37MB / 46MB
+2026-02-15T19:25:50.832Z INFO  - d46933934862 Downloading 37MB / 46MB
+2026-02-15T19:25:50.832Z INFO  - ec258ce17fda Downloading 40MB / 44MB
+2026-02-15T19:25:51.147Z INFO  - d46933934862 Downloading 37MB / 46MB
+2026-02-15T19:25:51.401Z INFO  - 5383a2add74c Downloading 40MB / 67MB
+2026-02-15T19:25:52.029Z INFO  - ec258ce17fda Downloading 41MB / 44MB
+2026-02-15T19:25:52.258Z INFO  - 5383a2add74c Downloading 40MB / 67MB
+2026-02-15T19:25:52.597Z INFO  - d46933934862 Downloading 38MB / 46MB
+2026-02-15T19:25:52.849Z INFO  - 708274aafe49 Downloading 39MB / 46MB
+2026-02-15T19:25:53.850Z INFO  - ec258ce17fda Downloading 42MB / 44MB
+2026-02-15T19:25:53.850Z INFO  - ec258ce17fda Downloading 43MB / 44MB
+2026-02-15T19:25:53.905Z INFO  - 5383a2add74c Downloading 41MB / 67MB
+2026-02-15T19:25:53.905Z INFO  - d46933934862 Downloading 39MB / 46MB
+2026-02-15T19:25:54.141Z INFO  - 708274aafe49 Downloading 40MB / 46MB
+2026-02-15T19:25:54.564Z INFO  - 5383a2add74c Downloading 43MB / 67MB
+2026-02-15T19:25:54.596Z INFO  - ec258ce17fda Downloading 44MB / 44MB
+2026-02-15T19:25:55.033Z INFO  - 5383a2add74c Downloading 43MB / 67MB
+2026-02-15T19:25:55.300Z INFO  - 708274aafe49 Downloading 41MB / 46MB
+2026-02-15T19:25:55.766Z INFO  - d46933934862 Downloading 40MB / 46MB
+2026-02-15T19:25:55.924Z INFO  - ec258ce17fda Verifying Checksum
+2026-02-15T19:25:56.041Z INFO  - ec258ce17fda Download complete
+2026-02-15T19:25:56.354Z INFO  - 5383a2add74c Downloading 44MB / 67MB
+2026-02-15T19:25:58.553Z INFO  - 708274aafe49 Downloading 42MB / 46MB
+2026-02-15T19:25:58.760Z INFO  - d46933934862 Downloading 41MB / 46MB
+2026-02-15T19:25:58.967Z INFO  - 5383a2add74c Downloading 45MB / 67MB
+2026-02-15T19:25:59.400Z INFO  - 708274aafe49 Downloading 43MB / 46MB
+2026-02-15T19:26:00.185Z INFO  - d46933934862 Downloading 42MB / 46MB
+2026-02-15T19:26:00.321Z INFO  - 708274aafe49 Downloading 44MB / 46MB
+2026-02-15T19:26:00.462Z INFO  - 5383a2add74c Downloading 46MB / 67MB
+2026-02-15T19:26:02.240Z INFO  - d46933934862 Downloading 43MB / 46MB
+2026-02-15T19:26:02.608Z INFO  - 5383a2add74c Downloading 47MB / 67MB
+2026-02-15T19:26:04.793Z INFO  - d46933934862 Downloading 44MB / 46MB
+2026-02-15T19:26:04.902Z INFO  - 708274aafe49 Downloading 45MB / 46MB
+2026-02-15T19:26:06.145Z INFO  - 708274aafe49 Verifying Checksum
+2026-02-15T19:26:06.145Z INFO  - 708274aafe49 Download complete
+2026-02-15T19:26:06.216Z INFO  - 5383a2add74c Downloading 48MB / 67MB
+2026-02-15T19:26:06.649Z INFO  - d46933934862 Downloading 45MB / 46MB
+2026-02-15T19:26:07.458Z INFO  - d46933934862 Verifying Checksum
+2026-02-15T19:26:07.514Z INFO  - d46933934862 Download complete
+2026-02-15T19:26:10.670Z INFO  - 5383a2add74c Downloading 49MB / 67MB
+2026-02-15T19:26:22.709Z INFO  - 5383a2add74c Downloading 51MB / 67MB
+2026-02-15T19:26:24.482Z INFO  - 5383a2add74c Downloading 52MB / 67MB
+2026-02-15T19:26:25.974Z INFO  - 5383a2add74c Downloading 54MB / 67MB
+2026-02-15T19:26:26.417Z INFO  - 5383a2add74c Downloading 55MB / 67MB
+2026-02-15T19:26:27.434Z INFO  - 5383a2add74c Downloading 56MB / 67MB
+2026-02-15T19:26:28.541Z INFO  - 5383a2add74c Downloading 57MB / 67MB
+2026-02-15T19:26:29.378Z INFO  - 5383a2add74c Downloading 58MB / 67MB
+2026-02-15T19:26:31.022Z INFO  - 5383a2add74c Downloading 59MB / 67MB
+2026-02-15T19:26:32.125Z INFO  - 5383a2add74c Downloading 60MB / 67MB
+2026-02-15T19:26:32.441Z INFO  - 708274aafe49 Extracting 960KB / 46MB
+2026-02-15T19:26:32.651Z INFO  - 5383a2add74c Downloading 61MB / 67MB
+2026-02-15T19:26:34.237Z INFO  - 5383a2add74c Downloading 62MB / 67MB
+2026-02-15T19:26:36.038Z INFO  - 5383a2add74c Downloading 63MB / 67MB
+2026-02-15T19:26:37.305Z INFO  - 5383a2add74c Downloading 63MB / 67MB
+2026-02-15T19:26:38.482Z INFO  - 5383a2add74c Downloading 64MB / 67MB
+2026-02-15T19:26:38.994Z INFO  - 708274aafe49 Extracting 1MB / 46MB
+2026-02-15T19:26:40.146Z INFO  - 5383a2add74c Downloading 65MB / 67MB
+2026-02-15T19:26:40.566Z INFO  - 5383a2add74c Downloading 66MB / 67MB
+2026-02-15T19:26:41.409Z INFO  - 5383a2add74c Verifying Checksum
+2026-02-15T19:26:41.441Z INFO  - 5383a2add74c Download complete
+2026-02-15T19:26:43.288Z INFO  - 708274aafe49 Extracting 2MB / 46MB
+2026-02-15T19:26:53.960Z INFO  - 708274aafe49 Extracting 3MB / 46MB
+2026-02-15T19:27:02.340Z INFO  - 708274aafe49 Extracting 4MB / 46MB
+2026-02-15T19:27:15.272Z INFO  - 708274aafe49 Extracting 5MB / 46MB
+2026-02-15T19:27:26.325Z INFO  - 708274aafe49 Extracting 6MB / 46MB
+2026-02-15T19:27:36.400Z INFO  - 708274aafe49 Extracting 7MB / 46MB
+2026-02-15T19:27:45.060Z INFO  - 708274aafe49 Extracting 8MB / 46MB
+2026-02-15T19:28:12.865Z INFO  - 708274aafe49 Extracting 9MB / 46MB
+2026-02-15T19:28:29.120Z INFO  - 708274aafe49 Extracting 10MB / 46MB
+2026-02-15T19:28:44.730Z INFO  - 708274aafe49 Extracting 11MB / 46MB
+2026-02-15T19:28:51.914Z INFO  - 708274aafe49 Extracting 12MB / 46MB
+2026-02-15T19:28:58.600Z INFO  - 708274aafe49 Extracting 13MB / 46MB
+2026-02-15T19:29:07.844Z INFO  - 708274aafe49 Extracting 14MB / 46MB
+2026-02-15T19:29:18.883Z INFO  - 708274aafe49 Extracting 15MB / 46MB
+2026-02-15T19:29:26.706Z INFO  - 708274aafe49 Extracting 15MB / 46MB
+2026-02-15T19:29:34.130Z INFO  - 708274aafe49 Extracting 16MB / 46MB
+2026-02-15T19:29:37.495Z INFO  - 708274aafe49 Extracting 17MB / 46MB
+2026-02-15T19:29:46.672Z INFO  - 708274aafe49 Extracting 18MB / 46MB
+2026-02-15T19:29:50.941Z INFO  - 708274aafe49 Extracting 19MB / 46MB
+2026-02-15T19:29:51.533Z INFO  - 708274aafe49 Extracting 20MB / 46MB
+2026-02-15T19:29:52.830Z INFO  - 708274aafe49 Extracting 21MB / 46MB
+2026-02-15T19:29:58.547Z INFO  - 708274aafe49 Extracting 22MB / 46MB
+2026-02-15T19:30:09.929Z INFO  - 708274aafe49 Extracting 23MB / 46MB
+2026-02-15T19:30:14.857Z INFO  - 708274aafe49 Extracting 24MB / 46MB
+2026-02-15T19:30:22.552Z INFO  - 708274aafe49 Extracting 25MB / 46MB
+2026-02-15T19:30:28.079Z INFO  - 708274aafe49 Extracting 26MB / 46MB
+2026-02-15T19:30:30.679Z INFO  - 708274aafe49 Extracting 27MB / 46MB
+2026-02-15T19:30:35.794Z INFO  - 708274aafe49 Extracting 28MB / 46MB
+2026-02-15T19:30:37.922Z INFO  - 708274aafe49 Extracting 29MB / 46MB
+2026-02-15T19:30:40.461Z INFO  - 708274aafe49 Extracting 30MB / 46MB
+2026-02-15T19:30:42.363Z INFO  - 708274aafe49 Extracting 30MB / 46MB
+2026-02-15T19:30:43.382Z INFO  - 708274aafe49 Extracting 31MB / 46MB
+2026-02-15T19:30:45.637Z INFO  - 708274aafe49 Extracting 32MB / 46MB
+2026-02-15T19:30:51.257Z INFO  - 708274aafe49 Extracting 33MB / 46MB
+2026-02-15T19:30:52.320Z INFO  - 708274aafe49 Extracting 34MB / 46MB
+2026-02-15T19:30:55.965Z INFO  - 708274aafe49 Extracting 35MB / 46MB
+2026-02-15T19:30:57.718Z INFO  - 708274aafe49 Extracting 36MB / 46MB
+2026-02-15T19:31:02.181Z INFO  - 708274aafe49 Extracting 37MB / 46MB
+2026-02-15T19:31:12.480Z INFO  - 708274aafe49 Extracting 37MB / 46MB
+2026-02-15T19:31:20.170Z INFO  - 708274aafe49 Extracting 38MB / 46MB
+2026-02-15T19:31:23.244Z INFO  - 708274aafe49 Extracting 39MB / 46MB
+2026-02-15T19:31:26.859Z INFO  - 708274aafe49 Extracting 40MB / 46MB
+2026-02-15T19:31:29.410Z INFO  - 708274aafe49 Extracting 41MB / 46MB
+2026-02-15T19:31:34.922Z INFO  - 708274aafe49 Extracting 42MB / 46MB
+2026-02-15T19:31:42.538Z INFO  - 708274aafe49 Extracting 43MB / 46MB
+2026-02-15T19:31:49.128Z INFO  - 708274aafe49 Extracting 44MB / 46MB
+2026-02-15T19:32:52.537Z INFO  - 708274aafe49 Extracting 45MB / 46MB
+2026-02-15T19:33:40.056Z INFO  - 708274aafe49 Extracting 46MB / 46MB
+2026-02-15T19:33:43.817Z INFO  - 708274aafe49 Pull complete
+2026-02-15T19:34:06.674Z INFO  - 171283debaf8 Extracting 832KB / 39MB
+2026-02-15T19:34:11.373Z INFO  - 171283debaf8 Extracting 1MB / 39MB
+2026-02-15T19:34:17.319Z INFO  - 171283debaf8 Extracting 2MB / 39MB
+2026-02-15T19:34:23.570Z INFO  - 171283debaf8 Extracting 3MB / 39MB
+2026-02-15T19:34:30.083Z INFO  - 171283debaf8 Extracting 4MB / 39MB
+2026-02-15T19:34:37.136Z INFO  - 171283debaf8 Extracting 4MB / 39MB
+2026-02-15T19:34:38.715Z INFO  - 171283debaf8 Extracting 5MB / 39MB
+2026-02-15T19:34:39.798Z INFO  - 171283debaf8 Extracting 6MB / 39MB
+2026-02-15T19:34:42.389Z INFO  - 171283debaf8 Extracting 7MB / 39MB
+2026-02-15T19:34:46.551Z INFO  - 171283debaf8 Extracting 8MB / 39MB
+2026-02-15T19:34:49.900Z INFO  - 171283debaf8 Extracting 8MB / 39MB
+2026-02-15T19:34:51.664Z INFO  - 171283debaf8 Extracting 9MB / 39MB
+2026-02-15T19:34:58.341Z INFO  - 171283debaf8 Extracting 10MB / 39MB
+2026-02-15T19:35:19.467Z INFO  - 171283debaf8 Extracting 11MB / 39MB
+2026-02-15T19:35:20.702Z INFO  - 171283debaf8 Extracting 12MB / 39MB
+2026-02-15T19:35:21.310Z INFO  - 171283debaf8 Extracting 13MB / 39MB
+2026-02-15T19:35:22.476Z INFO  - 171283debaf8 Extracting 13MB / 39MB
+2026-02-15T19:35:23.447Z INFO  - 171283debaf8 Extracting 14MB / 39MB
+2026-02-15T19:35:27.128Z INFO  - 171283debaf8 Extracting 15MB / 39MB
+2026-02-15T19:35:31.087Z INFO  - 171283debaf8 Extracting 16MB / 39MB
+2026-02-15T19:35:35.219Z INFO  - 171283debaf8 Extracting 17MB / 39MB
+2026-02-15T19:35:40.279Z INFO  - 171283debaf8 Extracting 18MB / 39MB
+2026-02-15T19:35:44.523Z INFO  - 171283debaf8 Extracting 19MB / 39MB
+2026-02-15T19:35:50.273Z INFO  - 171283debaf8 Extracting 19MB / 39MB
+2026-02-15T19:36:05.395Z INFO  - 171283debaf8 Extracting 20MB / 39MB
+2026-02-15T19:36:19.793Z INFO  - 171283debaf8 Extracting 21MB / 39MB
+2026-02-15T19:36:26.655Z INFO  - 171283debaf8 Extracting 22MB / 39MB
+2026-02-15T19:36:44.353Z INFO  - 171283debaf8 Extracting 23MB / 39MB
+2026-02-15T19:36:50.157Z INFO  - 171283debaf8 Extracting 23MB / 39MB
+2026-02-15T19:37:01.674Z INFO  - 171283debaf8 Extracting 24MB / 39MB
+2026-02-15T19:37:05.729Z INFO  - 171283debaf8 Extracting 25MB / 39MB
+2026-02-15T19:37:07.008Z INFO  - 171283debaf8 Extracting 26MB / 39MB
+2026-02-15T19:37:07.632Z INFO  - 171283debaf8 Extracting 27MB / 39MB
+2026-02-15T19:37:09.672Z INFO  - 171283debaf8 Extracting 28MB / 39MB
+2026-02-15T19:37:11.007Z INFO  - 171283debaf8 Extracting 28MB / 39MB
+2026-02-15T19:37:14.165Z INFO  - 171283debaf8 Extracting 29MB / 39MB
+2026-02-15T19:37:19.398Z INFO  - 171283debaf8 Extracting 30MB / 39MB
+2026-02-15T19:37:22.971Z INFO  - 171283debaf8 Extracting 31MB / 39MB
+2026-02-15T19:37:26.225Z INFO  - 171283debaf8 Extracting 32MB / 39MB
+2026-02-15T19:37:27.941Z INFO  - 171283debaf8 Extracting 33MB / 39MB
+2026-02-15T19:37:29.764Z INFO  - 171283debaf8 Extracting 34MB / 39MB
+2026-02-15T19:37:32.285Z INFO  - 171283debaf8 Extracting 34MB / 39MB
+2026-02-15T19:37:33.913Z INFO  - 171283debaf8 Extracting 35MB / 39MB
+2026-02-15T19:37:37.154Z INFO  - 171283debaf8 Extracting 36MB / 39MB
+2026-02-15T19:37:39.128Z INFO  - 171283debaf8 Extracting 37MB / 39MB
+2026-02-15T19:37:42.413Z INFO  - 171283debaf8 Extracting 38MB / 39MB
+2026-02-15T19:37:44.877Z INFO  - 171283debaf8 Extracting 39MB / 39MB
+2026-02-15T19:38:11.176Z INFO  - 171283debaf8 Extracting 39MB / 39MB
+2026-02-15T19:38:14.328Z INFO  - 171283debaf8 Pull complete
+2026-02-15T19:38:18.689Z INFO  - c759901ec9bc Extracting 192KB / 3MB
+2026-02-15T19:38:19.014Z INFO  - c759901ec9bc Extracting 256KB / 3MB
+2026-02-15T19:38:21.578Z INFO  - c759901ec9bc Extracting 512KB / 3MB
+2026-02-15T19:38:24.787Z INFO  - c759901ec9bc Extracting 832KB / 3MB
+2026-02-15T19:38:24.860Z INFO  - c759901ec9bc Extracting 896KB / 3MB
+2026-02-15T19:38:27.330Z INFO  - c759901ec9bc Extracting 1MB / 3MB
+2026-02-15T19:38:29.595Z INFO  - c759901ec9bc Extracting 1MB / 3MB
+2026-02-15T19:38:29.690Z INFO  - c759901ec9bc Extracting 1MB / 3MB
+2026-02-15T19:38:33.418Z INFO  - c759901ec9bc Extracting 1MB / 3MB
+2026-02-15T19:38:36.912Z INFO  - c759901ec9bc Extracting 2MB / 3MB
+2026-02-15T19:38:38.612Z INFO  - c759901ec9bc Extracting 2MB / 3MB
+2026-02-15T19:38:39.160Z INFO  - c759901ec9bc Extracting 2MB / 3MB
+2026-02-15T19:38:41.524Z INFO  - c759901ec9bc Extracting 2MB / 3MB
+2026-02-15T19:38:43.394Z INFO  - c759901ec9bc Extracting 3MB / 3MB
+2026-02-15T19:38:43.481Z INFO  - c759901ec9bc Extracting 3MB / 3MB
+2026-02-15T19:38:46.194Z INFO  - c759901ec9bc Extracting 3MB / 3MB
+2026-02-15T19:38:46.389Z INFO  - c759901ec9bc Extracting 3MB / 3MB
+2026-02-15T19:38:48.611Z INFO  - c759901ec9bc Extracting 3MB / 3MB
+2026-02-15T19:38:49.195Z INFO  - c759901ec9bc Extracting 3MB / 3MB
+2026-02-15T19:38:59.572Z INFO  - c759901ec9bc Extracting 3MB / 3MB
+2026-02-15T19:39:00.481Z INFO  - c759901ec9bc Pull complete
+2026-02-15T19:39:00.770Z INFO  - 05498c6eb463 Extracting 389B / 389B
+2026-02-15T19:39:03.305Z INFO  - 05498c6eb463 Extracting 389B / 389B
+2026-02-15T19:39:04.765Z INFO  - 05498c6eb463 Pull complete
+2026-02-15T19:39:04.981Z INFO  - 777014c51184 Extracting 131B / 131B
+2026-02-15T19:39:06.478Z INFO  - 777014c51184 Extracting 131B / 131B
+2026-02-15T19:39:07.963Z INFO  - 777014c51184 Pull complete
+2026-02-15T19:39:08.369Z INFO  - 873fa1b5bf09 Extracting 32KB / 213KB
+2026-02-15T19:39:10.822Z INFO  - 873fa1b5bf09 Extracting 213KB / 213KB
+2026-02-15T19:39:11.145Z INFO  - 873fa1b5bf09 Extracting 213KB / 213KB
+2026-02-15T19:39:11.472Z INFO  - 873fa1b5bf09 Pull complete
+2026-02-15T19:39:12.438Z INFO  - 41e943b0c053 Extracting 2KB / 2KB
+2026-02-15T19:39:15.794Z INFO  - 41e943b0c053 Extracting 2KB / 2KB
+2026-02-15T19:39:18.780Z INFO  - 41e943b0c053 Pull complete
+2026-02-15T19:39:48.886Z INFO  - d7d47574d30e Extracting 128KB / 347KB
+2026-02-15T19:39:49.075Z INFO  - d7d47574d30e Extracting 224KB / 347KB
+2026-02-15T19:39:52.276Z INFO  - d7d47574d30e Extracting 288KB / 347KB
+2026-02-15T19:39:57.806Z INFO  - d7d47574d30e Extracting 347KB / 347KB
+2026-02-15T19:40:02.696Z INFO  - d7d47574d30e Extracting 347KB / 347KB
+2026-02-15T19:40:04.504Z INFO  - d7d47574d30e Pull complete
+2026-02-15T19:40:04.793Z INFO  - b33cbd4fc846 Extracting 186B / 186B
+2026-02-15T19:40:05.784Z INFO  - b33cbd4fc846 Extracting 186B / 186B
+2026-02-15T19:40:07.224Z INFO  - b33cbd4fc846 Pull complete
+2026-02-15T19:40:07.544Z INFO  - b3949c436654 Extracting 32KB / 1MB
+2026-02-15T19:40:20.423Z INFO  - b3949c436654 Extracting 1MB / 1MB
+2026-02-15T19:40:20.884Z INFO  - b3949c436654 Pull complete
+2026-02-15T19:40:20.913Z INFO  - 1a7e32eec392 Extracting 32KB / 39KB
+2026-02-15T19:40:22.684Z INFO  - 1a7e32eec392 Extracting 39KB / 39KB
+2026-02-15T19:40:23.707Z INFO  - 1a7e32eec392 Extracting 39KB / 39KB
+2026-02-15T19:40:24.197Z INFO  - 1a7e32eec392 Pull complete
+2026-02-15T19:40:24.388Z INFO  - b3d422f69a81 Extracting 12KB / 12KB
+2026-02-15T19:40:25.657Z INFO  - b3d422f69a81 Extracting 12KB / 12KB
+2026-02-15T19:40:26.029Z INFO  - b3d422f69a81 Pull complete
+2026-02-15T19:40:26.048Z INFO  - b92b015876f3 Extracting 14KB / 14KB
+2026-02-15T19:40:27.838Z INFO  - b92b015876f3 Extracting 14KB / 14KB
+2026-02-15T19:40:28.129Z INFO  - b92b015876f3 Pull complete
+2026-02-15T19:40:29.748Z INFO  - 536462d09103 Extracting 64KB / 282KB
+2026-02-15T19:40:33.715Z INFO  - 536462d09103 Extracting 256KB / 282KB
+2026-02-15T19:40:33.812Z INFO  - 536462d09103 Extracting 282KB / 282KB
+2026-02-15T19:40:34.568Z INFO  - 536462d09103 Extracting 282KB / 282KB
+2026-02-15T19:40:35.581Z INFO  - 536462d09103 Pull complete
+2026-02-15T19:40:35.697Z INFO  - 7a8ec07190fc Extracting 10KB / 10KB
+2026-02-15T19:40:37.176Z INFO  - 7a8ec07190fc Extracting 10KB / 10KB
+2026-02-15T19:40:38.074Z INFO  - 7a8ec07190fc Pull complete
+2026-02-15T19:40:38.141Z INFO  - 6fa208c185d4 Extracting 32KB / 1MB
+2026-02-15T19:40:39.252Z INFO  - 6fa208c185d4 Extracting 512KB / 1MB
+2026-02-15T19:40:39.368Z INFO  - 6fa208c185d4 Extracting 736KB / 1MB
+2026-02-15T19:40:39.540Z INFO  - 6fa208c185d4 Extracting 864KB / 1MB
+2026-02-15T19:40:40.167Z INFO  - 6fa208c185d4 Extracting 1MB / 1MB
+2026-02-15T19:40:41.146Z INFO  - 6fa208c185d4 Pull complete
+2026-02-15T19:40:41.678Z INFO  - d1e9bb8c5b98 Extracting 32KB / 1MB
+2026-02-15T19:40:44.024Z INFO  - d1e9bb8c5b98 Extracting 224KB / 1MB
+2026-02-15T19:40:44.408Z INFO  - d1e9bb8c5b98 Extracting 352KB / 1MB
+2026-02-15T19:40:45.546Z INFO  - d1e9bb8c5b98 Extracting 448KB / 1MB
+2026-02-15T19:40:45.547Z INFO  - d1e9bb8c5b98 Extracting 544KB / 1MB
+2026-02-15T19:40:46.554Z INFO  - d1e9bb8c5b98 Extracting 640KB / 1MB
+2026-02-15T19:40:46.555Z INFO  - d1e9bb8c5b98 Extracting 736KB / 1MB
+2026-02-15T19:40:46.556Z INFO  - d1e9bb8c5b98 Extracting 832KB / 1MB
+2026-02-15T19:40:48.671Z INFO  - d1e9bb8c5b98 Extracting 928KB / 1MB
+2026-02-15T19:40:48.671Z INFO  - d1e9bb8c5b98 Extracting 960KB / 1MB
+2026-02-15T19:40:48.671Z INFO  - d1e9bb8c5b98 Extracting 1MB / 1MB
+2026-02-15T19:40:48.671Z INFO  - d1e9bb8c5b98 Extracting 1MB / 1MB
+2026-02-15T19:40:49.454Z INFO  - d1e9bb8c5b98 Pull complete
+2026-02-15T19:40:49.651Z INFO  - 9d6960ead04b Extracting 3KB / 3KB
+2026-02-15T19:40:51.531Z INFO  - 9d6960ead04b Extracting 3KB / 3KB
+2026-02-15T19:40:52.729Z INFO  - 9d6960ead04b Pull complete
+2026-02-15T19:40:52.854Z INFO  - 4f4fb700ef54 Extracting 32B / 32B
+2026-02-15T19:40:53.577Z INFO  - 4f4fb700ef54 Extracting 32B / 32B
+2026-02-15T19:40:54.126Z INFO  - 4f4fb700ef54 Pull complete
+2026-02-15T19:40:57.893Z INFO  - ec258ce17fda Extracting 960KB / 44MB
+2026-02-15T19:40:59.441Z INFO  - ec258ce17fda Extracting 1MB / 44MB
+2026-02-15T19:41:01.556Z INFO  - ec258ce17fda Extracting 2MB / 44MB
+2026-02-15T19:41:04.200Z INFO  - ec258ce17fda Extracting 3MB / 44MB
+2026-02-15T19:41:05.220Z INFO  - ec258ce17fda Extracting 4MB / 44MB
+2026-02-15T19:41:06.577Z INFO  - ec258ce17fda Extracting 5MB / 44MB
+2026-02-15T19:41:08.119Z INFO  - ec258ce17fda Extracting 6MB / 44MB
+2026-02-15T19:41:09.049Z INFO  - ec258ce17fda Extracting 7MB / 44MB
+2026-02-15T19:41:09.674Z INFO  - ec258ce17fda Extracting 8MB / 44MB
+2026-02-15T19:41:10.747Z INFO  - ec258ce17fda Extracting 9MB / 44MB
+2026-02-15T19:41:12.439Z INFO  - ec258ce17fda Extracting 10MB / 44MB
+2026-02-15T19:41:12.833Z INFO  - ec258ce17fda Extracting 10MB / 44MB
+2026-02-15T19:41:13.406Z INFO  - ec258ce17fda Extracting 11MB / 44MB
+2026-02-15T19:41:15.129Z INFO  - ec258ce17fda Extracting 12MB / 44MB
+2026-02-15T19:41:16.516Z INFO  - ec258ce17fda Extracting 13MB / 44MB
+2026-02-15T19:41:17.830Z INFO  - ec258ce17fda Extracting 14MB / 44MB
+2026-02-15T19:41:19.129Z INFO  - ec258ce17fda Extracting 15MB / 44MB
+2026-02-15T19:41:20.572Z INFO  - ec258ce17fda Extracting 16MB / 44MB
+2026-02-15T19:41:21.735Z INFO  - ec258ce17fda Extracting 17MB / 44MB
+2026-02-15T19:41:22.365Z INFO  - ec258ce17fda Extracting 18MB / 44MB
+2026-02-15T19:41:23.352Z INFO  - ec258ce17fda Extracting 19MB / 44MB
+2026-02-15T19:41:24.172Z INFO  - ec258ce17fda Extracting 20MB / 44MB
+2026-02-15T19:41:25.486Z INFO  - ec258ce17fda Extracting 21MB / 44MB
+2026-02-15T19:41:25.918Z INFO  - ec258ce17fda Extracting 21MB / 44MB
+2026-02-15T19:41:26.401Z INFO  - ec258ce17fda Extracting 22MB / 44MB
+2026-02-15T19:41:27.569Z INFO  - ec258ce17fda Extracting 23MB / 44MB
+2026-02-15T19:41:29.003Z INFO  - ec258ce17fda Extracting 24MB / 44MB
+2026-02-15T19:41:29.477Z INFO  - ec258ce17fda Extracting 25MB / 44MB
+2026-02-15T19:41:30.686Z INFO  - ec258ce17fda Extracting 26MB / 44MB
+2026-02-15T19:41:32.850Z INFO  - ec258ce17fda Extracting 27MB / 44MB
+2026-02-15T19:41:34.079Z INFO  - ec258ce17fda Extracting 28MB / 44MB
+2026-02-15T19:41:35.705Z INFO  - ec258ce17fda Extracting 29MB / 44MB
+2026-02-15T19:41:37.678Z INFO  - ec258ce17fda Extracting 30MB / 44MB
+2026-02-15T19:41:37.848Z INFO  - ec258ce17fda Extracting 30MB / 44MB
+2026-02-15T19:41:38.853Z INFO  - ec258ce17fda Extracting 31MB / 44MB
+2026-02-15T19:41:39.791Z INFO  - ec258ce17fda Extracting 32MB / 44MB
+2026-02-15T19:41:40.200Z INFO  - ec258ce17fda Extracting 33MB / 44MB
+2026-02-15T19:41:40.999Z INFO  - ec258ce17fda Extracting 34MB / 44MB
+2026-02-15T19:41:42.959Z INFO  - ec258ce17fda Extracting 35MB / 44MB
+2026-02-15T19:41:44.010Z INFO  - ec258ce17fda Extracting 36MB / 44MB
+2026-02-15T19:41:45.095Z INFO  - ec258ce17fda Extracting 37MB / 44MB
+2026-02-15T19:41:45.618Z INFO  - ec258ce17fda Extracting 37MB / 44MB
+2026-02-15T19:41:45.947Z INFO  - ec258ce17fda Extracting 38MB / 44MB
+2026-02-15T19:41:46.805Z INFO  - ec258ce17fda Extracting 39MB / 44MB
+2026-02-15T19:41:47.760Z INFO  - ec258ce17fda Extracting 40MB / 44MB
+2026-02-15T19:41:48.371Z INFO  - ec258ce17fda Extracting 41MB / 44MB
+2026-02-15T19:41:49.975Z INFO  - ec258ce17fda Extracting 42MB / 44MB
+2026-02-15T19:41:50.055Z INFO  - ec258ce17fda Extracting 43MB / 44MB
+2026-02-15T19:41:50.605Z INFO  - ec258ce17fda Extracting 44MB / 44MB
+2026-02-15T19:41:51.426Z INFO  - ec258ce17fda Extracting 44MB / 44MB
+2026-02-15T19:41:52.496Z INFO  - ec258ce17fda Pull complete
+2026-02-15T19:41:54.940Z INFO  - d46933934862 Extracting 960KB / 46MB
+2026-02-15T19:41:58.085Z INFO  - d46933934862 Extracting 1MB / 46MB
+2026-02-15T19:42:02.000Z INFO  - d46933934862 Extracting 2MB / 46MB
+2026-02-15T19:42:11.063Z INFO  - d46933934862 Extracting 3MB / 46MB
+2026-02-15T19:42:20.773Z INFO  - d46933934862 Extracting 4MB / 46MB
+2026-02-15T19:42:25.291Z INFO  - d46933934862 Extracting 5MB / 46MB
+2026-02-15T19:42:29.115Z INFO  - d46933934862 Extracting 6MB / 46MB
+2026-02-15T19:42:34.707Z INFO  - d46933934862 Extracting 7MB / 46MB
+2026-02-15T19:42:40.079Z INFO  - d46933934862 Extracting 8MB / 46MB
+2026-02-15T19:42:44.805Z INFO  - d46933934862 Extracting 9MB / 46MB
+2026-02-15T19:42:53.330Z INFO  - d46933934862 Extracting 10MB / 46MB
+2026-02-15T19:42:59.794Z INFO  - d46933934862 Extracting 11MB / 46MB
+2026-02-15T19:43:04.127Z INFO  - d46933934862 Extracting 12MB / 46MB
+2026-02-15T19:43:12.613Z INFO  - d46933934862 Extracting 13MB / 46MB
+2026-02-15T19:43:21.126Z INFO  - d46933934862 Extracting 14MB / 46MB
+2026-02-15T19:43:30.444Z INFO  - d46933934862 Extracting 15MB / 46MB
+2026-02-15T19:43:45.422Z INFO  - d46933934862 Extracting 15MB / 46MB
+2026-02-15T19:43:51.305Z INFO  - d46933934862 Extracting 16MB / 46MB
+2026-02-15T19:43:55.040Z INFO  - d46933934862 Extracting 17MB / 46MB
+2026-02-15T19:43:59.071Z INFO  - d46933934862 Extracting 18MB / 46MB
+2026-02-15T19:44:02.684Z INFO  - d46933934862 Extracting 19MB / 46MB
+2026-02-15T19:44:10.119Z INFO  - d46933934862 Extracting 20MB / 46MB
+2026-02-15T19:44:20.140Z INFO  - d46933934862 Extracting 21MB / 46MB
+2026-02-15T19:44:33.254Z INFO  - d46933934862 Extracting 22MB / 46MB
+2026-02-15T19:44:41.768Z INFO  - d46933934862 Extracting 23MB / 46MB
+2026-02-15T19:44:44.545Z INFO  - d46933934862 Extracting 24MB / 46MB
+2026-02-15T19:44:46.972Z INFO  - d46933934862 Extracting 25MB / 46MB
+2026-02-15T19:44:48.695Z INFO  - d46933934862 Extracting 26MB / 46MB
+2026-02-15T19:44:51.033Z INFO  - d46933934862 Extracting 27MB / 46MB
+2026-02-15T19:44:53.588Z INFO  - d46933934862 Extracting 28MB / 46MB
+2026-02-15T19:44:57.206Z INFO  - d46933934862 Extracting 29MB / 46MB
+2026-02-15T19:45:08.018Z INFO  - d46933934862 Extracting 30MB / 46MB
+2026-02-15T19:45:10.604Z INFO  - d46933934862 Extracting 31MB / 46MB
+2026-02-15T19:45:11.918Z INFO  - d46933934862 Extracting 32MB / 46MB
+2026-02-15T19:45:15.829Z INFO  - d46933934862 Extracting 33MB / 46MB
+2026-02-15T19:45:21.453Z INFO  - d46933934862 Extracting 34MB / 46MB
+2026-02-15T19:45:25.521Z INFO  - d46933934862 Extracting 35MB / 46MB
+2026-02-15T19:45:33.096Z INFO  - d46933934862 Extracting 36MB / 46MB
+2026-02-15T19:45:40.506Z INFO  - d46933934862 Extracting 37MB / 46MB
+2026-02-15T19:45:47.536Z INFO  - d46933934862 Extracting 37MB / 46MB
+2026-02-15T19:45:58.140Z INFO  - d46933934862 Extracting 38MB / 46MB
+2026-02-15T19:46:21.226Z INFO  - d46933934862 Extracting 39MB / 46MB
+2026-02-15T19:46:41.088Z INFO  - d46933934862 Extracting 40MB / 46MB
+2026-02-15T19:47:05.540Z INFO  - d46933934862 Extracting 41MB / 46MB
+2026-02-15T19:47:38.935Z INFO  - d46933934862 Extracting 42MB / 46MB
+2026-02-15T19:48:34.157Z INFO  - d46933934862 Extracting 43MB / 46MB
+2026-02-15T19:49:46.363Z INFO  - d46933934862 Extracting 44MB / 46MB
+2026-02-15T19:51:07.599Z INFO  - d46933934862 Extracting 45MB / 46MB
+2026-02-15T19:51:33.968Z INFO  - d46933934862 Extracting 46MB / 46MB
+2026-02-15T19:51:36.017Z INFO  - d46933934862 Pull complete
+2026-02-15T19:51:40.228Z INFO  - 9e3ef46f1f81 Extracting 448KB / 20MB
+2026-02-15T19:51:40.854Z INFO  - 9e3ef46f1f81 Extracting 896KB / 20MB
+2026-02-15T19:51:43.554Z INFO  - 9e3ef46f1f81 Extracting 1MB / 20MB
+2026-02-15T19:51:48.580Z INFO  - 9e3ef46f1f81 Extracting 1MB / 20MB
+2026-02-15T19:51:55.745Z INFO  - 9e3ef46f1f81 Extracting 2MB / 20MB
+2026-02-15T19:51:57.625Z INFO  - 9e3ef46f1f81 Extracting 2MB / 20MB
+2026-02-15T19:51:59.864Z INFO  - 9e3ef46f1f81 Extracting 3MB / 20MB
+2026-02-15T19:52:00.713Z INFO  - 9e3ef46f1f81 Extracting 3MB / 20MB
+2026-02-15T19:52:04.366Z INFO  - 9e3ef46f1f81 Extracting 4MB / 20MB
+2026-02-15T19:52:09.091Z INFO  - 9e3ef46f1f81 Extracting 4MB / 20MB
+2026-02-15T19:52:18.128Z INFO  - 9e3ef46f1f81 Extracting 5MB / 20MB
+2026-02-15T19:52:28.736Z INFO  - 9e3ef46f1f81 Extracting 5MB / 20MB
+2026-02-15T19:52:40.589Z INFO  - 9e3ef46f1f81 Extracting 5MB / 20MB
+2026-02-15T19:52:43.949Z INFO  - 9e3ef46f1f81 Extracting 6MB / 20MB
+2026-02-15T19:52:50.587Z INFO  - 9e3ef46f1f81 Extracting 6MB / 20MB
+2026-02-15T19:52:57.949Z INFO  - 9e3ef46f1f81 Extracting 7MB / 20MB
+2026-02-15T19:53:14.362Z INFO  - 9e3ef46f1f81 Extracting 7MB / 20MB
+2026-02-15T19:53:42.139Z INFO  - 9e3ef46f1f81 Extracting 7MB / 20MB
+2026-02-15T19:54:36.972Z INFO  - 9e3ef46f1f81 Extracting 8MB / 20MB
+2026-02-15T19:54:52.082Z INFO  - 9e3ef46f1f81 Extracting 8MB / 20MB
+2026-02-15T19:55:32.452Z INFO  - 9e3ef46f1f81 Extracting 9MB / 20MB
+2026-02-15T19:55:42.284Z INFO  - 9e3ef46f1f81 Extracting 9MB / 20MB
+2026-02-15T19:55:46.024Z INFO  - 9e3ef46f1f81 Extracting 10MB / 20MB
+2026-02-15T19:55:49.595Z INFO  - 9e3ef46f1f81 Extracting 10MB / 20MB
+2026-02-15T19:55:57.148Z INFO  - 9e3ef46f1f81 Extracting 10MB / 20MB
+2026-02-15T19:56:06.663Z INFO  - 9e3ef46f1f81 Extracting 11MB / 20MB
+2026-02-15T19:56:17.010Z INFO  - 9e3ef46f1f81 Extracting 12MB / 20MB
+2026-02-15T19:56:27.682Z INFO  - 9e3ef46f1f81 Extracting 12MB / 20MB
+2026-02-15T19:56:59.068Z INFO  - 9e3ef46f1f81 Extracting 12MB / 20MB
+2026-02-15T19:57:24.231Z INFO  - 9e3ef46f1f81 Extracting 13MB / 20MB
+2026-02-15T19:57:41.363Z INFO  - 9e3ef46f1f81 Extracting 13MB / 20MB
+2026-02-15T19:58:14.100Z INFO  - 9e3ef46f1f81 Extracting 14MB / 20MB
+2026-02-15T19:58:25.968Z INFO  - 9e3ef46f1f81 Extracting 14MB / 20MB
+2026-02-15T19:58:33.226Z INFO  - 9e3ef46f1f81 Extracting 15MB / 20MB
+2026-02-15T19:58:37.835Z INFO  - 9e3ef46f1f81 Extracting 15MB / 20MB
+2026-02-15T19:58:44.292Z INFO  - 9e3ef46f1f81 Extracting 15MB / 20MB
+2026-02-15T19:58:55.193Z INFO  - 9e3ef46f1f81 Extracting 16MB / 20MB
+2026-02-15T19:59:08.604Z INFO  - 9e3ef46f1f81 Extracting 16MB / 20MB
+2026-02-15T19:59:12.020Z INFO  - 9e3ef46f1f81 Extracting 17MB / 20MB
+2026-02-15T19:59:17.661Z INFO  - 9e3ef46f1f81 Extracting 18MB / 20MB
+2026-02-15T19:59:21.963Z INFO  - 9e3ef46f1f81 Extracting 18MB / 20MB
+2026-02-15T19:59:25.135Z INFO  - 9e3ef46f1f81 Extracting 19MB / 20MB
+2026-02-15T19:59:26.720Z INFO  - 9e3ef46f1f81 Extracting 19MB / 20MB
+2026-02-15T19:59:28.397Z INFO  - 9e3ef46f1f81 Extracting 19MB / 20MB
+2026-02-15T19:59:29.720Z INFO  - 9e3ef46f1f81 Extracting 20MB / 20MB
+2026-02-15T19:59:32.503Z INFO  - 9e3ef46f1f81 Extracting 20MB / 20MB
+2026-02-15T19:59:33.058Z INFO  - 9e3ef46f1f81 Pull complete
+2026-02-15T19:59:34.003Z INFO  - a6d6d210f8f9 Extracting 128KB / 6MB
+2026-02-15T19:59:34.448Z INFO  - a6d6d210f8f9 Extracting 640KB / 6MB
+2026-02-15T19:59:34.459Z INFO  - a6d6d210f8f9 Extracting 1MB / 6MB
+2026-02-15T19:59:35.019Z INFO  - a6d6d210f8f9 Extracting 1MB / 6MB
+2026-02-15T19:59:35.141Z INFO  - a6d6d210f8f9 Extracting 2MB / 6MB
+2026-02-15T19:59:35.267Z INFO  - a6d6d210f8f9 Extracting 2MB / 6MB
+2026-02-15T19:59:35.404Z INFO  - a6d6d210f8f9 Extracting 2MB / 6MB
+2026-02-15T19:59:35.775Z INFO  - a6d6d210f8f9 Extracting 3MB / 6MB
+2026-02-15T19:59:35.981Z INFO  - a6d6d210f8f9 Extracting 4MB / 6MB
+2026-02-15T19:59:36.345Z INFO  - a6d6d210f8f9 Extracting 6MB / 6MB
+2026-02-15T19:59:36.497Z INFO  - a6d6d210f8f9 Extracting 6MB / 6MB
+2026-02-15T19:59:36.768Z INFO  - a6d6d210f8f9 Pull complete
+2026-02-15T19:59:36.818Z INFO  - f5f6fbc3bff2 Extracting 947B / 947B
+2026-02-15T19:59:37.053Z INFO  - f5f6fbc3bff2 Extracting 947B / 947B
+2026-02-15T19:59:37.326Z INFO  - f5f6fbc3bff2 Pull complete
+2026-02-15T19:59:37.396Z INFO  - 7271bf59cee4 Extracting 1KB / 1KB
+2026-02-15T19:59:37.693Z INFO  - 7271bf59cee4 Extracting 1KB / 1KB
+2026-02-15T19:59:38.137Z INFO  - 7271bf59cee4 Pull complete
+2026-02-15T19:59:38.183Z INFO  - b8821fe77c7f Extracting 137B / 137B
+2026-02-15T19:59:38.442Z INFO  - b8821fe77c7f Extracting 137B / 137B
+2026-02-15T19:59:38.736Z INFO  - b8821fe77c7f Pull complete
+2026-02-15T19:59:40.284Z INFO  - 5383a2add74c Extracting 544KB / 67MB
+2026-02-15T19:59:41.026Z INFO  - 5383a2add74c Extracting 1MB / 67MB
+2026-02-15T19:59:41.985Z INFO  - 5383a2add74c Extracting 3MB / 67MB
+2026-02-15T19:59:42.772Z INFO  - 5383a2add74c Extracting 4MB / 67MB
+2026-02-15T19:59:44.498Z INFO  - 5383a2add74c Extracting 5MB / 67MB
+2026-02-15T19:59:44.996Z INFO  - 5383a2add74c Extracting 6MB / 67MB
+2026-02-15T19:59:46.668Z INFO  - 5383a2add74c Extracting 8MB / 67MB
+2026-02-15T19:59:50.036Z INFO  - 5383a2add74c Extracting 9MB / 67MB
+2026-02-15T19:59:52.959Z INFO  - 5383a2add74c Extracting 11MB / 67MB
+2026-02-15T19:59:56.433Z INFO  - 5383a2add74c Extracting 12MB / 67MB
+2026-02-15T20:00:02.430Z INFO  - 5383a2add74c Extracting 12MB / 67MB
+2026-02-15T20:00:07.330Z INFO  - 5383a2add74c Extracting 13MB / 67MB
+2026-02-15T20:00:11.185Z INFO  - 5383a2add74c Extracting 14MB / 67MB
+2026-02-15T20:00:14.465Z INFO  - 5383a2add74c Extracting 15MB / 67MB
+2026-02-15T20:00:22.232Z INFO  - 5383a2add74c Extracting 16MB / 67MB
+2026-02-15T20:00:23.876Z INFO  - 5383a2add74c Extracting 17MB / 67MB
+2026-02-15T20:00:24.082Z INFO  - 5383a2add74c Extracting 18MB / 67MB
+2026-02-15T20:00:25.149Z INFO  - 5383a2add74c Extracting 19MB / 67MB
+2026-02-15T20:00:25.799Z INFO  - 5383a2add74c Extracting 20MB / 67MB
+2026-02-15T20:00:26.444Z INFO  - 5383a2add74c Extracting 20MB / 67MB
+2026-02-15T20:00:27.598Z INFO  - 5383a2add74c Extracting 21MB / 67MB
+2026-02-15T20:00:28.743Z INFO  - 5383a2add74c Extracting 23MB / 67MB
+2026-02-15T20:00:29.375Z INFO  - 5383a2add74c Extracting 24MB / 67MB
+2026-02-15T20:00:30.120Z INFO  - 5383a2add74c Extracting 26MB / 67MB
+2026-02-15T20:00:31.035Z INFO  - 5383a2add74c Extracting 27MB / 67MB
+2026-02-15T20:00:32.738Z INFO  - 5383a2add74c Extracting 28MB / 67MB
+2026-02-15T20:00:35.151Z INFO  - 5383a2add74c Extracting 32MB / 67MB
+2026-02-15T20:00:37.072Z INFO  - 5383a2add74c Extracting 34MB / 67MB
+2026-02-15T20:00:38.129Z INFO  - 5383a2add74c Extracting 35MB / 67MB
+2026-02-15T20:00:39.800Z INFO  - 5383a2add74c Extracting 36MB / 67MB
+2026-02-15T20:00:42.192Z INFO  - 5383a2add74c Extracting 37MB / 67MB
+2026-02-15T20:00:42.615Z INFO  - 5383a2add74c Extracting 38MB / 67MB
+2026-02-15T20:00:45.130Z INFO  - 5383a2add74c Extracting 39MB / 67MB
+2026-02-15T20:00:47.751Z INFO  - 5383a2add74c Extracting 40MB / 67MB
+2026-02-15T20:00:49.518Z INFO  - 5383a2add74c Extracting 40MB / 67MB
+2026-02-15T20:00:52.188Z INFO  - 5383a2add74c Extracting 41MB / 67MB
+2026-02-15T20:00:53.763Z INFO  - 5383a2add74c Extracting 43MB / 67MB
+2026-02-15T20:00:54.158Z INFO  - 5383a2add74c Extracting 43MB / 67MB
+2026-02-15T20:01:00.167Z INFO  - 5383a2add74c Extracting 44MB / 67MB
+2026-02-15T20:01:01.665Z INFO  - 5383a2add74c Extracting 45MB / 67MB
+2026-02-15T20:01:04.903Z INFO  - 5383a2add74c Extracting 46MB / 67MB
+2026-02-15T20:01:06.667Z INFO  - 5383a2add74c Extracting 47MB / 67MB
+2026-02-15T20:01:09.449Z INFO  - 5383a2add74c Extracting 48MB / 67MB
+2026-02-15T20:01:12.221Z INFO  - 5383a2add74c Extracting 49MB / 67MB
+2026-02-15T20:01:29.183Z INFO  - 5383a2add74c Extracting 51MB / 67MB
+2026-02-15T20:01:32.835Z INFO  - 5383a2add74c Extracting 52MB / 67MB
+2026-02-15T20:01:33.952Z INFO  - 5383a2add74c Extracting 54MB / 67MB
+2026-02-15T20:01:35.581Z INFO  - 5383a2add74c Extracting 55MB / 67MB
+2026-02-15T20:01:38.908Z INFO  - 5383a2add74c Extracting 56MB / 67MB
+2026-02-15T20:01:39.691Z INFO  - 5383a2add74c Extracting 57MB / 67MB
+2026-02-15T20:01:41.578Z INFO  - 5383a2add74c Extracting 59MB / 67MB
+2026-02-15T20:01:44.540Z INFO  - 5383a2add74c Extracting 60MB / 67MB
+2026-02-15T20:01:45.924Z INFO  - 5383a2add74c Extracting 61MB / 67MB
+2026-02-15T20:01:47.139Z INFO  - 5383a2add74c Extracting 62MB / 67MB
+2026-02-15T20:01:50.760Z INFO  - 5383a2add74c Extracting 63MB / 67MB
+2026-02-15T20:01:52.787Z INFO  - 5383a2add74c Extracting 64MB / 67MB
+2026-02-15T20:01:55.383Z INFO  - 5383a2add74c Extracting 65MB / 67MB
+2026-02-15T20:01:56.393Z INFO  - 5383a2add74c Extracting 66MB / 67MB
+2026-02-15T20:02:14.940Z INFO  - 5383a2add74c Extracting 67MB / 67MB
+2026-02-15T20:02:18.126Z INFO  - 5383a2add74c Pull complete
+2026-02-15T20:02:18.772Z INFO  - 7e0b6dacd52b Extracting 1KB / 1KB
+2026-02-15T20:02:20.526Z INFO  - 7e0b6dacd52b Extracting 1KB / 1KB
+2026-02-15T20:02:21.648Z INFO  - 7e0b6dacd52b Pull complete
+2026-02-15T20:02:22.408Z INFO  - dbaf98cc16fe Extracting 1KB / 1KB
+2026-02-15T20:02:24.271Z INFO  - dbaf98cc16fe Extracting 1KB / 1KB
+2026-02-15T20:02:24.952Z INFO  - dbaf98cc16fe Pull complete
+2026-02-15T20:02:25.009Z INFO  - bd37128355ec Extracting 3KB / 3KB
+2026-02-15T20:02:26.063Z INFO  - bd37128355ec Extracting 3KB / 3KB
+2026-02-15T20:02:26.466Z INFO  - bd37128355ec Pull complete
+2026-02-15T20:02:26.668Z INFO  - 6be0415226d0 Extracting 150B / 150B
+2026-02-15T20:02:27.041Z INFO  - 6be0415226d0 Extracting 150B / 150B
+2026-02-15T20:02:27.615Z INFO  - 6be0415226d0 Pull complete
+2026-02-15T20:02:28.092Z INFO  - 4bc8fc64d74e Extracting 13KB / 13KB
+2026-02-15T20:02:29.720Z INFO  - 4bc8fc64d74e Extracting 13KB / 13KB
+2026-02-15T20:02:30.756Z INFO  - 4bc8fc64d74e Pull complete
+2026-02-15T20:02:31.009Z INFO  - 3e9befd00248 Extracting 1KB / 1KB
+2026-02-15T20:02:31.594Z INFO  - 3e9befd00248 Extracting 1KB / 1KB
+2026-02-15T20:02:33.143Z INFO  - 3e9befd00248 Pull complete
+2026-02-15T20:02:33.207Z INFO  - ff8568b880f6 Extracting 271B / 271B
+2026-02-15T20:02:35.752Z INFO  - ff8568b880f6 Extracting 271B / 271B
+2026-02-15T20:02:38.077Z INFO  - ff8568b880f6 Pull complete
+2026-02-15T20:02:38.278Z INFO  - b7bc14a518f7 Extracting 270B / 270B
+2026-02-15T20:02:38.683Z INFO  - b7bc14a518f7 Extracting 270B / 270B
+2026-02-15T20:02:39.347Z INFO  - b7bc14a518f7 Pull complete
+2026-02-15T20:02:43.719Z INFO  - c4474be6e27e Extracting 125B / 125B
+2026-02-15T20:02:45.478Z INFO  - c4474be6e27e Extracting 125B / 125B
+2026-02-15T20:02:46.485Z INFO  - c4474be6e27e Pull complete
+2026-02-15T20:02:46.839Z INFO  - a288251fa543 Extracting 418B / 418B
+2026-02-15T20:02:47.650Z INFO  - a288251fa543 Extracting 418B / 418B
+2026-02-15T20:02:48.202Z INFO  - a288251fa543 Pull complete
+2026-02-15T20:02:49.098Z INFO  - 2fa0b9ca0508 Extracting 1KB / 1KB
+2026-02-15T20:02:50.829Z INFO  - 2fa0b9ca0508 Extracting 1KB / 1KB
+2026-02-15T20:02:52.386Z INFO  - 2fa0b9ca0508 Pull complete
+2026-02-15T20:03:03.148Z INFO  - b6588f6e2913 Extracting 64KB / 2MB
+2026-02-15T20:03:08.944Z INFO  - b6588f6e2913 Extracting 96KB / 2MB
+2026-02-15T20:03:19.218Z INFO  - b6588f6e2913 Extracting 192KB / 2MB
+2026-02-15T20:03:21.268Z INFO  - b6588f6e2913 Extracting 224KB / 2MB
+2026-02-15T20:03:36.853Z INFO  - b6588f6e2913 Extracting 320KB / 2MB
+2026-02-15T20:03:37.634Z INFO  - b6588f6e2913 Extracting 352KB / 2MB
+2026-02-15T20:03:39.743Z INFO  - b6588f6e2913 Extracting 448KB / 2MB
+2026-02-15T20:03:40.310Z INFO  - b6588f6e2913 Extracting 480KB / 2MB
+2026-02-15T20:03:53.308Z INFO  - b6588f6e2913 Extracting 576KB / 2MB
+2026-02-15T20:04:03.255Z INFO  - b6588f6e2913 Extracting 608KB / 2MB
+2026-02-15T20:04:14.076Z INFO  - b6588f6e2913 Extracting 704KB / 2MB
+2026-02-15T20:04:16.612Z INFO  - b6588f6e2913 Extracting 736KB / 2MB
+2026-02-15T20:04:17.556Z INFO  - b6588f6e2913 Extracting 832KB / 2MB
+2026-02-15T20:04:19.131Z INFO  - b6588f6e2913 Extracting 864KB / 2MB
+2026-02-15T20:04:43.224Z INFO  - b6588f6e2913 Extracting 960KB / 2MB
+2026-02-15T20:05:06.723Z INFO  - b6588f6e2913 Extracting 992KB / 2MB
+2026-02-15T20:05:16.256Z INFO  - b6588f6e2913 Extracting 1MB / 2MB
+2026-02-15T20:05:21.394Z INFO  - b6588f6e2913 Extracting 1MB / 2MB
+2026-02-15T20:05:21.896Z INFO  - b6588f6e2913 Extracting 1MB / 2MB
+2026-02-15T20:05:28.733Z INFO  - b6588f6e2913 Extracting 1MB / 2MB
+2026-02-15T20:05:31.859Z INFO  - b6588f6e2913 Extracting 1MB / 2MB
+2026-02-15T20:05:37.566Z INFO  - b6588f6e2913 Extracting 1MB / 2MB
+2026-02-15T20:05:37.566Z INFO  - b6588f6e2913 Extracting 1MB / 2MB
+2026-02-15T20:05:40.324Z INFO  - b6588f6e2913 Extracting 1MB / 2MB
+2026-02-15T20:05:40.324Z INFO  - b6588f6e2913 Extracting 1MB / 2MB
+2026-02-15T20:05:40.895Z INFO  - b6588f6e2913 Extracting 1MB / 2MB
+2026-02-15T20:05:42.036Z INFO  - b6588f6e2913 Extracting 1MB / 2MB
+2026-02-15T20:05:44.070Z INFO  - b6588f6e2913 Extracting 2MB / 2MB
+2026-02-15T20:05:52.734Z INFO  - b6588f6e2913 Extracting 2MB / 2MB
+2026-02-15T20:05:55.405Z INFO  - b6588f6e2913 Pull complete
+2026-02-15T20:05:55.744Z INFO  - 14877b021626 Extracting 133B / 133B
+2026-02-15T20:05:58.437Z INFO  - 14877b021626 Extracting 133B / 133B
+2026-02-15T20:06:02.373Z INFO  - 14877b021626 Pull complete
+2026-02-15T20:06:09.820Z INFO  -  Digest: sha256:85c97359378e80dc7c5958585e1f65f35e8b8340d3c6201972079a88df63bf7f
+2026-02-15T20:06:11.344Z INFO  -  Status: Downloaded newer image for 10.1.0.5:13209/appsvc/node:20-lts_20260115.4.tuxprod
+2026-02-15T20:06:22.324Z INFO  - Pull Image successful, Time taken: 2506 Seconds
+2026-02-15T20:07:06.909Z INFO  - Starting container for site
+2026-02-15T20:07:06.920Z INFO  - docker run -d --expose=8080 --name options-scanner-frontend-2exk6s_0_a3bebc04 -e WEBSITE_USE_DIAGNOSTIC_SERVER=true -e WEBSITE_CORS_ALLOWED_ORIGINS=https://options-scanner-backend-2exk6s.azurewebsites.net -e WEBSITE_CORS_SUPPORT_CREDENTIALS=False -e PORT=8080 -e WEBSITE_SITE_NAME=options-scanner-frontend-2exk6s -e WEBSITE_AUTH_ENABLED=False -e WEBSITE_ROLE_INSTANCE_ID=0 -e WEBSITE_HOSTNAME=options-scanner-frontend-2exk6s.azurewebsites.net -e WEBSITE_INSTANCE_ID=0d31d1e3b555b28bd1e1102783713510cb4a14cdd5a5d2b6e8d65e88240d42a3 appsvc/node:20-lts_20260115.4.tuxprod REDACTED
+2026-02-15T20:07:06.927Z INFO  - Logging is not enabled for this container.
+Please use https://aka.ms/linux-diagnostics to enable logging to see container logs here.

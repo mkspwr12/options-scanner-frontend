@@ -1,0 +1,616 @@
+/* Strategy Builder CSS Module — scoped styles for strategy components */
+/* Design tokens live in globals.css :root                              */
+
+/* ─── Section Wrapper ────────────────────────────────────────── */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg, 16px);
+  padding: var(--space-xl, 24px);
+  background: rgba(9, 16, 31, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: #e6edf7;
+}
+
+/* ─── Wizard Steps ───────────────────────────────────────────── */
+
+.wizardSteps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xl, 24px);
+  padding: var(--space-md, 12px) 0;
+}
+
+.stepDot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: #64748b;
+  transition: color 0.15s;
+}
+
+.stepDot:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+.stepNumber {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid #334155;
+  font-size: 14px;
+  font-weight: 600;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+
+.stepDotActive .stepNumber {
+  border-color: #00d4ff;
+  background: rgba(0, 212, 255, 0.12);
+  color: #00d4ff;
+}
+
+.stepDotDone .stepNumber {
+  border-color: #66bb6a;
+  background: rgba(102, 187, 106, 0.12);
+  color: #66bb6a;
+}
+
+.stepLabel {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stepDotActive .stepLabel {
+  color: #00d4ff;
+}
+
+.stepDotDone .stepLabel {
+  color: #66bb6a;
+}
+
+/* ─── Layout ─────────────────────────────────────────────────── */
+
+.builderLayout {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: var(--space-xl, 24px);
+}
+
+.mainContent {
+  min-width: 0;
+}
+
+.sidebar {
+  min-width: 0;
+}
+
+.stepTitle {
+  margin: 0 0 var(--space-lg, 16px);
+  font-size: 16px;
+  font-weight: 600;
+  color: #e6edf7;
+}
+
+/* ─── Template Grid ──────────────────────────────────────────── */
+
+.templateSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg, 16px);
+}
+
+.templateGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-md, 12px);
+}
+
+.templateCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-sm, 8px);
+  padding: var(--space-lg, 16px);
+  background: rgba(22, 33, 62, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: left;
+  color: #e6edf7;
+  font-family: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+}
+
+.templateCard:hover {
+  background: rgba(22, 33, 62, 0.85);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.templateCardSelected {
+  border-color: #00d4ff;
+  box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.2);
+  background: rgba(0, 212, 255, 0.06);
+}
+
+.templateIcon {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.templateName {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.templateDesc {
+  font-size: 12px;
+  color: #94a3b8;
+  line-height: 1.4;
+}
+
+/* ─── Leg Editor ─────────────────────────────────────────────── */
+
+.legSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg, 16px);
+}
+
+.tickerRow {
+  display: flex;
+  gap: var(--space-md, 12px);
+}
+
+.legsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm, 8px);
+}
+
+.legRow {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-sm, 8px);
+  padding: var(--space-sm, 8px) var(--space-md, 12px);
+  background: rgba(22, 33, 62, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  flex-wrap: wrap;
+}
+
+.legIndex {
+  font-size: 12px;
+  font-weight: 700;
+  color: #00d4ff;
+  min-width: 24px;
+  padding-bottom: 6px;
+}
+
+.legFieldLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 10px;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.addLegBtn {
+  align-self: flex-start;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #00d4ff;
+  background: rgba(0, 212, 255, 0.08);
+  border: 1px dashed rgba(0, 212, 255, 0.3);
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.addLegBtn:hover {
+  background: rgba(0, 212, 255, 0.16);
+  border-color: #00d4ff;
+}
+
+.removeBtn {
+  padding: 4px 8px;
+  font-size: 14px;
+  color: #ef5350;
+  background: none;
+  border: 1px solid rgba(239, 83, 80, 0.2);
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+  margin-bottom: 2px;
+}
+
+.removeBtn:hover {
+  background: rgba(239, 83, 80, 0.12);
+}
+
+/* ─── Inputs ─────────────────────────────────────────────────── */
+
+.inputLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #94a3b8;
+}
+
+.inputField {
+  padding: 8px 12px;
+  font-size: 14px;
+  font-family: inherit;
+  color: #e6edf7;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.inputField:focus {
+  border-color: #00d4ff;
+}
+
+.inputFieldSm {
+  padding: 6px 8px;
+  font-size: 13px;
+  font-family: inherit;
+  color: #e6edf7;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  outline: none;
+  width: 80px;
+  transition: border-color 0.15s;
+}
+
+.inputFieldSm:focus {
+  border-color: #00d4ff;
+}
+
+.selectField {
+  padding: 6px 8px;
+  font-size: 13px;
+  font-family: inherit;
+  color: #e6edf7;
+  background: rgba(22, 33, 62, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  outline: none;
+  cursor: pointer;
+  margin-bottom: 2px;
+}
+
+.selectField:focus {
+  border-color: #00d4ff;
+}
+
+/* ─── Payoff Chart ───────────────────────────────────────────── */
+
+.chartContainer {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(11, 18, 36, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.chart {
+  display: block;
+  width: 100%;
+}
+
+/* ─── Metrics Panel ──────────────────────────────────────────── */
+
+.metricsPanel {
+  padding: var(--space-lg, 16px);
+  background: rgba(22, 33, 62, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+}
+
+.metricsPanelTitle {
+  margin: 0 0 var(--space-md, 12px);
+  font-size: 14px;
+  font-weight: 600;
+  color: #e6edf7;
+}
+
+.metricsEmpty {
+  margin: 0;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.metricsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm, 8px);
+}
+
+.metricItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.metricLabel {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.metricValue {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e6edf7;
+}
+
+.metricValueGreen {
+  font-size: 13px;
+  font-weight: 600;
+  color: #66bb6a;
+}
+
+.metricValueRed {
+  font-size: 13px;
+  font-weight: 600;
+  color: #ef5350;
+}
+
+/* ─── Review Section ─────────────────────────────────────────── */
+
+.reviewSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg, 16px);
+}
+
+.reviewGrid {
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: var(--space-lg, 16px);
+  align-items: start;
+}
+
+.saveRow {
+  display: flex;
+  gap: var(--space-md, 12px);
+  align-items: center;
+}
+
+/* ─── Saved Strategies Drawer ────────────────────────────────── */
+
+.savedDrawer {
+  display: flex;
+  flex-direction: column;
+  background: rgba(22, 33, 62, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.drawerToggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--space-md, 12px) var(--space-lg, 16px);
+  font-size: 13px;
+  font-weight: 600;
+  color: #e6edf7;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.chevronOpen {
+  transition: transform 0.15s;
+}
+
+.chevronClosed {
+  transform: rotate(-90deg);
+  transition: transform 0.15s;
+}
+
+.drawerContent {
+  padding: 0 var(--space-lg, 16px) var(--space-lg, 16px);
+}
+
+.drawerEmpty {
+  margin: 0;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.savedList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm, 8px);
+}
+
+.savedItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs, 4px);
+  padding: var(--space-sm, 8px);
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 8px;
+}
+
+.savedInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.savedName {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e6edf7;
+}
+
+.savedMeta {
+  font-size: 11px;
+  color: #64748b;
+}
+
+.savedActions {
+  display: flex;
+  gap: var(--space-xs, 4px);
+}
+
+/* ─── Buttons ────────────────────────────────────────────────── */
+
+.wizardActions {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-md, 12px);
+  padding-top: var(--space-md, 12px);
+}
+
+.btnPrimary {
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  color: #0b1224;
+  background: #00d4ff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.btnPrimary:hover {
+  opacity: 0.9;
+}
+
+.btnPrimary:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.btnSecondary {
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  color: #e6edf7;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btnSecondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.btnSmall {
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 500;
+  font-family: inherit;
+  color: #e6edf7;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btnSmall:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.btnDanger {
+  color: #ef5350;
+  border-color: rgba(239, 83, 80, 0.2);
+}
+
+.btnDanger:hover {
+  background: rgba(239, 83, 80, 0.12);
+}
+
+/* ─── Error Banner ───────────────────────────────────────────── */
+
+.errorBanner {
+  padding: var(--space-sm, 8px) var(--space-md, 12px);
+  background: rgba(239, 83, 80, 0.12);
+  border: 1px solid rgba(239, 83, 80, 0.3);
+  border-radius: 8px;
+  font-size: 13px;
+  color: #ef5350;
+}
+
+/* ─── Responsive ─────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .builderLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .templateGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .reviewGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .legRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .tickerRow {
+    flex-direction: column;
+  }
+
+  .saveRow {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    order: -1;
+  }
+}

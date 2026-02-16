@@ -1,0 +1,39 @@
+2026-02-15T19:19:18.4220124Z State: Starting, Action: EstablishingSiteNetworks, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: , DetailsLevel: INFO
+2026-02-15T19:19:36.7509345Z State: Starting, Action: StartingSiteContainers, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: , DetailsLevel: INFO
+2026-02-15T19:19:36.7514881Z Container start method called.
+2026-02-15T19:19:36.7604651Z State: Starting, Action: PullingImage, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Pulling image 10.1.0.4:13209/appsvc/node:20-lts_20260115.4.tuxprod for options-scanner-frontend-2exk6s., DetailsLevel: INFO
+2026-02-15T19:19:36.7712689Z Establishing network.
+2026-02-15T19:19:36.7716545Z Pulling image: appsvc/node:20-lts_20260115.4.tuxprod.
+2026-02-15T19:19:37.4265725Z Container is starting.
+2026-02-15T19:19:37.4349078Z State: Starting, Action: MountingVolumes, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Mounting volumes for options-scanner-frontend-2exk6s., DetailsLevel: INFO
+2026-02-15T19:19:37.4363491Z Establishing user namespace if not established already.
+2026-02-15T19:19:37.4450263Z Establishing network if not established already.
+2026-02-15T19:19:37.4744149Z Mounting volumes.
+2026-02-15T19:19:37.4853593Z Nested mountpoint site/wwwroot
+2026-02-15T19:19:37.5968794Z Nested mountpoint volatile/logs
+2026-02-15T19:19:37.6963532Z Nested mountpoint 
+2026-02-15T19:19:38.1702986Z Nested mountpoint 
+2026-02-15T19:19:38.5208356Z Nested mountpoint 
+2026-02-15T19:19:38.7120615Z Nested mountpoint 
+2026-02-15T19:19:48.2193872Z State: Starting, Action: CreatingContainer, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Finished pulling container image and mounting volumes for options-scanner-frontend-2exk6s. Allocatinng the rest of the container resources to finish container creation., DetailsLevel: INFO
+2026-02-15T19:19:48.2267833Z Creating container.
+2026-02-15T19:19:48.2270700Z Creating pipes for streaming container io.
+2026-02-15T19:19:48.2272692Z Creating stdout named pipe at /podr/container/pipe/13505b51c2fd_options-scanner-frontend-2exk6s/stdout_f0668bfc33fe461ab824dab126cdb464.
+2026-02-15T19:19:48.2570733Z Successfully created stdout named pipe at: /podr/container/pipe/13505b51c2fd_options-scanner-frontend-2exk6s/stdout_f0668bfc33fe461ab824dab126cdb464.
+2026-02-15T19:19:48.2665154Z Opening named pipe /podr/container/pipe/13505b51c2fd_options-scanner-frontend-2exk6s/stdout_f0668bfc33fe461ab824dab126cdb464 for reading in non-blocking mode.
+2026-02-15T19:19:48.2749213Z Successfully opened named pipe: /podr/container/pipe/13505b51c2fd_options-scanner-frontend-2exk6s/stdout_f0668bfc33fe461ab824dab126cdb464.
+2026-02-15T19:19:48.2753432Z Successfully removed non-blocking flag from /podr/container/pipe/13505b51c2fd_options-scanner-frontend-2exk6s/stdout_f0668bfc33fe461ab824dab126cdb464.
+2026-02-15T19:19:48.2848627Z Creating stderr named pipe at /podr/container/pipe/13505b51c2fd_options-scanner-frontend-2exk6s/stderr_9e78457360e04df4af65bc0ba3417258.
+2026-02-15T19:19:48.3697836Z Successfully created stderr named pipe at: /podr/container/pipe/13505b51c2fd_options-scanner-frontend-2exk6s/stderr_9e78457360e04df4af65bc0ba3417258.
+2026-02-15T19:19:48.3722033Z Opening named pipe /podr/container/pipe/13505b51c2fd_options-scanner-frontend-2exk6s/stderr_9e78457360e04df4af65bc0ba3417258 for reading in non-blocking mode.
+2026-02-15T19:19:48.4084481Z Successfully opened named pipe: /podr/container/pipe/13505b51c2fd_options-scanner-frontend-2exk6s/stderr_9e78457360e04df4af65bc0ba3417258.
+2026-02-15T19:19:48.4463325Z Successfully removed non-blocking flag from /podr/container/pipe/13505b51c2fd_options-scanner-frontend-2exk6s/stderr_9e78457360e04df4af65bc0ba3417258.
+2026-02-15T19:19:48.4478771Z Creating container with image: appsvc/node:20-lts_20260115.4.tuxprod from registry: 10.1.0.4:13209 and fully qualified image name: 10.1.0.4:13209/appsvc/node:20-lts_20260115.4.tuxprod
+2026-02-15T19:19:50.3757437Z Starting container: 13505b51c2fd_options-scanner-frontend-2exk6s.
+2026-02-15T19:19:50.8031136Z Starting watchers and probes.
+2026-02-15T19:19:50.8321136Z Starting metrics collection.
+2026-02-15T19:19:50.8327459Z Container is running.
+2026-02-15T19:19:50.8329373Z State: Starting, Action: CreatingContainer, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Container options-scanner-frontend-2exk6s successfully created and is running., DetailsLevel: INFO
+2026-02-15T19:19:51.5637204Z Container start method finished after 14811 ms.
+2026-02-15T19:19:51.5819211Z State: Starting, Action: InitiatingSiteWarmUpProbe, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Container options-scanner-frontend-2exk6s successfully created and is running., DetailsLevel: INFO
+2026-02-15T19:19:51.6009868Z State: Starting, Action: WaitingForSiteWarmUpProbeSuccess, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: INFO

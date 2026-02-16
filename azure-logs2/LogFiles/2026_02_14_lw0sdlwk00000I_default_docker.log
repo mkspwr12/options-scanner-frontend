@@ -1,0 +1,810 @@
+2026-02-14T15:05:40.916376507Z    _____                               
+2026-02-14T15:05:40.922591457Z   /  _  \ __________ _________   ____  
+2026-02-14T15:05:40.922597957Z  /  /_\  \\___   /  |  \_  __ \_/ __ \ 
+2026-02-14T15:05:40.922600857Z /    |    \/    /|  |  /|  | \/\  ___/ 
+2026-02-14T15:05:40.922603457Z \____|__  /_____ \____/ |__|    \___  >
+2026-02-14T15:05:40.922606257Z         \/      \/                  \/ 
+2026-02-14T15:05:40.922608757Z A P P   S E R V I C E   O N   L I N U X
+2026-02-14T15:05:40.922611257Z 
+2026-02-14T15:05:40.922613457Z Documentation    : http://aka.ms/webapp-linux
+2026-02-14T15:05:40.922615857Z NodeJS quickstart: https://aka.ms/node-qs
+2026-02-14T15:05:40.922618157Z NodeJS Version   : v24.13.0
+2026-02-14T15:05:40.922620557Z Instance Name    : lw0sdlwk00000I
+2026-02-14T15:05:40.922623056Z Instance Id      : 48274e889b02f7890c1050bd386321425fa2cc936574965a145b0eff265739fb
+2026-02-14T15:05:40.922625756Z 
+2026-02-14T15:05:40.922627956Z Note: Any data outside '/home' is not persisted
+2026-02-14T15:05:46.770951008Z  * Starting OpenBSD Secure Shell server sshd
+2026-02-14T15:05:47.270693836Z    ...done.
+2026-02-14T15:05:47.270721636Z WEBSITES_INCLUDE_CLOUD_CERTS is not set to true.
+2026-02-14T15:05:47.372603806Z Updating certificates in /etc/ssl/certs...
+2026-02-14T15:06:29.392998920Z rehash: warning: skipping duplicate certificate in SSLcom-TLS-Root-2022-ECC.pem
+2026-02-14T15:06:29.468397160Z rehash: warning: skipping duplicate certificate in SSLcom-TLS-Root-2022-RSA.pem
+2026-02-14T15:06:30.066167029Z rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+2026-02-14T15:06:30.126260903Z 4 added, 0 removed; done.
+2026-02-14T15:06:30.153328866Z Running hooks in /etc/ca-certificates/update.d...
+2026-02-14T15:06:30.153359266Z done.
+2026-02-14T15:06:30.180419129Z CA certificates copied and updated successfully.
+2026-02-14T15:06:30.504561893Z  * Starting periodic command scheduler cron
+2026-02-14T15:06:30.748131261Z    ...done.
+2026-02-14T15:06:30.962758583Z Could not find build manifest file at '/home/site/wwwroot/oryx-manifest.toml'
+2026-02-14T15:06:30.962797483Z Could not find operation ID in manifest. Generating an operation id...
+2026-02-14T15:06:30.962802483Z Build Operation ID: 3f8ba304-9f5e-4fc1-a2b3-b290ca2999f5
+2026-02-14T15:06:31.619350737Z Environment Variables for Application Insight's IPA Codeless Configuration exists..
+2026-02-14T15:06:31.619389737Z Writing output script to '/opt/startup/startup.sh'
+2026-02-14T15:06:31.684978663Z Running #!/bin/sh
+2026-02-14T15:06:31.685010563Z 
+2026-02-14T15:06:31.685015563Z # Enter the source directory to make sure the script runs where the user expects
+2026-02-14T15:06:31.685037163Z cd "/home/site/wwwroot"
+2026-02-14T15:06:31.685041063Z 
+2026-02-14T15:06:31.685043563Z export NODE_PATH=/usr/local/lib/node_modules:$NODE_PATH
+2026-02-14T15:06:31.685046162Z if [ -z "$PORT" ]; then
+2026-02-14T15:06:31.685048862Z 		export PORT=8080
+2026-02-14T15:06:31.685051762Z fi
+2026-02-14T15:06:31.685054262Z 
+2026-02-14T15:06:31.685056662Z PATH="$PATH:/home/site/wwwroot" node server.js
+2026-02-14T15:06:42.487321562Z   ▲ Next.js 14.2.5
+2026-02-14T15:06:42.600919364Z   - Local:        http://7c4367e5ef26:8080
+2026-02-14T15:06:42.600946764Z   - Network:      http://169.254.132.2:8080
+2026-02-14T15:06:42.600950964Z 
+2026-02-14T15:06:42.600954164Z  ✓ Starting...
+2026-02-14T15:06:42.620117996Z Error: Could not find a production build in the './.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+2026-02-14T15:06:42.620137296Z     at setupFsCheck (/home/site/wwwroot/node_modules/next/dist/server/lib/router-utils/filesystem.js:151:19)
+2026-02-14T15:06:42.620141896Z     at async initialize (/home/site/wwwroot/node_modules/next/dist/server/lib/router-server.js:61:23)
+2026-02-14T15:06:42.620145795Z     at async Server.<anonymous> (/home/site/wwwroot/node_modules/next/dist/server/lib/start-server.js:249:36)
+
+2026-02-14T15:08:26.553699752Z    _____                               
+2026-02-14T15:08:26.553745252Z   /  _  \ __________ _________   ____  
+2026-02-14T15:08:26.553750951Z  /  /_\  \\___   /  |  \_  __ \_/ __ \ 
+2026-02-14T15:08:26.553754151Z /    |    \/    /|  |  /|  | \/\  ___/ 
+2026-02-14T15:08:26.553757051Z \____|__  /_____ \____/ |__|    \___  >
+2026-02-14T15:08:26.553760051Z         \/      \/                  \/ 
+2026-02-14T15:08:26.553775151Z A P P   S E R V I C E   O N   L I N U X
+2026-02-14T15:08:26.553779351Z 
+2026-02-14T15:08:26.553781951Z Documentation    : http://aka.ms/webapp-linux
+2026-02-14T15:08:26.553784451Z NodeJS quickstart: https://aka.ms/node-qs
+2026-02-14T15:08:26.553787151Z NodeJS Version   : v24.13.0
+2026-02-14T15:08:26.553789651Z Instance Name    : lw0sdlwk00000I
+2026-02-14T15:08:26.553792251Z Instance Id      : 48274e889b02f7890c1050bd386321425fa2cc936574965a145b0eff265739fb
+2026-02-14T15:08:26.553795051Z 
+2026-02-14T15:08:26.553797451Z Note: Any data outside '/home' is not persisted
+2026-02-14T15:08:41.389465132Z  * Starting OpenBSD Secure Shell server sshd
+2026-02-14T15:08:41.389492731Z    ...done.
+2026-02-14T15:08:41.428649729Z WEBSITES_INCLUDE_CLOUD_CERTS is not set to true.
+2026-02-14T15:08:41.806428511Z Updating certificates in /etc/ssl/certs...
+2026-02-14T15:09:33.546691773Z rehash: warning: skipping duplicate certificate in SSLcom-TLS-Root-2022-ECC.pem
+2026-02-14T15:09:33.552583121Z rehash: warning: skipping duplicate certificate in SSLcom-TLS-Root-2022-RSA.pem
+2026-02-14T15:09:36.292615204Z rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+2026-02-14T15:09:36.292862602Z 4 added, 0 removed; done.
+2026-02-14T15:09:36.292888501Z Running hooks in /etc/ca-certificates/update.d...
+2026-02-14T15:09:36.292894601Z done.
+2026-02-14T15:09:36.841757489Z CA certificates copied and updated successfully.
+2026-02-14T15:09:38.431213544Z  * Starting periodic command scheduler cron
+2026-02-14T15:09:38.663645848Z    ...done.
+2026-02-14T15:09:42.619949083Z Could not find build manifest file at '/home/site/wwwroot/oryx-manifest.toml'
+2026-02-14T15:09:42.619981783Z Could not find operation ID in manifest. Generating an operation id...
+2026-02-14T15:09:42.619986783Z Build Operation ID: 971f9b12-8845-4c90-b562-597a63969c19
+2026-02-14T15:09:45.333036841Z Environment Variables for Application Insight's IPA Codeless Configuration exists..
+2026-02-14T15:09:45.333087341Z Writing output script to '/opt/startup/startup.sh'
+2026-02-14T15:09:45.478777707Z Running #!/bin/sh
+2026-02-14T15:09:45.478822306Z 
+2026-02-14T15:09:45.478827606Z # Enter the source directory to make sure the script runs where the user expects
+2026-02-14T15:09:45.478848906Z cd "/home/site/wwwroot"
+2026-02-14T15:09:45.478853006Z 
+2026-02-14T15:09:45.478855606Z export NODE_PATH=/usr/local/lib/node_modules:$NODE_PATH
+2026-02-14T15:09:45.478858206Z if [ -z "$PORT" ]; then
+2026-02-14T15:09:45.478860906Z 		export PORT=8080
+2026-02-14T15:09:45.478863906Z fi
+2026-02-14T15:09:45.478866306Z 
+2026-02-14T15:09:45.478868906Z PATH="$PATH:/home/site/wwwroot" node server.js
+2026-02-14T15:10:22.379690977Z   ▲ Next.js 14.2.5
+2026-02-14T15:10:22.515502120Z   - Local:        http://c9190387bb58:8080
+2026-02-14T15:10:22.515523820Z   - Network:      http://169.254.130.2:8080
+2026-02-14T15:10:22.515528320Z 
+2026-02-14T15:10:22.515532320Z  ✓ Starting...
+2026-02-14T15:10:22.637948967Z Error: Could not find a production build in the './.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+2026-02-14T15:10:22.969905483Z     at setupFsCheck (/home/site/wwwroot/node_modules/next/dist/server/lib/router-utils/filesystem.js:151:19)
+2026-02-14T15:10:22.969931283Z     at async initialize (/home/site/wwwroot/node_modules/next/dist/server/lib/router-server.js:61:23)
+2026-02-14T15:10:22.969936783Z     at async Server.<anonymous> (/home/site/wwwroot/node_modules/next/dist/server/lib/start-server.js:249:36)
+
+2026-02-14T15:15:01.044151714Z    _____                               
+2026-02-14T15:15:01.050330164Z   /  _  \ __________ _________   ____  
+2026-02-14T15:15:01.050353564Z  /  /_\  \\___   /  |  \_  __ \_/ __ \ 
+2026-02-14T15:15:01.050357364Z /    |    \/    /|  |  /|  | \/\  ___/ 
+2026-02-14T15:15:01.050360164Z \____|__  /_____ \____/ |__|    \___  >
+2026-02-14T15:15:01.050363164Z         \/      \/                  \/ 
+2026-02-14T15:15:01.050365864Z A P P   S E R V I C E   O N   L I N U X
+2026-02-14T15:15:01.050368464Z 
+2026-02-14T15:15:01.050370764Z Documentation    : http://aka.ms/webapp-linux
+2026-02-14T15:15:01.050373364Z NodeJS quickstart: https://aka.ms/node-qs
+2026-02-14T15:15:01.050375864Z NodeJS Version   : v24.13.0
+2026-02-14T15:15:01.050378364Z Instance Name    : lw0sdlwk00000I
+2026-02-14T15:15:01.050380864Z Instance Id      : 48274e889b02f7890c1050bd386321425fa2cc936574965a145b0eff265739fb
+2026-02-14T15:15:01.050383563Z 
+2026-02-14T15:15:01.052391447Z Note: Any data outside '/home' is not persisted
+2026-02-14T15:15:05.701145996Z  * Starting OpenBSD Secure Shell server sshd
+2026-02-14T15:15:06.128854714Z    ...done.
+2026-02-14T15:15:06.128898713Z WEBSITES_INCLUDE_CLOUD_CERTS is not set to true.
+2026-02-14T15:15:06.128906113Z Updating certificates in /etc/ssl/certs...
+2026-02-14T15:15:47.163662087Z rehash: warning: skipping duplicate certificate in SSLcom-TLS-Root-2022-ECC.pem
+2026-02-14T15:15:47.165234174Z rehash: warning: skipping duplicate certificate in SSLcom-TLS-Root-2022-RSA.pem
+2026-02-14T15:15:48.183793804Z rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+2026-02-14T15:15:48.425312196Z 4 added, 0 removed; done.
+2026-02-14T15:15:48.425353596Z Running hooks in /etc/ca-certificates/update.d...
+2026-02-14T15:15:48.425358296Z done.
+2026-02-14T15:15:48.606443790Z CA certificates copied and updated successfully.
+2026-02-14T15:15:49.998832013Z  * Starting periodic command scheduler cron
+2026-02-14T15:15:50.058321818Z    ...done.
+2026-02-14T15:15:50.686229497Z Could not find build manifest file at '/home/site/wwwroot/oryx-manifest.toml'
+2026-02-14T15:15:50.686360496Z Could not find operation ID in manifest. Generating an operation id...
+2026-02-14T15:15:50.686373396Z Build Operation ID: fd90995e-4222-4dd5-96b7-6939a18b7644
+2026-02-14T15:15:51.321570415Z Environment Variables for Application Insight's IPA Codeless Configuration exists..
+2026-02-14T15:15:51.321597714Z Writing output script to '/opt/startup/startup.sh'
+2026-02-14T15:15:51.445836981Z Running #!/bin/sh
+2026-02-14T15:15:51.445888881Z 
+2026-02-14T15:15:51.445912281Z # Enter the source directory to make sure the script runs where the user expects
+2026-02-14T15:15:51.445935180Z cd "/home/site/wwwroot"
+2026-02-14T15:15:51.445939180Z 
+2026-02-14T15:15:51.445941880Z export NODE_PATH=/usr/local/lib/node_modules:$NODE_PATH
+2026-02-14T15:15:51.445944480Z if [ -z "$PORT" ]; then
+2026-02-14T15:15:51.445947180Z 		export PORT=8080
+2026-02-14T15:15:51.445950180Z fi
+2026-02-14T15:15:51.445952580Z 
+2026-02-14T15:15:51.445955680Z PATH="$PATH:/home/site/wwwroot" node server.js
+2026-02-14T15:16:02.505407228Z   ▲ Next.js 14.2.5
+2026-02-14T15:16:02.505454827Z   - Local:        http://00053b360e7c:8080
+2026-02-14T15:16:02.505459427Z   - Network:      http://169.254.130.2:8080
+2026-02-14T15:16:02.505462727Z 
+2026-02-14T15:16:02.505465627Z  ✓ Starting...
+2026-02-14T15:16:02.864157045Z Error: Could not find a production build in the './.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+2026-02-14T15:16:02.864182745Z     at setupFsCheck (/home/site/wwwroot/node_modules/next/dist/server/lib/router-utils/filesystem.js:151:19)
+2026-02-14T15:16:02.864186945Z     at async initialize (/home/site/wwwroot/node_modules/next/dist/server/lib/router-server.js:61:23)
+2026-02-14T15:16:02.864190045Z     at async Server.<anonymous> (/home/site/wwwroot/node_modules/next/dist/server/lib/start-server.js:249:36)
+
+2026-02-14T15:24:25.310814874Z    _____                               
+2026-02-14T15:24:25.312937955Z   /  _  \ __________ _________   ____  
+2026-02-14T15:24:25.312943755Z  /  /_\  \\___   /  |  \_  __ \_/ __ \ 
+2026-02-14T15:24:25.312946955Z /    |    \/    /|  |  /|  | \/\  ___/ 
+2026-02-14T15:24:25.312949555Z \____|__  /_____ \____/ |__|    \___  >
+2026-02-14T15:24:25.312952955Z         \/      \/                  \/ 
+2026-02-14T15:24:25.312955655Z A P P   S E R V I C E   O N   L I N U X
+2026-02-14T15:24:25.312958255Z 
+2026-02-14T15:24:25.312960555Z Documentation    : http://aka.ms/webapp-linux
+2026-02-14T15:24:25.312963055Z NodeJS quickstart: https://aka.ms/node-qs
+2026-02-14T15:24:25.312965955Z NodeJS Version   : v24.13.0
+2026-02-14T15:24:25.312968355Z Instance Name    : lw0sdlwk00000I
+2026-02-14T15:24:25.312970855Z Instance Id      : 48274e889b02f7890c1050bd386321425fa2cc936574965a145b0eff265739fb
+2026-02-14T15:24:25.312973655Z 
+2026-02-14T15:24:25.312976055Z Note: Any data outside '/home' is not persisted
+2026-02-14T15:24:44.523548238Z  * Starting OpenBSD Secure Shell server sshd
+2026-02-14T15:24:44.626034611Z    ...done.
+2026-02-14T15:24:44.662532316Z WEBSITES_INCLUDE_CLOUD_CERTS is not set to true.
+2026-02-14T15:24:44.718894561Z Updating certificates in /etc/ssl/certs...
+2026-02-14T15:25:13.041824694Z rehash: warning: skipping duplicate certificate in SSLcom-TLS-Root-2022-ECC.pem
+2026-02-14T15:25:13.048389837Z rehash: warning: skipping duplicate certificate in SSLcom-TLS-Root-2022-RSA.pem
+2026-02-14T15:25:13.513758580Z rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+2026-02-14T15:25:13.626372299Z 4 added, 0 removed; done.
+2026-02-14T15:25:13.627538988Z Running hooks in /etc/ca-certificates/update.d...
+2026-02-14T15:25:13.646566322Z done.
+2026-02-14T15:25:13.675201173Z CA certificates copied and updated successfully.
+2026-02-14T15:25:13.971997986Z  * Starting periodic command scheduler cron
+2026-02-14T15:25:14.011731039Z    ...done.
+2026-02-14T15:25:14.225954372Z Could not find build manifest file at '/home/site/wwwroot/oryx-manifest.toml'
+2026-02-14T15:25:14.226573366Z Could not find operation ID in manifest. Generating an operation id...
+2026-02-14T15:25:14.231518823Z Build Operation ID: f685f02a-a72c-4ae7-8b3a-3054441762a0
+2026-02-14T15:25:14.732262858Z Environment Variables for Application Insight's IPA Codeless Configuration exists..
+2026-02-14T15:25:14.740318588Z Writing output script to '/opt/startup/startup.sh'
+2026-02-14T15:25:14.882282251Z Running #!/bin/sh
+2026-02-14T15:25:14.882312350Z 
+2026-02-14T15:25:14.882316950Z # Enter the source directory to make sure the script runs where the user expects
+2026-02-14T15:25:14.882334950Z cd "/home/site/wwwroot"
+2026-02-14T15:25:14.882338650Z 
+2026-02-14T15:25:14.882341050Z export NODE_PATH=/usr/local/lib/node_modules:$NODE_PATH
+2026-02-14T15:25:14.882343650Z if [ -z "$PORT" ]; then
+2026-02-14T15:25:14.882346250Z 		export PORT=8080
+2026-02-14T15:25:14.882349350Z fi
+2026-02-14T15:25:14.882351650Z 
+2026-02-14T15:25:14.882354050Z PATH="$PATH:/home/site/wwwroot" node server.js
+2026-02-14T15:25:21.483771370Z   ▲ Next.js 14.2.5
+2026-02-14T15:25:21.490611315Z   - Local:        http://14f56040af64:8080
+2026-02-14T15:25:21.491011112Z   - Network:      http://169.254.130.3:8080
+2026-02-14T15:25:21.491496308Z 
+2026-02-14T15:25:21.492052903Z  ✓ Starting...
+2026-02-14T15:25:21.556483481Z Error: Could not find a production build in the './.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+2026-02-14T15:25:21.556543580Z     at setupFsCheck (/home/site/wwwroot/node_modules/next/dist/server/lib/router-utils/filesystem.js:151:19)
+2026-02-14T15:25:21.556549380Z     at async initialize (/home/site/wwwroot/node_modules/next/dist/server/lib/router-server.js:61:23)
+2026-02-14T15:25:21.556552580Z     at async Server.<anonymous> (/home/site/wwwroot/node_modules/next/dist/server/lib/start-server.js:249:36)
+
+2026-02-14T15:28:18.514177997Z    _____                               
+2026-02-14T15:28:18.521050538Z   /  _  \ __________ _________   ____  
+2026-02-14T15:28:18.521056638Z  /  /_\  \\___   /  |  \_  __ \_/ __ \ 
+2026-02-14T15:28:18.521059938Z /    |    \/    /|  |  /|  | \/\  ___/ 
+2026-02-14T15:28:18.521062638Z \____|__  /_____ \____/ |__|    \___  >
+2026-02-14T15:28:18.521065538Z         \/      \/                  \/ 
+2026-02-14T15:28:18.521068138Z A P P   S E R V I C E   O N   L I N U X
+2026-02-14T15:28:18.521070738Z 
+2026-02-14T15:28:18.521073038Z Documentation    : http://aka.ms/webapp-linux
+2026-02-14T15:28:18.521075538Z NodeJS quickstart: https://aka.ms/node-qs
+2026-02-14T15:28:18.521077938Z NodeJS Version   : v24.13.0
+2026-02-14T15:28:18.521080438Z Instance Name    : lw0sdlwk00000I
+2026-02-14T15:28:18.521082938Z Instance Id      : 48274e889b02f7890c1050bd386321425fa2cc936574965a145b0eff265739fb
+2026-02-14T15:28:18.521085638Z 
+2026-02-14T15:28:18.521087938Z Note: Any data outside '/home' is not persisted
+2026-02-14T15:28:27.245747245Z  * Starting OpenBSD Secure Shell server sshd
+2026-02-14T15:28:27.305928431Z    ...done.
+2026-02-14T15:28:27.354192118Z WEBSITES_INCLUDE_CLOUD_CERTS is not set to true.
+2026-02-14T15:28:27.630092862Z Updating certificates in /etc/ssl/certs...
+2026-02-14T15:29:21.221802482Z rehash: warning: skipping duplicate certificate in SSLcom-TLS-Root-2022-ECC.pem
+2026-02-14T15:29:21.222067781Z rehash: warning: skipping duplicate certificate in SSLcom-TLS-Root-2022-RSA.pem
+2026-02-14T15:29:21.884298702Z rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+2026-02-14T15:29:21.978834676Z 4 added, 0 removed; done.
+2026-02-14T15:29:21.978885976Z Running hooks in /etc/ca-certificates/update.d...
+2026-02-14T15:29:22.133349871Z done.
+2026-02-14T15:29:22.173107718Z CA certificates copied and updated successfully.
+2026-02-14T15:29:22.489298898Z  * Starting periodic command scheduler cron
+2026-02-14T15:29:22.614325132Z    ...done.
+2026-02-14T15:29:23.013331103Z Could not find build manifest file at '/home/site/wwwroot/oryx-manifest.toml'
+2026-02-14T15:29:23.045088060Z Could not find operation ID in manifest. Generating an operation id...
+2026-02-14T15:29:23.045149460Z Build Operation ID: cc3e9bb5-df50-441b-a654-e4242a944a42
+2026-02-14T15:29:23.862847241Z Environment Variables for Application Insight's IPA Codeless Configuration exists..
+2026-02-14T15:29:23.901983008Z Writing output script to '/opt/startup/startup.sh'
+2026-02-14T15:29:24.232175803Z Running #!/bin/sh
+2026-02-14T15:29:24.232206203Z 
+2026-02-14T15:29:24.232211003Z # Enter the source directory to make sure the script runs where the user expects
+2026-02-14T15:29:24.232236003Z cd "/home/site/wwwroot"
+2026-02-14T15:29:24.232240203Z 
+2026-02-14T15:29:24.232242703Z export NODE_PATH=/usr/local/lib/node_modules:$NODE_PATH
+2026-02-14T15:29:24.232245603Z if [ -z "$PORT" ]; then
+2026-02-14T15:29:24.232248303Z 		export PORT=8080
+2026-02-14T15:29:24.232251103Z fi
+2026-02-14T15:29:24.232253603Z 
+2026-02-14T15:29:24.232256003Z PATH="$PATH:/home/site/wwwroot" node server.js
+2026-02-14T15:29:35.120231974Z   ▲ Next.js 14.2.5
+2026-02-14T15:29:35.121547863Z   - Local:        http://81aa8f503ca8:8080
+2026-02-14T15:29:35.195924187Z   - Network:      http://169.254.130.3:8080
+2026-02-14T15:29:35.195945687Z 
+2026-02-14T15:29:35.195949287Z  ✓ Starting...
+2026-02-14T15:29:35.208173792Z Error: Could not find a production build in the './.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+2026-02-14T15:29:35.208191892Z     at setupFsCheck (/home/site/wwwroot/node_modules/next/dist/server/lib/router-utils/filesystem.js:151:19)
+2026-02-14T15:29:35.208195892Z     at async initialize (/home/site/wwwroot/node_modules/next/dist/server/lib/router-server.js:61:23)
+2026-02-14T15:29:35.208198792Z     at async Server.<anonymous> (/home/site/wwwroot/node_modules/next/dist/server/lib/start-server.js:249:36)
+
+2026-02-14T15:38:16.354302526Z    _____                               
+2026-02-14T15:38:16.382924994Z   /  _  \ __________ _________   ____  
+2026-02-14T15:38:16.382931394Z  /  /_\  \\___   /  |  \_  __ \_/ __ \ 
+2026-02-14T15:38:16.382934494Z /    |    \/    /|  |  /|  | \/\  ___/ 
+2026-02-14T15:38:16.382937194Z \____|__  /_____ \____/ |__|    \___  >
+2026-02-14T15:38:16.382940194Z         \/      \/                  \/ 
+2026-02-14T15:38:16.382943294Z A P P   S E R V I C E   O N   L I N U X
+2026-02-14T15:38:16.382945994Z 
+2026-02-14T15:38:16.382948494Z Documentation    : http://aka.ms/webapp-linux
+2026-02-14T15:38:16.382951094Z NodeJS quickstart: https://aka.ms/node-qs
+2026-02-14T15:38:16.382953694Z NodeJS Version   : v24.13.0
+2026-02-14T15:38:16.382956294Z Instance Name    : lw0sdlwk00000I
+2026-02-14T15:38:16.382958994Z Instance Id      : 48274e889b02f7890c1050bd386321425fa2cc936574965a145b0eff265739fb
+2026-02-14T15:38:16.382961594Z 
+2026-02-14T15:38:16.382964194Z Note: Any data outside '/home' is not persisted
+2026-02-14T15:38:29.169868848Z  * Starting OpenBSD Secure Shell server sshd
+2026-02-14T15:38:29.264075597Z    ...done.
+2026-02-14T15:38:29.322623130Z WEBSITES_INCLUDE_CLOUD_CERTS is not set to true.
+2026-02-14T15:38:29.499758818Z Updating certificates in /etc/ssl/certs...
+2026-02-14T15:39:03.220760207Z rehash: warning: skipping duplicate certificate in SSLcom-TLS-Root-2022-ECC.pem
+2026-02-14T15:39:03.230708827Z rehash: warning: skipping duplicate certificate in SSLcom-TLS-Root-2022-RSA.pem
+2026-02-14T15:39:03.781071978Z rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+2026-02-14T15:39:03.868767469Z 4 added, 0 removed; done.
+2026-02-14T15:39:03.889452002Z Running hooks in /etc/ca-certificates/update.d...
+2026-02-14T15:39:03.918850964Z done.
+2026-02-14T15:39:03.941682479Z CA certificates copied and updated successfully.
+2026-02-14T15:39:04.242872544Z  * Starting periodic command scheduler cron
+2026-02-14T15:39:04.271239915Z    ...done.
+2026-02-14T15:39:04.626828540Z Could not find build manifest file at '/home/site/wwwroot/oryx-manifest.toml'
+2026-02-14T15:39:04.628249329Z Could not find operation ID in manifest. Generating an operation id...
+2026-02-14T15:39:04.635479970Z Build Operation ID: 88c3f625-08c4-4c09-97fe-93cdc7ef0902
+2026-02-14T15:39:05.340494571Z Environment Variables for Application Insight's IPA Codeless Configuration exists..
+2026-02-14T15:39:05.361580800Z Writing output script to '/opt/startup/startup.sh'
+2026-02-14T15:39:05.458399118Z Running #!/bin/sh
+2026-02-14T15:39:05.458429417Z 
+2026-02-14T15:39:05.458433917Z # Enter the source directory to make sure the script runs where the user expects
+2026-02-14T15:39:05.458464217Z cd "/home/site/wwwroot"
+2026-02-14T15:39:05.458468817Z 
+2026-02-14T15:39:05.469111631Z export NODE_PATH=/usr/local/lib/node_modules:$NODE_PATH
+2026-02-14T15:39:05.469127431Z if [ -z "$PORT" ]; then
+2026-02-14T15:39:05.469131331Z 		export PORT=8080
+2026-02-14T15:39:05.469134231Z fi
+2026-02-14T15:39:05.469136531Z 
+2026-02-14T15:39:05.469138831Z PATH="$PATH:/home/site/wwwroot" node server.js
+2026-02-14T15:39:12.753501214Z   ▲ Next.js 14.2.5
+2026-02-14T15:39:12.760932454Z   - Local:        http://29f0d3ae61e7:8080
+2026-02-14T15:39:12.762414242Z   - Network:      http://169.254.130.3:8080
+2026-02-14T15:39:12.769072888Z 
+2026-02-14T15:39:12.779856401Z  ✓ Starting...
+2026-02-14T15:39:12.818508088Z Error: Could not find a production build in the './.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+2026-02-14T15:39:12.818548388Z     at setupFsCheck (/home/site/wwwroot/node_modules/next/dist/server/lib/router-utils/filesystem.js:151:19)
+2026-02-14T15:39:12.818553688Z     at async initialize (/home/site/wwwroot/node_modules/next/dist/server/lib/router-server.js:61:23)
+2026-02-14T15:39:12.818557588Z     at async Server.<anonymous> (/home/site/wwwroot/node_modules/next/dist/server/lib/start-server.js:249:36)
+
+2026-02-14T15:50:42.462423618Z    _____                               
+2026-02-14T15:50:42.470438253Z   /  _  \ __________ _________   ____  
+2026-02-14T15:50:42.470444153Z  /  /_\  \\___   /  |  \_  __ \_/ __ \ 
+2026-02-14T15:50:42.470447053Z /    |    \/    /|  |  /|  | \/\  ___/ 
+2026-02-14T15:50:42.470449653Z \____|__  /_____ \____/ |__|    \___  >
+2026-02-14T15:50:42.470452553Z         \/      \/                  \/ 
+2026-02-14T15:50:42.470455153Z A P P   S E R V I C E   O N   L I N U X
+2026-02-14T15:50:42.470457553Z 
+2026-02-14T15:50:42.470459753Z Documentation    : http://aka.ms/webapp-linux
+2026-02-14T15:50:42.470462053Z NodeJS quickstart: https://aka.ms/node-qs
+2026-02-14T15:50:42.470464352Z NodeJS Version   : v24.13.0
+2026-02-14T15:50:42.470466652Z Instance Name    : lw0sdlwk00000I
+2026-02-14T15:50:42.470468952Z Instance Id      : 48274e889b02f7890c1050bd386321425fa2cc936574965a145b0eff265739fb
+2026-02-14T15:50:42.470471352Z 
+2026-02-14T15:50:42.470473552Z Note: Any data outside '/home' is not persisted
+2026-02-14T15:50:46.841129944Z  * Starting OpenBSD Secure Shell server sshd
+2026-02-14T15:50:47.099585648Z    ...done.
+2026-02-14T15:50:47.144148687Z WEBSITES_INCLUDE_CLOUD_CERTS is not set to true.
+2026-02-14T15:50:47.393704564Z Updating certificates in /etc/ssl/certs...
+2026-02-14T15:51:24.991881827Z rehash: warning: skipping duplicate certificate in SSLcom-TLS-Root-2022-ECC.pem
+2026-02-14T15:51:24.996196991Z rehash: warning: skipping duplicate certificate in SSLcom-TLS-Root-2022-RSA.pem
+2026-02-14T15:51:25.536173358Z rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+2026-02-14T15:51:25.586729543Z 4 added, 0 removed; done.
+2026-02-14T15:51:25.594135383Z Running hooks in /etc/ca-certificates/update.d...
+2026-02-14T15:51:25.605350091Z done.
+2026-02-14T15:51:25.663095517Z CA certificates copied and updated successfully.
+2026-02-14T15:51:25.876147668Z  * Starting periodic command scheduler cron
+2026-02-14T15:51:25.913843158Z    ...done.
+2026-02-14T15:51:26.265786369Z Could not find build manifest file at '/home/site/wwwroot/oryx-manifest.toml'
+2026-02-14T15:51:26.273020709Z Could not find operation ID in manifest. Generating an operation id...
+2026-02-14T15:51:26.274295999Z Build Operation ID: 9b48f6b2-0015-4d86-9887-a10c4615a056
+2026-02-14T15:51:27.135673871Z Environment Variables for Application Insight's IPA Codeless Configuration exists..
+2026-02-14T15:51:27.144980792Z Writing output script to '/opt/startup/startup.sh'
+2026-02-14T15:51:27.304345427Z Running #!/bin/sh
+2026-02-14T15:51:27.304379327Z 
+2026-02-14T15:51:27.304384327Z # Enter the source directory to make sure the script runs where the user expects
+2026-02-14T15:51:27.304406127Z cd "/home/site/wwwroot"
+2026-02-14T15:51:27.304410027Z 
+2026-02-14T15:51:27.304412527Z export NODE_PATH=/usr/local/lib/node_modules:$NODE_PATH
+2026-02-14T15:51:27.304415127Z if [ -z "$PORT" ]; then
+2026-02-14T15:51:27.304417727Z 		export PORT=8080
+2026-02-14T15:51:27.304420727Z fi
+2026-02-14T15:51:27.304423227Z 
+2026-02-14T15:51:27.304425727Z PATH="$PATH:/home/site/wwwroot" node server.js
+2026-02-14T15:51:34.481765083Z   ▲ Next.js 14.2.5
+2026-02-14T15:51:34.483292670Z   - Local:        http://64e30ca5bc7d:8080
+2026-02-14T15:51:34.500461523Z   - Network:      http://169.254.130.3:8080
+2026-02-14T15:51:34.500488722Z 
+2026-02-14T15:51:34.500840619Z  ✓ Starting...
+2026-02-14T15:51:34.595964105Z Error: Could not find a production build in the './.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+2026-02-14T15:51:34.596015005Z     at setupFsCheck (/home/site/wwwroot/node_modules/next/dist/server/lib/router-utils/filesystem.js:151:19)
+2026-02-14T15:51:34.596020105Z     at async initialize (/home/site/wwwroot/node_modules/next/dist/server/lib/router-server.js:61:23)
+2026-02-14T15:51:34.596024205Z     at async Server.<anonymous> (/home/site/wwwroot/node_modules/next/dist/server/lib/start-server.js:249:36)
+
+2026-02-14T16:16:19.575856499Z    _____                               
+2026-02-14T16:16:19.578758574Z   /  _  \ __________ _________   ____  
+2026-02-14T16:16:19.578806773Z  /  /_\  \\___   /  |  \_  __ \_/ __ \ 
+2026-02-14T16:16:19.578812573Z /    |    \/    /|  |  /|  | \/\  ___/ 
+2026-02-14T16:16:19.578815173Z \____|__  /_____ \____/ |__|    \___  >
+2026-02-14T16:16:19.578818073Z         \/      \/                  \/ 
+2026-02-14T16:16:19.578820573Z A P P   S E R V I C E   O N   L I N U X
+2026-02-14T16:16:19.578823173Z 
+2026-02-14T16:16:19.578825373Z Documentation    : http://aka.ms/webapp-linux
+2026-02-14T16:16:19.578827773Z NodeJS quickstart: https://aka.ms/node-qs
+2026-02-14T16:16:19.578830073Z NodeJS Version   : v24.13.0
+2026-02-14T16:16:19.578832473Z Instance Name    : lw0sdlwk00000I
+2026-02-14T16:16:19.578834973Z Instance Id      : 48274e889b02f7890c1050bd386321425fa2cc936574965a145b0eff265739fb
+2026-02-14T16:16:19.578837373Z 
+2026-02-14T16:16:19.578839573Z Note: Any data outside '/home' is not persisted
+2026-02-14T16:16:24.912654725Z  * Starting OpenBSD Secure Shell server sshd
+2026-02-14T16:16:25.091421799Z    ...done.
+2026-02-14T16:16:25.148494712Z WEBSITES_INCLUDE_CLOUD_CERTS is not set to true.
+2026-02-14T16:16:25.307561355Z Updating certificates in /etc/ssl/certs...
+2026-02-14T16:17:00.112523297Z rehash: warning: skipping duplicate certificate in SSLcom-TLS-Root-2022-ECC.pem
+2026-02-14T16:17:00.194938686Z rehash: warning: skipping duplicate certificate in SSLcom-TLS-Root-2022-RSA.pem
+2026-02-14T16:17:00.626556161Z rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+2026-02-14T16:17:00.698035845Z 4 added, 0 removed; done.
+2026-02-14T16:17:00.699755330Z Running hooks in /etc/ca-certificates/update.d...
+2026-02-14T16:17:00.719525959Z done.
+2026-02-14T16:17:00.767009049Z CA certificates copied and updated successfully.
+2026-02-14T16:17:01.015571304Z  * Starting periodic command scheduler cron
+2026-02-14T16:17:01.069003643Z    ...done.
+2026-02-14T16:17:01.435332284Z Could not find build manifest file at '/home/site/wwwroot/oryx-manifest.toml'
+2026-02-14T16:17:01.436594373Z Could not find operation ID in manifest. Generating an operation id...
+2026-02-14T16:17:01.437593264Z Build Operation ID: aca2f8ec-f9f6-4336-a51a-61f5c4d3b25e
+2026-02-14T16:17:02.374423384Z Environment Variables for Application Insight's IPA Codeless Configuration exists..
+2026-02-14T16:17:02.506929241Z Writing output script to '/opt/startup/startup.sh'
+2026-02-14T16:17:02.741505718Z Running #!/bin/sh
+2026-02-14T16:17:02.741546818Z 
+2026-02-14T16:17:02.741551318Z # Enter the source directory to make sure the script runs where the user expects
+2026-02-14T16:17:02.741569717Z cd "/home/site/wwwroot"
+2026-02-14T16:17:02.741573317Z 
+2026-02-14T16:17:02.741576117Z export NODE_PATH=/usr/local/lib/node_modules:$NODE_PATH
+2026-02-14T16:17:02.741578717Z if [ -z "$PORT" ]; then
+2026-02-14T16:17:02.741581417Z 		export PORT=8080
+2026-02-14T16:17:02.741584217Z fi
+2026-02-14T16:17:02.741586717Z 
+2026-02-14T16:17:02.741589117Z PATH="$PATH:/home/site/wwwroot" node server.js
+2026-02-14T16:17:12.482702606Z   ▲ Next.js 14.2.5
+2026-02-14T16:17:12.490359040Z   - Local:        http://33db417ed07a:8080
+2026-02-14T16:17:12.491712528Z   - Network:      http://169.254.130.3:8080
+2026-02-14T16:17:12.498871566Z 
+2026-02-14T16:17:12.508864880Z  ✓ Starting...
+2026-02-14T16:17:12.562290020Z Error: Could not find a production build in the './.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+2026-02-14T16:17:12.562367119Z     at setupFsCheck (/home/site/wwwroot/node_modules/next/dist/server/lib/router-utils/filesystem.js:151:19)
+2026-02-14T16:17:12.562372419Z     at async initialize (/home/site/wwwroot/node_modules/next/dist/server/lib/router-server.js:61:23)
+2026-02-14T16:17:12.562376519Z     at async Server.<anonymous> (/home/site/wwwroot/node_modules/next/dist/server/lib/start-server.js:249:36)
+
+2026-02-14T16:22:36.906513455Z    _____                               
+2026-02-14T16:22:36.916062168Z   /  _  \ __________ _________   ____  
+2026-02-14T16:22:36.916075168Z  /  /_\  \\___   /  |  \_  __ \_/ __ \ 
+2026-02-14T16:22:36.916078268Z /    |    \/    /|  |  /|  | \/\  ___/ 
+2026-02-14T16:22:36.916080968Z \____|__  /_____ \____/ |__|    \___  >
+2026-02-14T16:22:36.916083868Z         \/      \/                  \/ 
+2026-02-14T16:22:36.916086468Z A P P   S E R V I C E   O N   L I N U X
+2026-02-14T16:22:36.916089168Z 
+2026-02-14T16:22:36.916091568Z Documentation    : http://aka.ms/webapp-linux
+2026-02-14T16:22:36.916094068Z NodeJS quickstart: https://aka.ms/node-qs
+2026-02-14T16:22:36.916096668Z NodeJS Version   : v24.13.0
+2026-02-14T16:22:36.916099468Z Instance Name    : lw0sdlwk00000I
+2026-02-14T16:22:36.916102568Z Instance Id      : 48274e889b02f7890c1050bd386321425fa2cc936574965a145b0eff265739fb
+2026-02-14T16:22:36.916105168Z 
+2026-02-14T16:22:36.916107568Z Note: Any data outside '/home' is not persisted
+2026-02-14T16:22:45.554505357Z  * Starting OpenBSD Secure Shell server sshd
+2026-02-14T16:22:45.751993121Z    ...done.
+2026-02-14T16:22:45.752026621Z WEBSITES_INCLUDE_CLOUD_CERTS is not set to true.
+2026-02-14T16:22:45.870739437Z Updating certificates in /etc/ssl/certs...
+2026-02-14T16:23:19.755682831Z rehash: warning: skipping duplicate certificate in SSLcom-TLS-Root-2022-ECC.pem
+2026-02-14T16:23:19.763609867Z rehash: warning: skipping duplicate certificate in SSLcom-TLS-Root-2022-RSA.pem
+2026-02-14T16:23:20.665323905Z rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+2026-02-14T16:23:20.739400408Z 4 added, 0 removed; done.
+2026-02-14T16:23:20.740335500Z Running hooks in /etc/ca-certificates/update.d...
+2026-02-14T16:23:20.844954558Z done.
+2026-02-14T16:23:20.969690353Z CA certificates copied and updated successfully.
+2026-02-14T16:23:21.350989082Z  * Starting periodic command scheduler cron
+2026-02-14T16:23:21.392907145Z    ...done.
+2026-02-14T16:23:21.608657907Z Could not find build manifest file at '/home/site/wwwroot/oryx-manifest.toml'
+2026-02-14T16:23:21.626039967Z Could not find operation ID in manifest. Generating an operation id...
+2026-02-14T16:23:21.626081167Z Build Operation ID: b874cda2-4017-4f42-b40f-3676d519d067
+2026-02-14T16:23:22.121458477Z Environment Variables for Application Insight's IPA Codeless Configuration exists..
+2026-02-14T16:23:22.144366992Z Writing output script to '/opt/startup/startup.sh'
+2026-02-14T16:23:22.181750391Z Running #!/bin/sh
+2026-02-14T16:23:22.181780891Z 
+2026-02-14T16:23:22.181786091Z # Enter the source directory to make sure the script runs where the user expects
+2026-02-14T16:23:22.181807091Z cd "/home/site/wwwroot"
+2026-02-14T16:23:22.181810991Z 
+2026-02-14T16:23:22.182839083Z export NODE_PATH=/usr/local/lib/node_modules:$NODE_PATH
+2026-02-14T16:23:22.182848883Z if [ -z "$PORT" ]; then
+2026-02-14T16:23:22.182852183Z 		export PORT=8080
+2026-02-14T16:23:22.182855282Z fi
+2026-02-14T16:23:22.182857782Z 
+2026-02-14T16:23:22.183082081Z PATH="$PATH:/home/site/wwwroot" node server.js
+2026-02-14T16:23:28.597655743Z   ▲ Next.js 14.2.5
+2026-02-14T16:23:28.598963832Z   - Local:        http://7c57bb551f24:8080
+2026-02-14T16:23:28.599998523Z   - Network:      http://169.254.130.3:8080
+2026-02-14T16:23:28.607045865Z 
+2026-02-14T16:23:28.609020548Z  ✓ Starting...
+2026-02-14T16:23:28.664550587Z Error: Could not find a production build in the './.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+2026-02-14T16:23:28.664602686Z     at setupFsCheck (/home/site/wwwroot/node_modules/next/dist/server/lib/router-utils/filesystem.js:151:19)
+2026-02-14T16:23:28.664607586Z     at async initialize (/home/site/wwwroot/node_modules/next/dist/server/lib/router-server.js:61:23)
+2026-02-14T16:23:28.664627886Z     at async Server.<anonymous> (/home/site/wwwroot/node_modules/next/dist/server/lib/start-server.js:249:36)
+
+2026-02-14T16:27:33.222424386Z    _____                               
+2026-02-14T16:27:33.223519777Z   /  _  \ __________ _________   ____  
+2026-02-14T16:27:33.223525377Z  /  /_\  \\___   /  |  \_  __ \_/ __ \ 
+2026-02-14T16:27:33.223528377Z /    |    \/    /|  |  /|  | \/\  ___/ 
+2026-02-14T16:27:33.223531177Z \____|__  /_____ \____/ |__|    \___  >
+2026-02-14T16:27:33.223541376Z         \/      \/                  \/ 
+2026-02-14T16:27:33.223543976Z A P P   S E R V I C E   O N   L I N U X
+2026-02-14T16:27:33.223546676Z 
+2026-02-14T16:27:33.223549076Z Documentation    : http://aka.ms/webapp-linux
+2026-02-14T16:27:33.223551576Z NodeJS quickstart: https://aka.ms/node-qs
+2026-02-14T16:27:33.223554076Z NodeJS Version   : v24.13.0
+2026-02-14T16:27:33.223556476Z Instance Name    : lw0sdlwk00000I
+2026-02-14T16:27:33.223558976Z Instance Id      : 48274e889b02f7890c1050bd386321425fa2cc936574965a145b0eff265739fb
+2026-02-14T16:27:33.223561776Z 
+2026-02-14T16:27:33.223564076Z Note: Any data outside '/home' is not persisted
+2026-02-14T16:27:46.976474535Z  * Starting OpenBSD Secure Shell server sshd
+2026-02-14T16:27:47.226339126Z    ...done.
+2026-02-14T16:27:47.295537041Z WEBSITES_INCLUDE_CLOUD_CERTS is not set to true.
+2026-02-14T16:27:47.520864839Z Updating certificates in /etc/ssl/certs...
+2026-02-14T16:28:24.475510180Z rehash: warning: skipping duplicate certificate in SSLcom-TLS-Root-2022-ECC.pem
+2026-02-14T16:28:24.486357692Z rehash: warning: skipping duplicate certificate in SSLcom-TLS-Root-2022-RSA.pem
+2026-02-14T16:28:25.269860630Z rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+2026-02-14T16:28:25.520498395Z 4 added, 0 removed; done.
+2026-02-14T16:28:25.520932391Z Running hooks in /etc/ca-certificates/update.d...
+2026-02-14T16:28:25.520938591Z done.
+2026-02-14T16:28:25.579393116Z CA certificates copied and updated successfully.
+2026-02-14T16:28:25.899485616Z  * Starting periodic command scheduler cron
+2026-02-14T16:28:25.899511716Z    ...done.
+2026-02-14T16:28:26.193790826Z Could not find build manifest file at '/home/site/wwwroot/oryx-manifest.toml'
+2026-02-14T16:28:26.193822825Z Could not find operation ID in manifest. Generating an operation id...
+2026-02-14T16:28:26.193828025Z Build Operation ID: 0105876a-5d17-417b-b70c-746b8ef1401c
+2026-02-14T16:28:26.942418245Z Environment Variables for Application Insight's IPA Codeless Configuration exists..
+2026-02-14T16:28:26.989549862Z Writing output script to '/opt/startup/startup.sh'
+2026-02-14T16:28:27.186876459Z Running #!/bin/sh
+2026-02-14T16:28:27.186940559Z 
+2026-02-14T16:28:27.186948858Z # Enter the source directory to make sure the script runs where the user expects
+2026-02-14T16:28:27.186967058Z cd "/home/site/wwwroot"
+2026-02-14T16:28:27.186970758Z 
+2026-02-14T16:28:27.186973658Z export NODE_PATH=/usr/local/lib/node_modules:$NODE_PATH
+2026-02-14T16:28:27.186976358Z if [ -z "$PORT" ]; then
+2026-02-14T16:28:27.186979058Z 		export PORT=8080
+2026-02-14T16:28:27.186982158Z fi
+2026-02-14T16:28:27.186984558Z 
+2026-02-14T16:28:27.186987058Z PATH="$PATH:/home/site/wwwroot" node server.js
+2026-02-14T16:28:42.510891795Z   ▲ Next.js 14.2.5
+2026-02-14T16:28:42.519251929Z   - Local:        http://85d7d915ce34:8080
+2026-02-14T16:28:42.519265729Z   - Network:      http://169.254.130.3:8080
+2026-02-14T16:28:42.519270229Z 
+2026-02-14T16:28:42.519273929Z  ✓ Starting...
+2026-02-14T16:28:42.560097410Z Error: Could not find a production build in the './.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+2026-02-14T16:28:42.560170409Z     at setupFsCheck (/home/site/wwwroot/node_modules/next/dist/server/lib/router-utils/filesystem.js:151:19)
+2026-02-14T16:28:42.560182109Z     at async initialize (/home/site/wwwroot/node_modules/next/dist/server/lib/router-server.js:61:23)
+2026-02-14T16:28:42.560185909Z     at async Server.<anonymous> (/home/site/wwwroot/node_modules/next/dist/server/lib/start-server.js:249:36)
+
+2026-02-14T16:40:40.319029278Z    _____                               
+2026-02-14T16:40:40.319087978Z   /  _  \ __________ _________   ____  
+2026-02-14T16:40:40.319093178Z  /  /_\  \\___   /  |  \_  __ \_/ __ \ 
+2026-02-14T16:40:40.319096678Z /    |    \/    /|  |  /|  | \/\  ___/ 
+2026-02-14T16:40:40.319099578Z \____|__  /_____ \____/ |__|    \___  >
+2026-02-14T16:40:40.319102678Z         \/      \/                  \/ 
+2026-02-14T16:40:40.319105378Z A P P   S E R V I C E   O N   L I N U X
+2026-02-14T16:40:40.319107978Z 
+2026-02-14T16:40:40.319110478Z Documentation    : http://aka.ms/webapp-linux
+2026-02-14T16:40:40.319113078Z NodeJS quickstart: https://aka.ms/node-qs
+2026-02-14T16:40:40.319115678Z NodeJS Version   : v24.13.0
+2026-02-14T16:40:40.319118178Z Instance Name    : lw0sdlwk00000I
+2026-02-14T16:40:40.319120778Z Instance Id      : 48274e889b02f7890c1050bd386321425fa2cc936574965a145b0eff265739fb
+2026-02-14T16:40:40.319123578Z 
+2026-02-14T16:40:40.319125978Z Note: Any data outside '/home' is not persisted
+2026-02-14T16:40:47.292152117Z  * Starting OpenBSD Secure Shell server sshd
+2026-02-14T16:40:47.357406781Z    ...done.
+2026-02-14T16:40:47.376048128Z WEBSITES_INCLUDE_CLOUD_CERTS is not set to true.
+2026-02-14T16:40:47.433083460Z Updating certificates in /etc/ssl/certs...
+2026-02-14T16:41:22.005023505Z rehash: warning: skipping duplicate certificate in SSLcom-TLS-Root-2022-ECC.pem
+2026-02-14T16:41:22.007560984Z rehash: warning: skipping duplicate certificate in SSLcom-TLS-Root-2022-RSA.pem
+2026-02-14T16:41:22.442738444Z rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+2026-02-14T16:41:22.505170436Z 4 added, 0 removed; done.
+2026-02-14T16:41:22.511338486Z Running hooks in /etc/ca-certificates/update.d...
+2026-02-14T16:41:22.522355896Z done.
+2026-02-14T16:41:22.544648615Z CA certificates copied and updated successfully.
+2026-02-14T16:41:22.720933981Z  * Starting periodic command scheduler cron
+2026-02-14T16:41:22.767369103Z    ...done.
+2026-02-14T16:41:23.085527315Z Could not find build manifest file at '/home/site/wwwroot/oryx-manifest.toml'
+2026-02-14T16:41:23.087169302Z Could not find operation ID in manifest. Generating an operation id...
+2026-02-14T16:41:23.087184002Z Build Operation ID: de0f3d45-d6b8-490e-b2d4-26722440f9a3
+2026-02-14T16:41:23.637462825Z Environment Variables for Application Insight's IPA Codeless Configuration exists..
+2026-02-14T16:41:23.663873510Z Writing output script to '/opt/startup/startup.sh'
+2026-02-14T16:41:23.711859920Z Running #!/bin/sh
+2026-02-14T16:41:23.711886620Z 
+2026-02-14T16:41:23.711891320Z # Enter the source directory to make sure the script runs where the user expects
+2026-02-14T16:41:23.711912020Z cd "/home/site/wwwroot"
+2026-02-14T16:41:23.711915720Z 
+2026-02-14T16:41:23.713609006Z export NODE_PATH=/usr/local/lib/node_modules:$NODE_PATH
+2026-02-14T16:41:23.713623606Z if [ -z "$PORT" ]; then
+2026-02-14T16:41:23.713627306Z 		export PORT=8080
+2026-02-14T16:41:23.713630506Z fi
+2026-02-14T16:41:23.713632906Z 
+2026-02-14T16:41:23.720903546Z PATH="$PATH:/home/site/wwwroot" node server.js
+2026-02-14T16:41:30.915352946Z   ▲ Next.js 14.2.5
+2026-02-14T16:41:30.926231849Z   - Local:        http://5426303fad9a:8080
+2026-02-14T16:41:30.926271448Z   - Network:      http://169.254.130.3:8080
+2026-02-14T16:41:30.926276448Z 
+2026-02-14T16:41:30.946848064Z  ✓ Starting...
+2026-02-14T16:41:31.142435617Z Error: Could not find a production build in the './.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+2026-02-14T16:41:31.142473717Z     at setupFsCheck (/home/site/wwwroot/node_modules/next/dist/server/lib/router-utils/filesystem.js:151:19)
+2026-02-14T16:41:31.142478217Z     at async initialize (/home/site/wwwroot/node_modules/next/dist/server/lib/router-server.js:61:23)
+2026-02-14T16:41:31.142481217Z     at async Server.<anonymous> (/home/site/wwwroot/node_modules/next/dist/server/lib/start-server.js:249:36)
+
+2026-02-14T16:57:46.248864742Z    _____                               
+2026-02-14T16:57:46.259388256Z   /  _  \ __________ _________   ____  
+2026-02-14T16:57:46.259393956Z  /  /_\  \\___   /  |  \_  __ \_/ __ \ 
+2026-02-14T16:57:46.259396756Z /    |    \/    /|  |  /|  | \/\  ___/ 
+2026-02-14T16:57:46.259399156Z \____|__  /_____ \____/ |__|    \___  >
+2026-02-14T16:57:46.259402456Z         \/      \/                  \/ 
+2026-02-14T16:57:46.259404856Z A P P   S E R V I C E   O N   L I N U X
+2026-02-14T16:57:46.259407156Z 
+2026-02-14T16:57:46.259409356Z Documentation    : http://aka.ms/webapp-linux
+2026-02-14T16:57:46.259411656Z NodeJS quickstart: https://aka.ms/node-qs
+2026-02-14T16:57:46.259413856Z NodeJS Version   : v24.13.0
+2026-02-14T16:57:46.259416056Z Instance Name    : lw0sdlwk00000I
+2026-02-14T16:57:46.259418356Z Instance Id      : 48274e889b02f7890c1050bd386321425fa2cc936574965a145b0eff265739fb
+2026-02-14T16:57:46.259420856Z 
+2026-02-14T16:57:46.259422956Z Note: Any data outside '/home' is not persisted
+2026-02-14T16:57:58.063403660Z  * Starting OpenBSD Secure Shell server sshd
+2026-02-14T16:57:58.157912195Z    ...done.
+2026-02-14T16:57:58.194599597Z WEBSITES_INCLUDE_CLOUD_CERTS is not set to true.
+2026-02-14T16:57:58.355582893Z Updating certificates in /etc/ssl/certs...
+2026-02-14T16:58:32.680969910Z rehash: warning: skipping duplicate certificate in SSLcom-TLS-Root-2022-ECC.pem
+2026-02-14T16:58:32.681292907Z rehash: warning: skipping duplicate certificate in SSLcom-TLS-Root-2022-RSA.pem
+2026-02-14T16:58:33.753846923Z rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+2026-02-14T16:58:33.843439188Z 4 added, 0 removed; done.
+2026-02-14T16:58:33.843467588Z Running hooks in /etc/ca-certificates/update.d...
+2026-02-14T16:58:33.873126345Z done.
+2026-02-14T16:58:33.938812306Z CA certificates copied and updated successfully.
+2026-02-14T16:58:34.470322448Z  * Starting periodic command scheduler cron
+2026-02-14T16:58:34.606610330Z    ...done.
+2026-02-14T16:58:35.200373461Z Could not find build manifest file at '/home/site/wwwroot/oryx-manifest.toml'
+2026-02-14T16:58:35.200413161Z Could not find operation ID in manifest. Generating an operation id...
+2026-02-14T16:58:35.200418761Z Build Operation ID: 6b342c1f-413d-4c02-8bd7-fd94a91816e1
+2026-02-14T16:58:37.088586777Z Environment Variables for Application Insight's IPA Codeless Configuration exists..
+2026-02-14T16:58:37.179458132Z Writing output script to '/opt/startup/startup.sh'
+2026-02-14T16:58:37.426092210Z Running #!/bin/sh
+2026-02-14T16:58:37.434321442Z 
+2026-02-14T16:58:37.434342042Z # Enter the source directory to make sure the script runs where the user expects
+2026-02-14T16:58:37.434362042Z cd "/home/site/wwwroot"
+2026-02-14T16:58:37.434366042Z 
+2026-02-14T16:58:37.434368542Z export NODE_PATH=/usr/local/lib/node_modules:$NODE_PATH
+2026-02-14T16:58:37.434371142Z if [ -z "$PORT" ]; then
+2026-02-14T16:58:37.434373742Z 		export PORT=8080
+2026-02-14T16:58:37.434387142Z fi
+2026-02-14T16:58:37.434390042Z 
+2026-02-14T16:58:37.434392742Z PATH="$PATH:/home/site/wwwroot" node server.js
+2026-02-14T16:58:46.836588385Z   ▲ Next.js 14.2.5
+2026-02-14T16:58:46.863493064Z   - Local:        http://7321596431ed:8080
+2026-02-14T16:58:46.863565964Z   - Network:      http://169.254.130.3:8080
+2026-02-14T16:58:46.863573864Z 
+2026-02-14T16:58:46.863577364Z  ✓ Starting...
+2026-02-14T16:58:46.904529927Z Error: Could not find a production build in the './.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+2026-02-14T16:58:46.904589927Z     at setupFsCheck (/home/site/wwwroot/node_modules/next/dist/server/lib/router-utils/filesystem.js:151:19)
+2026-02-14T16:58:46.904595127Z     at async initialize (/home/site/wwwroot/node_modules/next/dist/server/lib/router-server.js:61:23)
+2026-02-14T16:58:46.904598827Z     at async Server.<anonymous> (/home/site/wwwroot/node_modules/next/dist/server/lib/start-server.js:249:36)
+
+2026-02-14T17:50:48.985174958Z    _____                               
+2026-02-14T17:50:49.005129696Z   /  _  \ __________ _________   ____  
+2026-02-14T17:50:49.005137696Z  /  /_\  \\___   /  |  \_  __ \_/ __ \ 
+2026-02-14T17:50:49.005140796Z /    |    \/    /|  |  /|  | \/\  ___/ 
+2026-02-14T17:50:49.005143696Z \____|__  /_____ \____/ |__|    \___  >
+2026-02-14T17:50:49.005146996Z         \/      \/                  \/ 
+2026-02-14T17:50:49.005149696Z A P P   S E R V I C E   O N   L I N U X
+2026-02-14T17:50:49.005152296Z 
+2026-02-14T17:50:49.005154996Z Documentation    : http://aka.ms/webapp-linux
+2026-02-14T17:50:49.005157596Z NodeJS quickstart: https://aka.ms/node-qs
+2026-02-14T17:50:49.005160096Z NodeJS Version   : v24.13.0
+2026-02-14T17:50:49.005162696Z Instance Name    : lw0sdlwk00000I
+2026-02-14T17:50:49.005165296Z Instance Id      : 48274e889b02f7890c1050bd386321425fa2cc936574965a145b0eff265739fb
+2026-02-14T17:50:49.005167996Z 
+2026-02-14T17:50:49.005170396Z Note: Any data outside '/home' is not persisted
+2026-02-14T17:50:57.004947833Z  * Starting OpenBSD Secure Shell server sshd
+2026-02-14T17:50:57.070481507Z    ...done.
+2026-02-14T17:50:57.101140861Z WEBSITES_INCLUDE_CLOUD_CERTS is not set to true.
+2026-02-14T17:50:57.256698613Z Updating certificates in /etc/ssl/certs...
+2026-02-14T17:51:33.138048191Z rehash: warning: skipping duplicate certificate in SSLcom-TLS-Root-2022-ECC.pem
+2026-02-14T17:51:33.185505701Z rehash: warning: skipping duplicate certificate in SSLcom-TLS-Root-2022-RSA.pem
+2026-02-14T17:51:33.546426239Z rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+2026-02-14T17:51:33.643554242Z 4 added, 0 removed; done.
+2026-02-14T17:51:33.651559376Z Running hooks in /etc/ca-certificates/update.d...
+2026-02-14T17:51:33.662222689Z done.
+2026-02-14T17:51:33.683664713Z CA certificates copied and updated successfully.
+2026-02-14T17:51:33.973184137Z  * Starting periodic command scheduler cron
+2026-02-14T17:51:34.003075592Z    ...done.
+2026-02-14T17:51:34.484224945Z Could not find build manifest file at '/home/site/wwwroot/oryx-manifest.toml'
+2026-02-14T17:51:34.491005089Z Could not find operation ID in manifest. Generating an operation id...
+2026-02-14T17:51:34.491877882Z Build Operation ID: bde4835d-843c-4d18-a1ab-4d33c80e2317
+2026-02-14T17:51:35.150954076Z Environment Variables for Application Insight's IPA Codeless Configuration exists..
+2026-02-14T17:51:35.178102053Z Writing output script to '/opt/startup/startup.sh'
+2026-02-14T17:51:35.266564128Z Running #!/bin/sh
+2026-02-14T17:51:35.266593227Z 
+2026-02-14T17:51:35.266597927Z # Enter the source directory to make sure the script runs where the user expects
+2026-02-14T17:51:35.266619227Z cd "/home/site/wwwroot"
+2026-02-14T17:51:35.266623027Z 
+2026-02-14T17:51:35.266625427Z export NODE_PATH=/usr/local/lib/node_modules:$NODE_PATH
+2026-02-14T17:51:35.266627927Z if [ -z "$PORT" ]; then
+2026-02-14T17:51:35.266630427Z 		export PORT=8080
+2026-02-14T17:51:35.266633627Z fi
+2026-02-14T17:51:35.266635927Z 
+2026-02-14T17:51:35.266638327Z PATH="$PATH:/home/site/wwwroot" node server.js
+2026-02-14T17:51:44.521236802Z   ▲ Next.js 14.2.5
+2026-02-14T17:51:44.528024447Z   - Local:        http://d5680d044106:8080
+2026-02-14T17:51:44.536410679Z   - Network:      http://169.254.130.3:8080
+2026-02-14T17:51:44.536433478Z 
+2026-02-14T17:51:44.536437278Z  ✓ Starting...
+2026-02-14T17:51:44.585187380Z Error: Could not find a production build in the './.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+2026-02-14T17:51:44.585238580Z     at setupFsCheck (/home/site/wwwroot/node_modules/next/dist/server/lib/router-utils/filesystem.js:151:19)
+2026-02-14T17:51:44.585242980Z     at async initialize (/home/site/wwwroot/node_modules/next/dist/server/lib/router-server.js:61:23)
+2026-02-14T17:51:44.585736676Z     at async Server.<anonymous> (/home/site/wwwroot/node_modules/next/dist/server/lib/start-server.js:249:36)
+
+2026-02-14T17:57:11.457078320Z    _____                               
+2026-02-14T17:57:11.516559187Z   /  _  \ __________ _________   ____  
+2026-02-14T17:57:11.516566787Z  /  /_\  \\___   /  |  \_  __ \_/ __ \ 
+2026-02-14T17:57:11.516569587Z /    |    \/    /|  |  /|  | \/\  ___/ 
+2026-02-14T17:57:11.516572187Z \____|__  /_____ \____/ |__|    \___  >
+2026-02-14T17:57:11.516575187Z         \/      \/                  \/ 
+2026-02-14T17:57:11.516577687Z A P P   S E R V I C E   O N   L I N U X
+2026-02-14T17:57:11.516579987Z 
+2026-02-14T17:57:11.516582187Z Documentation    : http://aka.ms/webapp-linux
+2026-02-14T17:57:11.516584387Z NodeJS quickstart: https://aka.ms/node-qs
+2026-02-14T17:57:11.516586787Z NodeJS Version   : v24.13.0
+2026-02-14T17:57:11.516589187Z Instance Name    : lw0sdlwk00000I
+2026-02-14T17:57:11.516597987Z Instance Id      : 48274e889b02f7890c1050bd386321425fa2cc936574965a145b0eff265739fb
+2026-02-14T17:57:11.516600487Z 
+2026-02-14T17:57:11.516602687Z Note: Any data outside '/home' is not persisted
+2026-02-14T17:57:42.037331465Z  * Starting OpenBSD Secure Shell server sshd
+2026-02-14T17:57:42.337681981Z    ...done.
+2026-02-14T17:57:42.699776666Z WEBSITES_INCLUDE_CLOUD_CERTS is not set to true.
+2026-02-14T17:57:43.351254261Z Updating certificates in /etc/ssl/certs...
+2026-02-14T17:58:24.287138525Z rehash: warning: skipping duplicate certificate in SSLcom-TLS-Root-2022-ECC.pem
+2026-02-14T17:58:24.288068316Z rehash: warning: skipping duplicate certificate in SSLcom-TLS-Root-2022-RSA.pem
+2026-02-14T17:58:24.741587482Z rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+2026-02-14T17:58:24.838582555Z 4 added, 0 removed; done.
+2026-02-14T17:58:24.840188039Z Running hooks in /etc/ca-certificates/update.d...
+2026-02-14T17:58:24.885017211Z done.
+2026-02-14T17:58:24.923638842Z CA certificates copied and updated successfully.
+2026-02-14T17:58:25.220444305Z  * Starting periodic command scheduler cron
+2026-02-14T17:58:25.267081560Z    ...done.
+2026-02-14T17:58:25.554609012Z Could not find build manifest file at '/home/site/wwwroot/oryx-manifest.toml'
+2026-02-14T17:58:25.554646711Z Could not find operation ID in manifest. Generating an operation id...
+2026-02-14T17:58:25.554652011Z Build Operation ID: 8d533fb5-57cb-4357-93aa-f66058950998
+2026-02-14T17:58:26.099190707Z Environment Variables for Application Insight's IPA Codeless Configuration exists..
+2026-02-14T17:58:26.117097136Z Writing output script to '/opt/startup/startup.sh'
+2026-02-14T17:58:26.165549673Z Running #!/bin/sh
+2026-02-14T17:58:26.165577372Z 
+2026-02-14T17:58:26.165582072Z # Enter the source directory to make sure the script runs where the user expects
+2026-02-14T17:58:26.165604272Z cd "/home/site/wwwroot"
+2026-02-14T17:58:26.165608272Z 
+2026-02-14T17:58:26.175991373Z export NODE_PATH=/usr/local/lib/node_modules:$NODE_PATH
+2026-02-14T17:58:26.176011973Z if [ -z "$PORT" ]; then
+2026-02-14T17:58:26.176015773Z 		export PORT=8080
+2026-02-14T17:58:26.176018773Z fi
+2026-02-14T17:58:26.176021173Z 
+2026-02-14T17:58:26.195237389Z PATH="$PATH:/home/site/wwwroot" node server.js
+2026-02-14T17:58:40.949917980Z   ▲ Next.js 14.2.5
+2026-02-14T17:58:40.950702774Z   - Local:        http://d104d64ef335:8080
+2026-02-14T17:58:40.951022371Z   - Network:      http://169.254.130.3:8080
+2026-02-14T17:58:40.958614607Z 
+2026-02-14T17:58:40.960602691Z  ✓ Starting...
+2026-02-14T17:58:41.082628866Z Error: Could not find a production build in the './.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+2026-02-14T17:58:41.082684165Z     at setupFsCheck (/home/site/wwwroot/node_modules/next/dist/server/lib/router-utils/filesystem.js:151:19)
+2026-02-14T17:58:41.082690465Z     at async initialize (/home/site/wwwroot/node_modules/next/dist/server/lib/router-server.js:61:23)
+2026-02-14T17:58:41.082699465Z     at async Server.<anonymous> (/home/site/wwwroot/node_modules/next/dist/server/lib/start-server.js:249:36)
+
+2026-02-14T18:37:34.165863508Z    _____                               
+2026-02-14T18:37:34.241777983Z   /  _  \ __________ _________   ____  
+2026-02-14T18:37:34.241784782Z  /  /_\  \\___   /  |  \_  __ \_/ __ \ 
+2026-02-14T18:37:34.241787882Z /    |    \/    /|  |  /|  | \/\  ___/ 
+2026-02-14T18:37:34.241790682Z \____|__  /_____ \____/ |__|    \___  >
+2026-02-14T18:37:34.241793782Z         \/      \/                  \/ 
+2026-02-14T18:37:34.241796482Z A P P   S E R V I C E   O N   L I N U X
+2026-02-14T18:37:34.241799082Z 
+2026-02-14T18:37:34.241801782Z Documentation    : http://aka.ms/webapp-linux
+2026-02-14T18:37:34.241804282Z NodeJS quickstart: https://aka.ms/node-qs
+2026-02-14T18:37:34.241806782Z NodeJS Version   : v24.13.0
+2026-02-14T18:37:34.241809282Z Instance Name    : lw0sdlwk00000I
+2026-02-14T18:37:34.241811982Z Instance Id      : 48274e889b02f7890c1050bd386321425fa2cc936574965a145b0eff265739fb
+2026-02-14T18:37:34.241814682Z 
+2026-02-14T18:37:34.241817082Z Note: Any data outside '/home' is not persisted
+2026-02-14T18:37:45.407174125Z  * Starting OpenBSD Secure Shell server sshd
+2026-02-14T18:37:45.567561700Z    ...done.
+2026-02-14T18:37:45.598003049Z WEBSITES_INCLUDE_CLOUD_CERTS is not set to true.
+2026-02-14T18:37:45.691519576Z Updating certificates in /etc/ssl/certs...
+2026-02-14T18:38:22.558986180Z rehash: warning: skipping duplicate certificate in SSLcom-TLS-Root-2022-ECC.pem
+2026-02-14T18:38:22.560849865Z rehash: warning: skipping duplicate certificate in SSLcom-TLS-Root-2022-RSA.pem
+2026-02-14T18:38:22.952016525Z rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+2026-02-14T18:38:23.012055227Z 4 added, 0 removed; done.
+2026-02-14T18:38:23.013571515Z Running hooks in /etc/ca-certificates/update.d...
+2026-02-14T18:38:23.031388067Z done.
+2026-02-14T18:38:23.058100146Z CA certificates copied and updated successfully.
+2026-02-14T18:38:23.380168078Z  * Starting periodic command scheduler cron
+2026-02-14T18:38:23.380199978Z    ...done.
+2026-02-14T18:38:23.685062053Z Could not find build manifest file at '/home/site/wwwroot/oryx-manifest.toml'
+2026-02-14T18:38:23.731515468Z Could not find operation ID in manifest. Generating an operation id...
+2026-02-14T18:38:23.731548768Z Build Operation ID: 1a203756-7c80-4d9d-b3af-326785ccaa8d
+2026-02-14T18:38:24.167334258Z Environment Variables for Application Insight's IPA Codeless Configuration exists..
+2026-02-14T18:38:24.176078685Z Writing output script to '/opt/startup/startup.sh'
+2026-02-14T18:38:24.205327843Z Running #!/bin/sh
+2026-02-14T18:38:24.205405142Z 
+2026-02-14T18:38:24.205410142Z # Enter the source directory to make sure the script runs where the user expects
+2026-02-14T18:38:24.205426842Z cd "/home/site/wwwroot"
+2026-02-14T18:38:24.205430642Z 
+2026-02-14T18:38:24.213566075Z export NODE_PATH=/usr/local/lib/node_modules:$NODE_PATH
+2026-02-14T18:38:24.213579775Z if [ -z "$PORT" ]; then
+2026-02-14T18:38:24.213583175Z 		export PORT=8080
+2026-02-14T18:38:24.213586175Z fi
+2026-02-14T18:38:24.213588475Z 
+2026-02-14T18:38:24.213590775Z PATH="$PATH:/home/site/wwwroot" node server.js
+2026-02-14T18:38:30.861945741Z   ▲ Next.js 14.2.5
+2026-02-14T18:38:30.864305221Z   - Local:        http://d12b4a4d64dd:8080
+2026-02-14T18:38:30.874190340Z   - Network:      http://169.254.130.3:8080
+2026-02-14T18:38:30.880728486Z 
+2026-02-14T18:38:30.883212265Z  ✓ Starting...
+2026-02-14T18:38:30.958734143Z Error: Could not find a production build in the './.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+2026-02-14T18:38:30.958775943Z     at setupFsCheck (/home/site/wwwroot/node_modules/next/dist/server/lib/router-utils/filesystem.js:151:19)
+2026-02-14T18:38:30.958780643Z     at async initialize (/home/site/wwwroot/node_modules/next/dist/server/lib/router-server.js:61:23)
+2026-02-14T18:38:30.958783543Z     at async Server.<anonymous> (/home/site/wwwroot/node_modules/next/dist/server/lib/start-server.js:249:36)
+

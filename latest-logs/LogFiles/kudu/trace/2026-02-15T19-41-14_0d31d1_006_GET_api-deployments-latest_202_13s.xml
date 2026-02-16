@@ -1,0 +1,11 @@
+<step title="Incoming Request" date="2026-02-15T19:41:14.543" instance="0d31d1" url="/api/deployments/latest?deployer=OneDeploy&amp;time=2026-02-15_19-40-39Z" method="GET" type="request" pid="847,1,17" Host="options-scanner-frontend-2exk6s.scm.azurewebsites.net" User-Agent="GITHUBACTIONS_DeployWebAppToAzure_fd9702ea3fe8155ad4a84186b65084bf29dffc105b3f2e4ac42e85d74547d18a" Authorization="Bea..." Content-Type="application/json; charset=utf-8" Cookie="ARRAffinity=0d31d1e3b555b28bd1e1102783713510cb4a14cdd5a5d2b6e8d65e88240d42a3;Path=/;HttpOnly;Secure;Domain=options-scanner-frontend-2exk6s.scm.azurewebsites.net; ARRAffinitySameSite=0d31d1e3b555b28bd1e1102783713510cb4a14cdd5a5d2b6e8d65e88240d42a3;Path=/;HttpOnly;SameSite=None;Secure;Domain=options-scanner-frontend-2exk6s.scm.azurewebsites.net" Content-Length="0" X-ARR-LOG-ID="3864bf00-ca96-4b32-94eb-a6577d3ee4ae" CLIENT-IP="172.182.226.195:43034" X-SITE-DEPLOYMENT-ID="options-scanner-frontend-2exk6s" WAS-DEFAULT-HOSTNAME="options-scanner-frontend-2exk6s.scm.azurewebsites.net" X-Forwarded-Proto="https" X-AppService-Proto="https" X-Forwarded-TlsVersion="1.3" X-WAWS-Unencoded-URL="/api/deployments/latest?deployer=OneDeploy&amp;time=2026-02-15_19-40-39Z" X-Client-IP="172.182.226.195" X-Client-Port="43034" >
+  <step title="Cleanup Xml Logs" date="2026-02-15T19:41:14.749" >
+    <step title="Cleanup Infos" date="2026-02-15T19:41:16.682" totalFiles="770" totalCleanup="610" /><!-- duration: 51ms -->
+  </step><!-- duration: 2093ms -->
+  <step title="DeploymentService.GetResult" date="2026-02-15T19:41:17.330" >
+    <step title="DeploymentService.GetLatestDeployment" date="2026-02-15T19:41:17.360" >
+      <step title="DeploymentManager.GetResults" date="2026-02-15T19:41:17.480" /><!-- duration: 9480ms -->
+    </step><!-- duration: 9823ms -->
+  </step><!-- duration: 10030ms -->
+  <step title="Outgoing response" date="2026-02-15T19:41:27.540" type="response" statusCode="202" statusText="Accepted" /><!-- duration: 40ms -->
+</step><!-- duration: 13073ms -->

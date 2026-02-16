@@ -1,0 +1,43 @@
+<step title="Incoming Request" date="2026-02-14T22:13:54.132" instance="2c6363" url="/api/publish?type=zip" method="POST" type="request" pid="850,1,68" Accept="*/*" Host="options-scanner-frontend-2exk6s.scm.azurewebsites.net" User-Agent="AZURECLI/2.83.0 (MSI)" Accept-Encoding="gzip, deflate" Authorization="Bea..." Cache-Control="no-cache" Content-Type="application/octet-stream" Cookie="ARRAffinity=2c63633e02f6f5849b541837743c4fd2422fad3b6535b115c7a654e8ff859d08; ARRAffinitySameSite=2c63633e02f6f5849b541837743c4fd2422fad3b6535b115c7a654e8ff859d08" Content-Length="202481196" x-ms-client-request-id="6fc7ce0a-09f2-11f1-910a-84b1e26ffc70" x-ms-artifact-checksum="b81be812976c0897b34c0a6e0728f6619b8ae2f7282574b76f001396b84f02de" X-ARR-LOG-ID="6fc7ce0a-09f2-11f1-910a-84b1e26ffc70" CLIENT-IP="50.47.242.5:62971" X-SITE-DEPLOYMENT-ID="options-scanner-frontend-2exk6s" WAS-DEFAULT-HOSTNAME="options-scanner-frontend-2exk6s.scm.azurewebsites.net" X-Forwarded-Proto="https" X-AppService-Proto="https" X-Forwarded-TlsVersion="1.3" X-WAWS-Unencoded-URL="/api/publish?type=zip" X-Client-IP="50.47.242.5" X-Client-Port="62971" >
+  <step title="OneDeploy" date="2026-02-14T22:13:54.154" >
+    <step title="Starting PushDeployAsync" date="2026-02-14T22:13:54.173" /><!-- duration: 18ms -->
+    <step title="WEBSITE_RUN_FROM_PACKAGE is set to 1. Writing zip to SitePackagesPath" date="2026-02-14T22:13:54.202" /><!-- duration: 3ms -->
+    <step title="Copying zip to SitePackages /home/data/SitePackages/20260214221354.zip from request body" date="2026-02-14T22:13:54.216" /><!-- duration: 9ms -->
+    <step title="Writing multipart request body to /home/data/SitePackages/20260214221354.zip" date="2026-02-14T22:13:54.234" /><!-- duration: 3ms -->
+    <step title="Deleting outdated zip file /home/data/SitePackages/20260214191856.zip" date="2026-02-14T22:15:42.579" /><!-- duration: 19ms -->
+    <step title="Attempting to fetch target branch HEAD" date="2026-02-14T22:15:42.607" /><!-- duration: 3ms -->
+    <step title="Acquiring Deployment Lock" date="2026-02-14T22:15:42.614" /><!-- duration: 3ms -->
+    <step title="Acquired Deployment Lock" date="2026-02-14T22:15:42.693" /><!-- duration: 4ms -->
+    <step title="Performing fetch based deployment" date="2026-02-14T22:15:42.706" >
+      <step title="Creating temporary deployment" date="2026-02-14T22:15:42.710" /><!-- duration: 55ms -->
+      <step title="Releasing Deployment Lock" date="2026-02-14T22:15:43.936" /><!-- duration: 4ms -->
+      <step title="None repository commit" date="2026-02-14T22:15:44.288" >
+        <step title="Commit id: 64770b0b-efd6-46f0-a40d-799294bb5015" date="2026-02-14T22:15:44.292" Message="OneDeploy" AuthorName="N/A" AuthorEmail="N/A" /><!-- duration: 3ms -->
+      </step><!-- duration: 10ms -->
+      <step title="Deployment timer started" date="2026-02-14T22:15:46.304" >
+        <step title="DeploymentManager.Deploy(id:64770b0b-efd6-46f0-a40d-799294bb5015)" date="2026-02-14T22:15:46.310" >
+          <step title="Collecting changeset information" date="2026-02-14T22:15:46.338" /><!-- duration: 89ms -->
+          <step title="Updating submodules" date="2026-02-14T22:15:46.433" /><!-- duration: 1117ms -->
+          <step title="Determining deployment builder" date="2026-02-14T22:15:47.812" >
+            <step title="Builder is RunFromZipSiteBuilder" date="2026-02-14T22:15:47.821" /><!-- duration: 3ms -->
+          </step><!-- duration: 15ms -->
+          <step title="PreDeployment: context.CleanOutputPath False" date="2026-02-14T22:15:47.893" >
+            <step title="PreDeployment: context.OutputPath /home/site/wwwroot" date="2026-02-14T22:15:48.058" >
+              <step title="Building" date="2026-02-14T22:15:48.249" >
+                <step title="Modified file to trigger a restart of the app container." date="2026-02-14T22:15:48.744" /><!-- duration: 6ms -->
+                <step title="Skip function trigger and logicapp sync because function is not enabled." date="2026-02-14T22:15:48.756" /><!-- duration: 3ms -->
+                <step title="Purge deployment items" date="2026-02-14T22:15:50.190" >
+                  <step title="Remove bac6567e-, Success, received at 02/14/2026 07:10:29" date="2026-02-14T22:15:50.246" /><!-- duration: 3ms -->
+                </step><!-- duration: 62ms -->
+              </step><!-- duration: 2092ms -->
+            </step><!-- duration: 2291ms -->
+            <step title="Cleaning up temp files" date="2026-02-14T22:15:50.352" /><!-- duration: 4ms -->
+            <step title="Cleaning up temp files" date="2026-02-14T22:15:50.359" /><!-- duration: 505ms -->
+            <step title="Reloading status file with latest updates" date="2026-02-14T22:15:50.902" >
+              <step title="WebHooksManager.PublishEventAsync: PostDeployment" date="2026-02-14T22:15:50.908" /><!-- duration: 99ms -->
+            </step><!-- duration: 111ms -->
+            <step title="Cleaning up temporary deployment - fetch deployment was successful" date="2026-02-14T22:15:51.017" /><!-- duration: 3ms -->
+          </step><!-- duration: 3230ms -->
+        </step><!-- duration: 4820ms -->
+        <step title="Outgoing response" date="2026-02-14T22:15:51.135" type="response" statusCode="200" statusText="OK" /><!-- duration: 4ms -->
+      </step><!-- duration: 4838ms -->

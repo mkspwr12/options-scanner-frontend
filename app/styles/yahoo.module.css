@@ -1,0 +1,439 @@
+/* Yahoo Finance Data Integration — CSS Module (Issue #5)   */
+/* Design tokens from globals.css :root                     */
+
+/* ─── Section Wrapper ──────────────────────────────────── */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg, 16px);
+}
+
+/* ─── Ticker Input ─────────────────────────────────────── */
+
+.tickerForm {
+  display: flex;
+  gap: var(--space-sm, 8px);
+  align-items: center;
+}
+
+.tickerInput {
+  flex: 1;
+  max-width: 260px;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-family: inherit;
+  color: #e2e8f0;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.tickerInput:focus {
+  border-color: var(--filter-active, #1976d2);
+}
+
+.tickerSubmit {
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  color: #fff;
+  background: var(--filter-active, #1976d2);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.tickerSubmit:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.tickerSubmit:not(:disabled):hover {
+  opacity: 0.85;
+}
+
+/* ─── Header Row ───────────────────────────────────────── */
+
+.headerRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg, 16px);
+  flex-wrap: wrap;
+}
+
+/* ─── Connection Badge ─────────────────────────────────── */
+
+.connectionBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #e2e8f0;
+  background: #1a1a2e;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.connectionDot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+/* ─── Freshness Bar ────────────────────────────────────── */
+
+.freshnessBar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md, 12px);
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.freshnessLabel {
+  white-space: nowrap;
+}
+
+.freshnessControls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm, 8px);
+}
+
+.autoRefreshLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  color: #e2e8f0;
+}
+
+.intervalButtons {
+  display: flex;
+  gap: 4px;
+}
+
+.intervalBtn {
+  padding: 3px 8px;
+  font-size: 11px;
+  font-family: inherit;
+  color: #94a3b8;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.intervalBtnActive {
+  color: var(--filter-active-text, #64b5f6);
+  border-color: var(--filter-active-border, rgba(25, 118, 210, 0.3));
+  background: var(--filter-active-bg, rgba(25, 118, 210, 0.12));
+}
+
+.refreshBtn {
+  padding: 4px 10px;
+  font-size: 12px;
+  font-family: inherit;
+  font-weight: 500;
+  color: #e2e8f0;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.refreshBtn:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+/* ─── Stale Data Banner ────────────────────────────────── */
+
+.staleBanner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm, 8px);
+  padding: 10px 14px;
+  background: rgba(245, 166, 35, 0.12);
+  border: 1px solid rgba(245, 166, 35, 0.3);
+  border-radius: 8px;
+  animation: slideIn 0.25s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.staleBannerIcon {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.staleBannerText {
+  flex: 1;
+  font-size: 13px;
+  color: #ffa726;
+}
+
+.staleBannerRefresh {
+  padding: 4px 10px;
+  font-size: 12px;
+  font-family: inherit;
+  font-weight: 600;
+  color: #fff;
+  background: rgba(245, 166, 35, 0.3);
+  border: 1px solid rgba(245, 166, 35, 0.5);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.staleBannerRefresh:hover {
+  background: rgba(245, 166, 35, 0.45);
+}
+
+.staleBannerDismiss {
+  padding: 2px 6px;
+  font-size: 14px;
+  color: #94a3b8;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.15s;
+}
+
+.staleBannerDismiss:hover {
+  color: #e2e8f0;
+}
+
+/* ─── Rate Limit Indicator ─────────────────────────────── */
+
+.rateLimitContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rateLimitHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+}
+
+.rateLimitLabel {
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.rateLimitCount {
+  color: #94a3b8;
+}
+
+.rateLimitTrack {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.rateLimitFill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+/* ─── Chain Table ──────────────────────────────────────── */
+
+.chainTitle {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.chainTableWrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.chainTable {
+  width: 100%;
+  min-width: 900px;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.chainTh {
+  position: sticky;
+  top: 0;
+  padding: 8px 10px;
+  text-align: right;
+  font-size: 11px;
+  font-weight: 600;
+  color: #94a3b8;
+  background: #16213e;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.chainTh:first-child {
+  text-align: left;
+}
+
+.sortable {
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.sortable:hover {
+  color: #e2e8f0;
+}
+
+.sortArrow {
+  font-size: 10px;
+}
+
+.chainRow {
+  transition: background 0.1s;
+}
+
+.chainRow:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.chainTd {
+  padding: 7px 10px;
+  text-align: right;
+  color: #e2e8f0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  white-space: nowrap;
+}
+
+.chainTd:first-child {
+  text-align: left;
+}
+
+/* Type badges */
+
+.callBadge {
+  display: inline-block;
+  padding: 2px 6px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #66bb6a;
+  background: rgba(102, 187, 106, 0.12);
+  border-radius: 4px;
+}
+
+.putBadge {
+  display: inline-block;
+  padding: 2px 6px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #ef5350;
+  background: rgba(239, 83, 80, 0.12);
+  border-radius: 4px;
+}
+
+/* ─── Skeleton Rows (Loading) ──────────────────────────── */
+
+.skeletonRow td {
+  padding: 7px 10px;
+}
+
+.skeleton {
+  display: inline-block;
+  width: 60px;
+  height: 14px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.06) 25%, rgba(255, 255, 255, 0.12) 50%, rgba(255, 255, 255, 0.06) 75%);
+  background-size: 200% 100%;
+  border-radius: 4px;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* ─── Empty + Error ────────────────────────────────────── */
+
+.emptyMessage {
+  padding: 24px;
+  text-align: center;
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.errorText {
+  margin: 0;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #ef5350;
+  background: rgba(239, 83, 80, 0.1);
+  border: 1px solid rgba(239, 83, 80, 0.25);
+  border-radius: 8px;
+}
+
+/* ─── Responsive ───────────────────────────────────────── */
+
+@media (max-width: 1024px) {
+  .chainTable {
+    min-width: 800px;
+  }
+
+  .headerRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 768px) {
+  .tickerForm {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .tickerInput {
+    max-width: none;
+  }
+
+  .freshnessBar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .headerRow {
+    gap: var(--space-sm, 8px);
+  }
+
+  .chainTable {
+    font-size: 12px;
+    min-width: 700px;
+  }
+}

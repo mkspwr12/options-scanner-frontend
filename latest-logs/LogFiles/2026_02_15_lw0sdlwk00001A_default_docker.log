@@ -1,0 +1,186 @@
+2026-02-15T20:13:16.452613144Z    _____                               
+2026-02-15T20:13:16.453668439Z   /  _  \ __________ _________   ____  
+2026-02-15T20:13:16.453673939Z  /  /_\  \\___   /  |  \_  __ \_/ __ \ 
+2026-02-15T20:13:16.453676639Z /    |    \/    /|  |  /|  | \/\  ___/ 
+2026-02-15T20:13:16.453678939Z \____|__  /_____ \____/ |__|    \___  >
+2026-02-15T20:13:16.453681639Z         \/      \/                  \/ 
+2026-02-15T20:13:16.453683839Z A P P   S E R V I C E   O N   L I N U X
+2026-02-15T20:13:16.453686039Z 
+2026-02-15T20:13:16.453688239Z Documentation    : http://aka.ms/webapp-linux
+2026-02-15T20:13:16.453690339Z NodeJS quickstart: https://aka.ms/node-qs
+2026-02-15T20:13:16.453692439Z NodeJS Version   : v20.20.0
+2026-02-15T20:13:16.453694539Z Instance Name    : lw0sdlwk00001A
+2026-02-15T20:13:16.453696839Z Instance Id      : f61db71164c7fbc96a48b8334d6a4273c48541f982080ae5a71433a0e2a8d849
+2026-02-15T20:13:16.453699139Z 
+2026-02-15T20:13:16.453701239Z Note: Any data outside '/home' is not persisted
+2026-02-15T20:13:20.649171946Z Starting OpenBSD Secure Shell server: sshd.
+2026-02-15T20:13:20.698936023Z WEBSITES_INCLUDE_CLOUD_CERTS is not set to true.
+2026-02-15T20:13:20.798825674Z Updating certificates in /etc/ssl/certs...
+2026-02-15T20:13:43.099280441Z rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_ECC_Root_CA_2022.pem
+2026-02-15T20:13:43.099322241Z rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_RSA_Root_CA_2022.pem
+2026-02-15T20:13:43.668282724Z rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+2026-02-15T20:13:43.766707009Z 4 added, 0 removed; done.
+2026-02-15T20:13:43.766752009Z Running hooks in /etc/ca-certificates/update.d...
+2026-02-15T20:13:43.766756309Z done.
+2026-02-15T20:13:43.848548448Z CA certificates copied and updated successfully.
+2026-02-15T20:13:44.406553366Z Starting periodic command scheduler: cron.
+2026-02-15T20:13:45.082348508Z Could not find build manifest file at '/home/site/wwwroot/oryx-manifest.toml'
+2026-02-15T20:13:45.082445708Z Could not find operation ID in manifest. Generating an operation id...
+2026-02-15T20:13:45.082450008Z Build Operation ID: 3ef7a6e8-8178-47c6-ae6e-16a71fa82f9e
+2026-02-15T20:13:45.585521901Z Environment Variables for Application Insight's IPA Codeless Configuration exists..
+2026-02-15T20:13:45.585544101Z Writing output script to '/opt/startup/startup.sh'
+2026-02-15T20:13:45.683051290Z Running #!/bin/sh
+2026-02-15T20:13:45.683087090Z 
+2026-02-15T20:13:45.683090790Z # Enter the source directory to make sure the script runs where the user expects
+2026-02-15T20:13:45.683094290Z cd "/home/site/wwwroot"
+2026-02-15T20:13:45.683097090Z 
+2026-02-15T20:13:45.683111190Z export NODE_PATH=/usr/local/lib/node_modules:$NODE_PATH
+2026-02-15T20:13:45.683114090Z if [ -z "$PORT" ]; then
+2026-02-15T20:13:45.683116190Z 		export PORT=8080
+2026-02-15T20:13:45.683118590Z fi
+2026-02-15T20:13:45.683120590Z 
+2026-02-15T20:13:45.683122490Z PATH="$PATH:/home/site/wwwroot" node server.js
+2026-02-15T20:13:53.046161173Z /home/site/wwwroot/node_modules/path-to-regexp/dist/index.js:96
+2026-02-15T20:13:53.046188273Z             throw new PathError(`Missing parameter name at index ${index}`, str);
+2026-02-15T20:13:53.046192173Z             ^
+2026-02-15T20:13:53.046194473Z 
+2026-02-15T20:13:53.046196873Z PathError [TypeError]: Missing parameter name at index 1: *; visit https://git.new/pathToRegexpError for info
+2026-02-15T20:13:53.046206673Z     at name (/home/site/wwwroot/node_modules/path-to-regexp/dist/index.js:96:19)
+2026-02-15T20:13:53.046209173Z     at parse (/home/site/wwwroot/node_modules/path-to-regexp/dist/index.js:113:68)
+2026-02-15T20:13:53.046211673Z     at pathToRegexp (/home/site/wwwroot/node_modules/path-to-regexp/dist/index.js:267:58)
+2026-02-15T20:13:53.046214173Z     at Object.match (/home/site/wwwroot/node_modules/path-to-regexp/dist/index.js:237:30)
+2026-02-15T20:13:53.046216573Z     at matcher (/home/site/wwwroot/node_modules/router/lib/layer.js:86:23)
+2026-02-15T20:13:53.046219273Z     at new Layer (/home/site/wwwroot/node_modules/router/lib/layer.js:93:62)
+2026-02-15T20:13:53.046221573Z     at Function.route (/home/site/wwwroot/node_modules/router/index.js:428:17)
+2026-02-15T20:13:53.046223773Z     at Function.route (/home/site/wwwroot/node_modules/express/lib/application.js:257:22)
+2026-02-15T20:13:53.046226073Z     at app.<computed> [as get] (/home/site/wwwroot/node_modules/express/lib/application.js:478:22)
+2026-02-15T20:13:53.046228773Z     at Object.<anonymous> (/home/site/wwwroot/server.js:9:5) {
+2026-02-15T20:13:53.046231173Z   originalPath: '*'
+2026-02-15T20:13:53.046233373Z }
+2026-02-15T20:13:53.046235573Z 
+2026-02-15T20:13:53.046237773Z Node.js v20.20.0
+
+2026-02-15T20:15:23.149777214Z    _____                               
+2026-02-15T20:15:23.149845914Z   /  _  \ __________ _________   ____  
+2026-02-15T20:15:23.149850714Z  /  /_\  \\___   /  |  \_  __ \_/ __ \ 
+2026-02-15T20:15:23.149853514Z /    |    \/    /|  |  /|  | \/\  ___/ 
+2026-02-15T20:15:23.149856114Z \____|__  /_____ \____/ |__|    \___  >
+2026-02-15T20:15:23.149858914Z         \/      \/                  \/ 
+2026-02-15T20:15:23.149861514Z A P P   S E R V I C E   O N   L I N U X
+2026-02-15T20:15:23.149864014Z 
+2026-02-15T20:15:23.149866314Z Documentation    : http://aka.ms/webapp-linux
+2026-02-15T20:15:23.149868714Z NodeJS quickstart: https://aka.ms/node-qs
+2026-02-15T20:15:23.149871114Z NodeJS Version   : v20.20.0
+2026-02-15T20:15:23.149888514Z Instance Name    : lw0sdlwk00001A
+2026-02-15T20:15:23.149892614Z Instance Id      : f61db71164c7fbc96a48b8334d6a4273c48541f982080ae5a71433a0e2a8d849
+2026-02-15T20:15:23.149895314Z 
+2026-02-15T20:15:23.149897714Z Note: Any data outside '/home' is not persisted
+2026-02-15T20:15:28.663784570Z Starting OpenBSD Secure Shell server: sshd.
+2026-02-15T20:15:28.732589420Z WEBSITES_INCLUDE_CLOUD_CERTS is not set to true.
+2026-02-15T20:15:28.861422138Z Updating certificates in /etc/ssl/certs...
+2026-02-15T20:15:59.205647916Z rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_ECC_Root_CA_2022.pem
+2026-02-15T20:15:59.205713515Z rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_RSA_Root_CA_2022.pem
+2026-02-15T20:15:59.924524008Z rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+2026-02-15T20:16:00.052821096Z 4 added, 0 removed; done.
+2026-02-15T20:16:00.052851496Z Running hooks in /etc/ca-certificates/update.d...
+2026-02-15T20:16:00.054874990Z done.
+2026-02-15T20:16:00.085092193Z CA certificates copied and updated successfully.
+2026-02-15T20:16:00.531636959Z Starting periodic command scheduler: cron.
+2026-02-15T20:16:00.917767120Z Could not find build manifest file at '/home/site/wwwroot/oryx-manifest.toml'
+2026-02-15T20:16:00.925948393Z Could not find operation ID in manifest. Generating an operation id...
+2026-02-15T20:16:00.926306592Z Build Operation ID: 4b3e31c0-1063-4d0c-9368-a89ec7e87d42
+2026-02-15T20:16:01.472395639Z Environment Variables for Application Insight's IPA Codeless Configuration exists..
+2026-02-15T20:16:01.472448639Z Writing output script to '/opt/startup/startup.sh'
+2026-02-15T20:16:01.680124672Z Running #!/bin/sh
+2026-02-15T20:16:01.681477168Z 
+2026-02-15T20:16:01.681491968Z # Enter the source directory to make sure the script runs where the user expects
+2026-02-15T20:16:01.681496468Z cd "/home/site/wwwroot"
+2026-02-15T20:16:01.681500068Z 
+2026-02-15T20:16:01.710166976Z export NODE_PATH=/usr/local/lib/node_modules:$NODE_PATH
+2026-02-15T20:16:01.710185876Z if [ -z "$PORT" ]; then
+2026-02-15T20:16:01.710189576Z 		export PORT=8080
+2026-02-15T20:16:01.710192876Z fi
+2026-02-15T20:16:01.710195676Z 
+2026-02-15T20:16:01.710198376Z PATH="$PATH:/home/site/wwwroot" node server.js
+2026-02-15T20:16:12.871059520Z /home/site/wwwroot/node_modules/path-to-regexp/dist/index.js:96
+2026-02-15T20:16:12.871111620Z             throw new PathError(`Missing parameter name at index ${index}`, str);
+2026-02-15T20:16:12.871115220Z             ^
+2026-02-15T20:16:12.871117620Z 
+2026-02-15T20:16:12.878811303Z PathError [TypeError]: Missing parameter name at index 1: *; visit https://git.new/pathToRegexpError for info
+2026-02-15T20:16:12.878816803Z     at name (/home/site/wwwroot/node_modules/path-to-regexp/dist/index.js:96:19)
+2026-02-15T20:16:12.878819803Z     at parse (/home/site/wwwroot/node_modules/path-to-regexp/dist/index.js:113:68)
+2026-02-15T20:16:12.878822503Z     at pathToRegexp (/home/site/wwwroot/node_modules/path-to-regexp/dist/index.js:267:58)
+2026-02-15T20:16:12.878825003Z     at Object.match (/home/site/wwwroot/node_modules/path-to-regexp/dist/index.js:237:30)
+2026-02-15T20:16:12.878827503Z     at matcher (/home/site/wwwroot/node_modules/router/lib/layer.js:86:23)
+2026-02-15T20:16:12.878829903Z     at new Layer (/home/site/wwwroot/node_modules/router/lib/layer.js:93:62)
+2026-02-15T20:16:12.878832203Z     at Function.route (/home/site/wwwroot/node_modules/router/index.js:428:17)
+2026-02-15T20:16:12.878839703Z     at Function.route (/home/site/wwwroot/node_modules/express/lib/application.js:257:22)
+2026-02-15T20:16:12.878842103Z     at app.<computed> [as get] (/home/site/wwwroot/node_modules/express/lib/application.js:478:22)
+2026-02-15T20:16:12.878845203Z     at Object.<anonymous> (/home/site/wwwroot/server.js:9:5) {
+2026-02-15T20:16:12.878847803Z   originalPath: '*'
+2026-02-15T20:16:12.878850103Z }
+2026-02-15T20:16:12.878852303Z 
+2026-02-15T20:16:12.878854503Z Node.js v20.20.0
+
+2026-02-15T20:16:31.624234638Z    _____                               
+2026-02-15T20:16:31.624287138Z   /  _  \ __________ _________   ____  
+2026-02-15T20:16:31.624291038Z  /  /_\  \\___   /  |  \_  __ \_/ __ \ 
+2026-02-15T20:16:31.624293438Z /    |    \/    /|  |  /|  | \/\  ___/ 
+2026-02-15T20:16:31.624295638Z \____|__  /_____ \____/ |__|    \___  >
+2026-02-15T20:16:31.624298038Z         \/      \/                  \/ 
+2026-02-15T20:16:31.624300238Z A P P   S E R V I C E   O N   L I N U X
+2026-02-15T20:16:31.624302338Z 
+2026-02-15T20:16:31.624305038Z Documentation    : http://aka.ms/webapp-linux
+2026-02-15T20:16:31.624307338Z NodeJS quickstart: https://aka.ms/node-qs
+2026-02-15T20:16:31.624309438Z NodeJS Version   : v20.20.0
+2026-02-15T20:16:31.624311438Z Instance Name    : lw0sdlwk00001A
+2026-02-15T20:16:31.624313538Z Instance Id      : f61db71164c7fbc96a48b8334d6a4273c48541f982080ae5a71433a0e2a8d849
+2026-02-15T20:16:31.624315938Z 
+2026-02-15T20:16:31.624317938Z Note: Any data outside '/home' is not persisted
+2026-02-15T20:16:35.101916049Z Starting OpenBSD Secure Shell server: sshd.
+2026-02-15T20:16:35.123630912Z WEBSITES_INCLUDE_CLOUD_CERTS is not set to true.
+2026-02-15T20:16:35.302621809Z Updating certificates in /etc/ssl/certs...
+2026-02-15T20:17:00.702188816Z rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_ECC_Root_CA_2022.pem
+2026-02-15T20:17:00.730731273Z rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_RSA_Root_CA_2022.pem
+2026-02-15T20:17:01.381293893Z rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+2026-02-15T20:17:01.508265802Z 4 added, 0 removed; done.
+2026-02-15T20:17:01.508328102Z Running hooks in /etc/ca-certificates/update.d...
+2026-02-15T20:17:01.529526670Z done.
+2026-02-15T20:17:01.619987234Z CA certificates copied and updated successfully.
+2026-02-15T20:17:02.425021421Z Starting periodic command scheduler: cron.
+2026-02-15T20:17:03.754006828Z Could not find build manifest file at '/home/site/wwwroot/oryx-manifest.toml'
+2026-02-15T20:17:03.793888969Z Could not find operation ID in manifest. Generating an operation id...
+2026-02-15T20:17:03.793939369Z Build Operation ID: 5eed77aa-3a8c-467e-9a58-ddb5d10d2f28
+2026-02-15T20:17:04.933315785Z Environment Variables for Application Insight's IPA Codeless Configuration exists..
+2026-02-15T20:17:05.024454250Z Writing output script to '/opt/startup/startup.sh'
+2026-02-15T20:17:05.204040484Z Running #!/bin/sh
+2026-02-15T20:17:05.204066484Z 
+2026-02-15T20:17:05.204070084Z # Enter the source directory to make sure the script runs where the user expects
+2026-02-15T20:17:05.204073484Z cd "/home/site/wwwroot"
+2026-02-15T20:17:05.204076584Z 
+2026-02-15T20:17:05.204094684Z export NODE_PATH=/usr/local/lib/node_modules:$NODE_PATH
+2026-02-15T20:17:05.204097984Z if [ -z "$PORT" ]; then
+2026-02-15T20:17:05.204100284Z 		export PORT=8080
+2026-02-15T20:17:05.204102784Z fi
+2026-02-15T20:17:05.204104884Z 
+2026-02-15T20:17:05.204106984Z PATH="$PATH:/home/site/wwwroot" node server.js
+2026-02-15T20:17:13.266229690Z /home/site/wwwroot/node_modules/path-to-regexp/dist/index.js:96
+2026-02-15T20:17:13.266287790Z             throw new PathError(`Missing parameter name at index ${index}`, str);
+2026-02-15T20:17:13.266292290Z             ^
+2026-02-15T20:17:13.266295390Z 
+2026-02-15T20:17:13.266298190Z PathError [TypeError]: Missing parameter name at index 1: *; visit https://git.new/pathToRegexpError for info
+2026-02-15T20:17:13.266301490Z     at name (/home/site/wwwroot/node_modules/path-to-regexp/dist/index.js:96:19)
+2026-02-15T20:17:13.266304590Z     at parse (/home/site/wwwroot/node_modules/path-to-regexp/dist/index.js:113:68)
+2026-02-15T20:17:13.266307590Z     at pathToRegexp (/home/site/wwwroot/node_modules/path-to-regexp/dist/index.js:267:58)
+2026-02-15T20:17:13.266310490Z     at Object.match (/home/site/wwwroot/node_modules/path-to-regexp/dist/index.js:237:30)
+2026-02-15T20:17:13.266313690Z     at matcher (/home/site/wwwroot/node_modules/router/lib/layer.js:86:23)
+2026-02-15T20:17:13.266316890Z     at new Layer (/home/site/wwwroot/node_modules/router/lib/layer.js:93:62)
+2026-02-15T20:17:13.266319690Z     at Function.route (/home/site/wwwroot/node_modules/router/index.js:428:17)
+2026-02-15T20:17:13.266322590Z     at Function.route (/home/site/wwwroot/node_modules/express/lib/application.js:257:22)
+2026-02-15T20:17:13.266325290Z     at app.<computed> [as get] (/home/site/wwwroot/node_modules/express/lib/application.js:478:22)
+2026-02-15T20:17:13.266328590Z     at Object.<anonymous> (/home/site/wwwroot/server.js:9:5) {
+2026-02-15T20:17:13.266331490Z   originalPath: '*'
+2026-02-15T20:17:13.266334190Z }
+2026-02-15T20:17:13.266336790Z 
+2026-02-15T20:17:13.266339490Z Node.js v20.20.0
+

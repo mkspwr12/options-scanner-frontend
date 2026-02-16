@@ -1,0 +1,130 @@
+<step title="BackgroundTrace" date="2026-02-14T06:19:47.620" instance="ebc21d" url="/api/publish" method="POST" >
+  <step title="Cleanup Xml Logs" date="2026-02-14T06:19:47.840" >
+    <step title="Cleanup Infos" date="2026-02-14T06:19:48.042" totalFiles="478" totalCleanup="318" /><!-- duration: 107ms -->
+  </step><!-- duration: 368ms -->
+  <step title="Creating temporary deployment - FetchDeploymentManager" date="2026-02-14T06:19:48.947" /><!-- duration: 9ms -->
+  <step title="Creating temporary deployment" date="2026-02-14T06:19:48.967" /><!-- duration: 211ms -->
+  <step title="Performing fetch based deployment" date="2026-02-14T06:19:50.086" >
+    <step title="Cleaning up temp folders from previous zip deployments and extracting pushed zip file /tmp/zipdeploy/95b4c884-efaa-47e0-b4aa-a0d1b477da18.zip (5.72 MB) to /tmp/zipdeploy/extracted" date="2026-02-14T06:19:52.113" >
+      <step title="ChmodRecursive Process exited with total time taken in ms: 265" date="2026-02-14T06:20:07.412" /><!-- duration: 100ms -->
+    </step><!-- duration: 15680ms -->
+    <step title="Deployment timer started" date="2026-02-14T06:20:10.026" >
+      <step title="DeploymentManager.Deploy(id:f8ae4cf2-ac9a-49cf-9000-e0efa2894b17)" date="2026-02-14T06:20:10.193" >
+        <step title="Collecting changeset information" date="2026-02-14T06:20:10.435" /><!-- duration: 391ms -->
+        <step title="Updating submodules" date="2026-02-14T06:20:10.864" /><!-- duration: 1835ms -->
+        <step title="Determining deployment builder" date="2026-02-14T06:20:17.531" >
+          <step title="Builder is OryxBuilder" date="2026-02-14T06:20:17.835" /><!-- duration: 208ms -->
+        </step><!-- duration: 580ms -->
+        <step title="PreDeployment: context.CleanOutputPath False" date="2026-02-14T06:20:19.380" >
+          <step title="PreDeployment: context.OutputPath /home/site/wwwroot" date="2026-02-14T06:20:20.391" >
+            <step title="Building" date="2026-02-14T06:20:22.323" >
+              <step title="Executing external process" date="2026-02-14T06:20:25.352" type="process" path="bash" arguments="-c &quot;oryx build /tmp/zipdeploy/extracted -o /home/site/wwwroot --platform nodejs --platform-version 24 -p virtualenv_name= --log-file /tmp/build-debug.log  -i /tmp/8de6b911fd7f159 -p compress_node_modules=tar-gz | tee /tmp/oryx-build.log ; exit $PIPESTATUS &quot;" >
+                <step title="Cpu: npm install(1396,6.150s)+build.sh(1306,0.110s)+oryx(1275,15.540s)+tee(1276,0.010s)+bash(1274,0.000s)=total(21.770s)" date="2026-02-14T06:22:39.922" /><!-- duration: 142ms -->
+                <step title="bash: no io activity for 60s, prev-cpu=-1.000s, current-cpu=21.770s" date="2026-02-14T06:22:40.114" /><!-- duration: 136ms -->
+                <step title="Cpu: npm install(1396,14.000s)+build.sh(1306,0.110s)+oryx(1275,15.700s)+tee(1276,0.010s)+bash(1274,0.000s)=total(29.810s)" date="2026-02-14T06:23:42.299" /><!-- duration: 49ms -->
+                <step title="bash: no io activity for 123s, prev-cpu=21.770s, current-cpu=29.810s" date="2026-02-14T06:23:42.411" /><!-- duration: 119ms -->
+                <step title="Cpu: npm install(1396,27.760s)+build.sh(1306,0.110s)+oryx(1275,15.860s)+tee(1276,0.010s)+bash(1274,0.000s)=total(43.740s)" date="2026-02-14T06:24:43.084" /><!-- duration: 229ms -->
+                <step title="bash: no io activity for 184s, prev-cpu=29.810s, current-cpu=43.740s" date="2026-02-14T06:24:43.424" /><!-- duration: 350ms -->
+                <step title="Cpu: npm install(1396,51.770s)+build.sh(1306,0.110s)+oryx(1275,15.960s)+tee(1276,0.010s)+bash(1274,0.000s)=total(67.850s)" date="2026-02-14T06:25:44.652" /><!-- duration: 40ms -->
+                <step title="bash: no io activity for 246s, prev-cpu=43.740s, current-cpu=67.850s" date="2026-02-14T06:25:44.734" /><!-- duration: 20ms -->
+                <step title="Process dump" date="2026-02-14T06:26:37.863" exitCode="1" type="processOutput" /><!-- duration: 4ms -->
+              </step><!-- duration: 372560ms -->
+              <step title="Error occurred" date="2026-02-14T06:26:38.011" type="error" text="npm warn deprecated next@14.2.5: This version has a security vulnerability. Please upgrade to a patched version. See https://nextjs.org/blog/security-update-2025-12-11 for more details.
+ ⚠ You are using a non-standard &quot;NODE_ENV&quot; value in your environment. This creates inconsistencies in the project and is strongly advised against. Read more: https://nextjs.org/docs/messages/non-standard-node-env
+
+&gt; Build error occurred
+Error: &gt; Couldn&apos;t find any `pages` or `app` directory. Please create one under the project root
+    at findPagesDir (/tmp/8de6b911fd7f159/node_modules/next/dist/lib/find-pages-dir.js:42:15)
+    at /tmp/8de6b911fd7f159/node_modules/next/dist/build/index.js:404:73
+    at async Span.traceAsyncFn (/tmp/8de6b911fd7f159/node_modules/next/dist/trace/trace.js:154:20)
+    at async build (/tmp/8de6b911fd7f159/node_modules/next/dist/build/index.js:366:9)
+/bin/bash -c &quot;oryx build /tmp/zipdeploy/extracted -o /home/site/wwwroot --platform nodejs --platform-version 24 -p virtualenv_name= --log-file /tmp/build-debug.log  -i /tmp/8de6b911fd7f159 -p compress_node_modules=tar-gz | tee /tmp/oryx-build.log ; exit $PIPESTATUS &quot;" stackTrace="   at Kudu.Core.Infrastructure.Executable.ExecuteInternal(ITracer tracer, Func`2 onWriteOutput, Func`2 onWriteError, CancellationToken token, Encoding encoding, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 239
+   at Kudu.Core.Infrastructure.Executable.ExecuteWithProgressWriter(ILogger logger, ITracer tracer, CancellationToken token, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 118
+   at Kudu.Core.Deployment.Generator.ExternalCommandBuilder.RunCommand(DeploymentContext context, String command, Boolean ignoreManifest, CancellationToken token, String message) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/ExternalCommandBuilder.cs:line 135" /><!-- duration: 25ms -->
+              <step title="Error occurred" date="2026-02-14T06:26:38.052" type="error" text="npm warn deprecated next@14.2.5: This version has a security vulnerability. Please upgrade to a patched version. See https://nextjs.org/blog/security-update-2025-12-11 for more details.
+ ⚠ You are using a non-standard &quot;NODE_ENV&quot; value in your environment. This creates inconsistencies in the project and is strongly advised against. Read more: https://nextjs.org/docs/messages/non-standard-node-env
+
+&gt; Build error occurred
+Error: &gt; Couldn&apos;t find any `pages` or `app` directory. Please create one under the project root
+    at findPagesDir (/tmp/8de6b911fd7f159/node_modules/next/dist/lib/find-pages-dir.js:42:15)
+    at /tmp/8de6b911fd7f159/node_modules/next/dist/build/index.js:404:73
+    at async Span.traceAsyncFn (/tmp/8de6b911fd7f159/node_modules/next/dist/trace/trace.js:154:20)
+    at async build (/tmp/8de6b911fd7f159/node_modules/next/dist/build/index.js:366:9)
+/bin/bash -c &quot;oryx build /tmp/zipdeploy/extracted -o /home/site/wwwroot --platform nodejs --platform-version 24 -p virtualenv_name= --log-file /tmp/build-debug.log  -i /tmp/8de6b911fd7f159 -p compress_node_modules=tar-gz | tee /tmp/oryx-build.log ; exit $PIPESTATUS &quot;" stackTrace="   at Kudu.Core.Infrastructure.Executable.ExecuteInternal(ITracer tracer, Func`2 onWriteOutput, Func`2 onWriteError, CancellationToken token, Encoding encoding, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 239
+   at Kudu.Core.Infrastructure.Executable.ExecuteWithProgressWriter(ILogger logger, ITracer tracer, CancellationToken token, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 118
+   at Kudu.Core.Deployment.Generator.ExternalCommandBuilder.RunCommand(DeploymentContext context, String command, Boolean ignoreManifest, CancellationToken token, String message) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/ExternalCommandBuilder.cs:line 135
+   at Kudu.Core.Deployment.Generator.OryxBuilder.RunBuildCommand(IOryxArguments args, DeploymentContext context, CancellationToken token) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/OryxBuilder.cs:line 295
+   at Kudu.Core.Deployment.Generator.OryxBuilder.Build(DeploymentContext context, CancellationToken token) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/OryxBuilder.cs:line 136
+   at Kudu.Core.Deployment.DeploymentManager.Build(ChangeSet changeSet, ITracer tracer, IDisposable deployStep, IRepository repository, DeploymentInfoBase deploymentInfo, DeploymentAnalytics deploymentAnalytics, Boolean fullBuildByDefault, CancellationToken cancellationToken) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 771" /><!-- duration: 77ms -->
+              <step title="Using GenericDeploymentLogParser" date="2026-02-14T06:26:38.967" /><!-- duration: 27ms -->
+              <step title="Purge deployment items" date="2026-02-14T06:26:41.262" >
+                <step title="Remove 57cb6cde-, Failed, received at 02/14/2026 06:14:15" date="2026-02-14T06:26:41.335" /><!-- duration: 3ms -->
+              </step><!-- duration: 80ms -->
+            </step><!-- duration: 379031ms -->
+          </step><!-- duration: 380983ms -->
+          <step title="Error occurred" date="2026-02-14T06:26:41.378" type="error" text="npm warn deprecated next@14.2.5: This version has a security vulnerability. Please upgrade to a patched version. See https://nextjs.org/blog/security-update-2025-12-11 for more details.
+ ⚠ You are using a non-standard &quot;NODE_ENV&quot; value in your environment. This creates inconsistencies in the project and is strongly advised against. Read more: https://nextjs.org/docs/messages/non-standard-node-env
+
+&gt; Build error occurred
+Error: &gt; Couldn&apos;t find any `pages` or `app` directory. Please create one under the project root
+    at findPagesDir (/tmp/8de6b911fd7f159/node_modules/next/dist/lib/find-pages-dir.js:42:15)
+    at /tmp/8de6b911fd7f159/node_modules/next/dist/build/index.js:404:73
+    at async Span.traceAsyncFn (/tmp/8de6b911fd7f159/node_modules/next/dist/trace/trace.js:154:20)
+    at async build (/tmp/8de6b911fd7f159/node_modules/next/dist/build/index.js:366:9)
+/bin/bash -c &quot;oryx build /tmp/zipdeploy/extracted -o /home/site/wwwroot --platform nodejs --platform-version 24 -p virtualenv_name= --log-file /tmp/build-debug.log  -i /tmp/8de6b911fd7f159 -p compress_node_modules=tar-gz | tee /tmp/oryx-build.log ; exit $PIPESTATUS &quot;" stackTrace="   at Kudu.Core.Infrastructure.Executable.ExecuteInternal(ITracer tracer, Func`2 onWriteOutput, Func`2 onWriteError, CancellationToken token, Encoding encoding, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 239
+   at Kudu.Core.Infrastructure.Executable.ExecuteWithProgressWriter(ILogger logger, ITracer tracer, CancellationToken token, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 118
+   at Kudu.Core.Deployment.Generator.ExternalCommandBuilder.RunCommand(DeploymentContext context, String command, Boolean ignoreManifest, CancellationToken token, String message) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/ExternalCommandBuilder.cs:line 135
+   at Kudu.Core.Deployment.Generator.OryxBuilder.RunBuildCommand(IOryxArguments args, DeploymentContext context, CancellationToken token) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/OryxBuilder.cs:line 295
+   at Kudu.Core.Deployment.Generator.OryxBuilder.Build(DeploymentContext context, CancellationToken token) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/OryxBuilder.cs:line 136
+   at Kudu.Core.Deployment.DeploymentManager.Build(ChangeSet changeSet, ITracer tracer, IDisposable deployStep, IRepository repository, DeploymentInfoBase deploymentInfo, DeploymentAnalytics deploymentAnalytics, Boolean fullBuildByDefault, CancellationToken cancellationToken) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 771
+   at Kudu.Core.Deployment.DeploymentManager.Build(ChangeSet changeSet, ITracer tracer, IDisposable deployStep, IRepository repository, DeploymentInfoBase deploymentInfo, DeploymentAnalytics deploymentAnalytics, Boolean fullBuildByDefault, CancellationToken cancellationToken) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 840" /><!-- duration: 5ms -->
+          <step title="Cleaning up temp files" date="2026-02-14T06:26:41.455" /><!-- duration: 1740ms -->
+          <step title="Cleaning up temp files" date="2026-02-14T06:26:43.205" /><!-- duration: 515ms -->
+          <step title="Error occurred" date="2026-02-14T06:26:43.796" type="error" text="npm warn deprecated next@14.2.5: This version has a security vulnerability. Please upgrade to a patched version. See https://nextjs.org/blog/security-update-2025-12-11 for more details.
+ ⚠ You are using a non-standard &quot;NODE_ENV&quot; value in your environment. This creates inconsistencies in the project and is strongly advised against. Read more: https://nextjs.org/docs/messages/non-standard-node-env
+
+&gt; Build error occurred
+Error: &gt; Couldn&apos;t find any `pages` or `app` directory. Please create one under the project root
+    at findPagesDir (/tmp/8de6b911fd7f159/node_modules/next/dist/lib/find-pages-dir.js:42:15)
+    at /tmp/8de6b911fd7f159/node_modules/next/dist/build/index.js:404:73
+    at async Span.traceAsyncFn (/tmp/8de6b911fd7f159/node_modules/next/dist/trace/trace.js:154:20)
+    at async build (/tmp/8de6b911fd7f159/node_modules/next/dist/build/index.js:366:9)
+/bin/bash -c &quot;oryx build /tmp/zipdeploy/extracted -o /home/site/wwwroot --platform nodejs --platform-version 24 -p virtualenv_name= --log-file /tmp/build-debug.log  -i /tmp/8de6b911fd7f159 -p compress_node_modules=tar-gz | tee /tmp/oryx-build.log ; exit $PIPESTATUS &quot;" stackTrace="   at Kudu.Core.Infrastructure.Executable.ExecuteInternal(ITracer tracer, Func`2 onWriteOutput, Func`2 onWriteError, CancellationToken token, Encoding encoding, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 239
+   at Kudu.Core.Infrastructure.Executable.ExecuteWithProgressWriter(ILogger logger, ITracer tracer, CancellationToken token, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 118
+   at Kudu.Core.Deployment.Generator.ExternalCommandBuilder.RunCommand(DeploymentContext context, String command, Boolean ignoreManifest, CancellationToken token, String message) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/ExternalCommandBuilder.cs:line 135
+   at Kudu.Core.Deployment.Generator.OryxBuilder.RunBuildCommand(IOryxArguments args, DeploymentContext context, CancellationToken token) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/OryxBuilder.cs:line 295
+   at Kudu.Core.Deployment.Generator.OryxBuilder.Build(DeploymentContext context, CancellationToken token) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/OryxBuilder.cs:line 136
+   at Kudu.Core.Deployment.DeploymentManager.Build(ChangeSet changeSet, ITracer tracer, IDisposable deployStep, IRepository repository, DeploymentInfoBase deploymentInfo, DeploymentAnalytics deploymentAnalytics, Boolean fullBuildByDefault, CancellationToken cancellationToken) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 771
+   at Kudu.Core.Deployment.DeploymentManager.Build(ChangeSet changeSet, ITracer tracer, IDisposable deployStep, IRepository repository, DeploymentInfoBase deploymentInfo, DeploymentAnalytics deploymentAnalytics, Boolean fullBuildByDefault, CancellationToken cancellationToken) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 840
+   at Kudu.Core.Deployment.DeploymentManager.DeployAsync(IRepository repository, ChangeSet changeSet, String deployer, Boolean clean, DeploymentInfoBase deploymentInfo, Boolean needFileUpdate, Boolean fullBuildByDefault) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 266" /><!-- duration: 19ms -->
+        </step><!-- duration: 384448ms -->
+        <step title="Reloading status file with latest updates" date="2026-02-14T06:26:43.914" >
+          <step title="WebHooksManager.PublishEventAsync: PostDeployment" date="2026-02-14T06:26:43.950" /><!-- duration: 127ms -->
+        </step><!-- duration: 170ms -->
+        <step title="Error occurred" date="2026-02-14T06:26:44.088" type="error" text="npm warn deprecated next@14.2.5: This version has a security vulnerability. Please upgrade to a patched version. See https://nextjs.org/blog/security-update-2025-12-11 for more details.
+ ⚠ You are using a non-standard &quot;NODE_ENV&quot; value in your environment. This creates inconsistencies in the project and is strongly advised against. Read more: https://nextjs.org/docs/messages/non-standard-node-env
+
+&gt; Build error occurred
+Error: &gt; Couldn&apos;t find any `pages` or `app` directory. Please create one under the project root
+    at findPagesDir (/tmp/8de6b911fd7f159/node_modules/next/dist/lib/find-pages-dir.js:42:15)
+    at /tmp/8de6b911fd7f159/node_modules/next/dist/build/index.js:404:73
+    at async Span.traceAsyncFn (/tmp/8de6b911fd7f159/node_modules/next/dist/trace/trace.js:154:20)
+    at async build (/tmp/8de6b911fd7f159/node_modules/next/dist/build/index.js:366:9)
+/bin/bash -c &quot;oryx build /tmp/zipdeploy/extracted -o /home/site/wwwroot --platform nodejs --platform-version 24 -p virtualenv_name= --log-file /tmp/build-debug.log  -i /tmp/8de6b911fd7f159 -p compress_node_modules=tar-gz | tee /tmp/oryx-build.log ; exit $PIPESTATUS &quot;" stackTrace="   at Kudu.Core.Infrastructure.Executable.ExecuteInternal(ITracer tracer, Func`2 onWriteOutput, Func`2 onWriteError, CancellationToken token, Encoding encoding, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 239
+   at Kudu.Core.Infrastructure.Executable.ExecuteWithProgressWriter(ILogger logger, ITracer tracer, CancellationToken token, String arguments, Object[] args) in /tmp/KuduLite/Kudu.Core/Infrastructure/Executable.cs:line 118
+   at Kudu.Core.Deployment.Generator.ExternalCommandBuilder.RunCommand(DeploymentContext context, String command, Boolean ignoreManifest, CancellationToken token, String message) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/ExternalCommandBuilder.cs:line 135
+   at Kudu.Core.Deployment.Generator.OryxBuilder.RunBuildCommand(IOryxArguments args, DeploymentContext context, CancellationToken token) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/OryxBuilder.cs:line 295
+   at Kudu.Core.Deployment.Generator.OryxBuilder.Build(DeploymentContext context, CancellationToken token) in /tmp/KuduLite/Kudu.Core/Deployment/Generator/OryxBuilder.cs:line 136
+   at Kudu.Core.Deployment.DeploymentManager.Build(ChangeSet changeSet, ITracer tracer, IDisposable deployStep, IRepository repository, DeploymentInfoBase deploymentInfo, DeploymentAnalytics deploymentAnalytics, Boolean fullBuildByDefault, CancellationToken cancellationToken) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 771
+   at Kudu.Core.Deployment.DeploymentManager.Build(ChangeSet changeSet, ITracer tracer, IDisposable deployStep, IRepository repository, DeploymentInfoBase deploymentInfo, DeploymentAnalytics deploymentAnalytics, Boolean fullBuildByDefault, CancellationToken cancellationToken) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 840
+   at Kudu.Core.Deployment.DeploymentManager.DeployAsync(IRepository repository, ChangeSet changeSet, String deployer, Boolean clean, DeploymentInfoBase deploymentInfo, Boolean needFileUpdate, Boolean fullBuildByDefault) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 266" /><!-- duration: 6ms -->
+        <step title="Marking deployment as failed and cleaning up the temp deployment" date="2026-02-14T06:26:44.685" /><!-- duration: 12ms -->
+      </step><!-- duration: 394623ms -->
+      <step title="Error occurred" date="2026-02-14T06:26:44.830" type="error" text="One or more errors occurred. (Deployment failed)" stackTrace="   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.Wait()
+   at Kudu.Core.Deployment.FetchDeploymentManager.&lt;&gt;c__DisplayClass22_1.&lt;PerformBackgroundDeployment&gt;b__3() in /tmp/KuduLite/Kudu.Core/Deployment/FetchDeploymentManager.cs:line 414
+   at Kudu.Contracts.Infrastructure.LockExtensions.TryLockOperation(IOperationLock lockObj, Action operation, String operationName, TimeSpan timeout) in /tmp/KuduLite/Kudu.Contracts/Infrastructure/LockExtensions.cs:line 34
+   at Kudu.Contracts.Infrastructure.LockExtensions.LockOperation(IOperationLock lockObj, Action operation, String operationName, TimeSpan timeout) in /tmp/KuduLite/Kudu.Contracts/Infrastructure/LockExtensions.cs:line 46
+   at Kudu.Core.Deployment.FetchDeploymentManager.&lt;&gt;c__DisplayClass22_0.&lt;PerformBackgroundDeployment&gt;b__1() in /tmp/KuduLite/Kudu.Core/Deployment/FetchDeploymentManager.cs:line 393" innerText="Deployment failed" innerStackTrace="   at Kudu.Core.Deployment.DeploymentManager.DeployAsync(IRepository repository, ChangeSet changeSet, String deployer, Boolean clean, DeploymentInfoBase deploymentInfo, Boolean needFileUpdate, Boolean fullBuildByDefault) in /tmp/KuduLite/Kudu.Core/Deployment/DeploymentManager.cs:line 307
+   at Kudu.Core.Deployment.FetchDeploymentManager.PerformDeployment(DeploymentInfoBase deploymentInfo, IDisposable tempDeployment, ChangeSet tempChangeSet, DeployStatusApiResult updateStatusObj) in /tmp/KuduLite/Kudu.Core/Deployment/FetchDeploymentManager.cs:line 230" /><!-- duration: 10ms -->
+    </step><!-- duration: 394816ms -->

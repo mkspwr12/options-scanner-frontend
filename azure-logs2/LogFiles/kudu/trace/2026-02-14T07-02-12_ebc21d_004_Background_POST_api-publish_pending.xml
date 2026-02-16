@@ -1,0 +1,33 @@
+<step title="BackgroundTrace" date="2026-02-14T07:02:12.587" instance="ebc21d" url="/api/publish" method="POST" >
+  <step title="Cleanup Xml Logs" date="2026-02-14T07:02:12.624" >
+    <step title="Cleanup Infos" date="2026-02-14T07:02:12.920" totalFiles="650" totalCleanup="490" /><!-- duration: 158ms -->
+  </step><!-- duration: 467ms -->
+  <step title="Creating temporary deployment - FetchDeploymentManager" date="2026-02-14T07:02:13.617" /><!-- duration: 13ms -->
+  <step title="Creating temporary deployment" date="2026-02-14T07:02:13.667" /><!-- duration: 478ms -->
+  <step title="Performing fetch based deployment" date="2026-02-14T07:02:15.037" >
+    <step title="Deployment timer started" date="2026-02-14T07:02:19.091" >
+      <step title="DeploymentManager.Deploy(id:83882b89-3846-4d5c-82ce-01e08dc7c5b6)" date="2026-02-14T07:02:19.251" >
+        <step title="Collecting changeset information" date="2026-02-14T07:02:19.532" /><!-- duration: 565ms -->
+        <step title="Updating submodules" date="2026-02-14T07:02:20.167" /><!-- duration: 1803ms -->
+        <step title="Determining deployment builder" date="2026-02-14T07:02:25.517" >
+          <step title="Builder is RunFromZipSiteBuilder" date="2026-02-14T07:02:25.687" /><!-- duration: 123ms -->
+        </step><!-- duration: 314ms -->
+        <step title="PreDeployment: context.CleanOutputPath False" date="2026-02-14T07:02:29.026" >
+          <step title="PreDeployment: context.OutputPath /home/site/wwwroot" date="2026-02-14T07:02:29.899" >
+            <step title="Building" date="2026-02-14T07:02:30.581" >
+              <step title="Modified file to trigger a restart of the app container." date="2026-02-14T07:02:32.676" /><!-- duration: 21ms -->
+              <step title="Skip function trigger and logicapp sync because function is not enabled." date="2026-02-14T07:02:32.734" /><!-- duration: 14ms -->
+              <step title="Purge deployment items" date="2026-02-14T07:02:36.754" >
+                <step title="Remove 9c9567de-, Failed, received at 02/14/2026 06:29:41" date="2026-02-14T07:02:36.962" /><!-- duration: 59ms -->
+                <step title="Remove 77efb871-, Success, received at 02/13/2026 22:22:11" date="2026-02-14T07:02:37.530" /><!-- duration: 31ms -->
+              </step><!-- duration: 833ms -->
+            </step><!-- duration: 7219ms -->
+          </step><!-- duration: 7931ms -->
+          <step title="Cleaning up temp files" date="2026-02-14T07:02:37.869" /><!-- duration: 89ms -->
+          <step title="Cleaning up temp files" date="2026-02-14T07:02:38.079" /><!-- duration: 605ms -->
+          <step title="Reloading status file with latest updates" date="2026-02-14T07:02:39.024" >
+            <step title="WebHooksManager.PublishEventAsync: PostDeployment" date="2026-02-14T07:02:39.185" /><!-- duration: 336ms -->
+          </step><!-- duration: 505ms -->
+          <step title="Cleaning up temporary deployment - fetch deployment was successful" date="2026-02-14T07:02:39.563" /><!-- duration: 17ms -->
+        </step><!-- duration: 12864ms -->
+      </step><!-- duration: 22829ms -->

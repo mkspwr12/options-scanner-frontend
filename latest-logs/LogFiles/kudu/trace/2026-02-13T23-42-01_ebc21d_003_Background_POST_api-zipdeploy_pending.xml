@@ -1,0 +1,32 @@
+<step title="BackgroundTrace" date="2026-02-13T23:42:01.696" instance="ebc21d" url="/api/zipdeploy" method="POST" >
+  <step title="Cleanup Xml Logs" date="2026-02-13T23:42:01.934" /><!-- duration: 60ms -->
+  <step title="Creating temporary deployment - FetchDeploymentManager" date="2026-02-13T23:42:04.190" /><!-- duration: 85ms -->
+  <step title="Creating temporary deployment" date="2026-02-13T23:42:04.318" /><!-- duration: 852ms -->
+  <step title="Performing fetch based deployment" date="2026-02-13T23:42:07.395" >
+    <step title="Cleaning up temp folders from previous zip deployments and extracting pushed zip file /tmp/zipdeploy/558b671e-0a33-46a0-a613-b8f6d7aff856.zip (0.85 MB) to /tmp/zipdeploy/extracted" date="2026-02-13T23:42:11.564" >
+      <step title="ChmodRecursive Process exited with total time taken in ms: 422" date="2026-02-13T23:42:13.460" /><!-- duration: 132ms -->
+    </step><!-- duration: 2056ms -->
+    <step title="Deployment timer started" date="2026-02-13T23:42:16.203" >
+      <step title="DeploymentManager.Deploy(id:b39fadb4-d881-4e11-82c6-b7ec33f477f0)" date="2026-02-13T23:42:16.591" >
+        <step title="Collecting changeset information" date="2026-02-13T23:42:17.023" /><!-- duration: 406ms -->
+        <step title="Updating submodules" date="2026-02-13T23:42:17.579" /><!-- duration: 1788ms -->
+        <step title="Determining deployment builder" date="2026-02-13T23:42:21.114" >
+          <step title="Builder is BasicBuilder" date="2026-02-13T23:42:21.348" /><!-- duration: 62ms -->
+        </step><!-- duration: 634ms -->
+        <step title="PreDeployment: context.CleanOutputPath False" date="2026-02-13T23:42:21.959" >
+          <step title="PreDeployment: context.OutputPath /home/site/wwwroot" date="2026-02-13T23:42:22.630" >
+            <step title="Building" date="2026-02-13T23:42:24.957" >
+              <step title="Executing external process" date="2026-02-13T23:42:26.816" type="process" path="starter.sh" arguments="/opt/Kudu/Scripts/parallel_rsync.sh /tmp/zipdeploy/extracted /home/site/wwwroot 8 /tmp/ False True  " /><!-- duration: 21840ms -->
+              <step title="Triggering recycle (preview mode disabled)." date="2026-02-13T23:42:50.387" /><!-- duration: 163ms -->
+              <step title="Modified file to trigger a restart of the app container." date="2026-02-13T23:42:50.929" /><!-- duration: 23ms -->
+              <step title="Skip function trigger and logicapp sync because function is not enabled." date="2026-02-13T23:42:51.116" /><!-- duration: 97ms -->
+            </step><!-- duration: 30257ms -->
+          </step><!-- duration: 32726ms -->
+          <step title="Cleaning up temp files" date="2026-02-13T23:42:55.405" /><!-- duration: 49ms -->
+          <step title="Cleaning up temp files" date="2026-02-13T23:42:55.503" /><!-- duration: 599ms -->
+          <step title="Reloading status file with latest updates" date="2026-02-13T23:42:56.272" >
+            <step title="WebHooksManager.PublishEventAsync: PostDeployment" date="2026-02-13T23:42:56.354" /><!-- duration: 414ms -->
+          </step><!-- duration: 574ms -->
+          <step title="Cleaning up temporary deployment - fetch deployment was successful" date="2026-02-13T23:42:56.913" /><!-- duration: 22ms -->
+        </step><!-- duration: 35310ms -->
+      </step><!-- duration: 40862ms -->

@@ -1,0 +1,22 @@
+<step title="Incoming Request" date="2026-02-14T22:06:37.759" instance="2c6363" url="/api/publish?type=zip" method="POST" type="request" pid="850,1,78" Accept="*/*" Host="options-scanner-frontend-2exk6s.scm.azurewebsites.net" User-Agent="AZURECLI/2.83.0 (MSI)" Accept-Encoding="gzip, deflate" Authorization="Bea..." Cache-Control="no-cache" Content-Type="application/octet-stream" Cookie="ARRAffinity=2c63633e02f6f5849b541837743c4fd2422fad3b6535b115c7a654e8ff859d08; ARRAffinitySameSite=2c63633e02f6f5849b541837743c4fd2422fad3b6535b115c7a654e8ff859d08" Content-Length="202511736" x-ms-client-request-id="6a12352f-09f1-11f1-ab03-84b1e26ffc70" x-ms-artifact-checksum="2660c1a404aa450898b59759c27a1a3623e0acc960848f996dee848ff538bbad" X-ARR-LOG-ID="6a12352f-09f1-11f1-ab03-84b1e26ffc70" CLIENT-IP="50.47.242.5:58211" X-SITE-DEPLOYMENT-ID="options-scanner-frontend-2exk6s" WAS-DEFAULT-HOSTNAME="options-scanner-frontend-2exk6s.scm.azurewebsites.net" X-Forwarded-Proto="https" X-AppService-Proto="https" X-Forwarded-TlsVersion="1.3" X-WAWS-Unencoded-URL="/api/publish?type=zip" X-Client-IP="50.47.242.5" X-Client-Port="58211" >
+  <step title="OneDeploy" date="2026-02-14T22:06:37.907" >
+    <step title="None repository commit" date="2026-02-14T22:06:37.922" >
+      <step title="Commit id: 198b8e01-8a59-41cf-b6cd-25740c756f56" date="2026-02-14T22:06:37.926" Message="N/A" AuthorName="N/A" AuthorEmail="N/A" /><!-- duration: 4ms -->
+    </step><!-- duration: 11ms -->
+    <step title="Starting PushDeployAsync" date="2026-02-14T22:06:37.936" /><!-- duration: 3ms -->
+    <step title="WEBSITE_RUN_FROM_PACKAGE is set to 1. Writing zip to SitePackagesPath" date="2026-02-14T22:06:37.958" /><!-- duration: 26ms -->
+    <step title="Copying zip to SitePackages /home/data/SitePackages/20260214220637.zip from request body" date="2026-02-14T22:06:37.992" /><!-- duration: 3ms -->
+    <step title="Writing multipart request body to /home/data/SitePackages/20260214220637.zip" date="2026-02-14T22:06:38.001" /><!-- duration: 3ms -->
+    <step title="Error occurred" date="2026-02-14T22:07:32.057" type="error" text="Exception in copying zip file to temp path. Exception: Microsoft.AspNetCore.Server.Kestrel.Core.BadHttpRequestException: Unexpected end of request content.
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.Http1ContentLengthMessageBody.ReadAsyncInternal(CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource&lt;TResult&gt;.GetResult(Int16 token)
+   at System.IO.Pipelines.PipeReader.CopyToAsyncCore[TStream](TStream destination, Func`4 writeAsync, CancellationToken cancellationToken)
+   at Kudu.Services.Deployment.PushDeploymentController.CopyZipFromRequestBody(String artifactTempPath, ITracer tracer) in /tmp/KuduLite/Kudu.Services/Deployment/PushDeploymentController.cs:line 1496: Unexpected end of request content." stackTrace="   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.Http1ContentLengthMessageBody.ReadAsyncInternal(CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource&lt;TResult&gt;.GetResult(Int16 token)
+   at System.IO.Pipelines.PipeReader.CopyToAsyncCore[TStream](TStream destination, Func`4 writeAsync, CancellationToken cancellationToken)
+   at Kudu.Services.Deployment.PushDeploymentController.CopyZipFromRequestBody(String artifactTempPath, ITracer tracer) in /tmp/KuduLite/Kudu.Services/Deployment/PushDeploymentController.cs:line 1496" /><!-- duration: 331ms -->
+    <step title="Deleting outdated zip file /home/data/SitePackages/20260214191528.zip" date="2026-02-14T22:07:36.519" /><!-- duration: 28ms -->
+    <step title="Error occurred" date="2026-02-14T22:07:36.560" type="error" text="Request was Aborted. Deployment was cancelled" /><!-- duration: 17ms -->
+  </step><!-- duration: 58712ms -->
+  <step title="Outgoing response" date="2026-02-14T22:07:36.669" type="response" statusCode="499" statusText="499" /><!-- duration: 10ms -->
+</step><!-- duration: 58931ms -->

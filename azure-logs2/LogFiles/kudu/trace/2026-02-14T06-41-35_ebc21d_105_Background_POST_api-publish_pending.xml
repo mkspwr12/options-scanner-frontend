@@ -1,0 +1,31 @@
+<step title="BackgroundTrace" date="2026-02-14T06:41:35.393" instance="ebc21d" url="/api/publish" method="POST" >
+  <step title="Creating temporary deployment - FetchDeploymentManager" date="2026-02-14T06:41:35.484" /><!-- duration: 3ms -->
+  <step title="Creating temporary deployment" date="2026-02-14T06:41:35.491" /><!-- duration: 61ms -->
+  <step title="Performing fetch based deployment" date="2026-02-14T06:41:35.626" >
+    <step title="Deployment timer started" date="2026-02-14T06:41:38.886" >
+      <step title="DeploymentManager.Deploy(id:c3cd1be4-9561-43c7-ad56-9e45ffdf387e)" date="2026-02-14T06:41:38.904" >
+        <step title="Collecting changeset information" date="2026-02-14T06:41:38.949" /><!-- duration: 640ms -->
+        <step title="Updating submodules" date="2026-02-14T06:41:39.603" /><!-- duration: 1128ms -->
+        <step title="Determining deployment builder" date="2026-02-14T06:41:40.980" >
+          <step title="Builder is RunFromZipSiteBuilder" date="2026-02-14T06:41:40.995" /><!-- duration: 25ms -->
+        </step><!-- duration: 46ms -->
+        <step title="PreDeployment: context.CleanOutputPath False" date="2026-02-14T06:41:41.072" >
+          <step title="PreDeployment: context.OutputPath /home/site/wwwroot" date="2026-02-14T06:41:41.181" >
+            <step title="Building" date="2026-02-14T06:41:41.351" >
+              <step title="Modified file to trigger a restart of the app container." date="2026-02-14T06:41:41.762" /><!-- duration: 7ms -->
+              <step title="Skip function trigger and logicapp sync because function is not enabled." date="2026-02-14T06:41:41.775" /><!-- duration: 7ms -->
+              <step title="Purge deployment items" date="2026-02-14T06:41:43.834" >
+                <step title="Remove temp-ea43, Pending, received at 02/14/2026 06:41:35" date="2026-02-14T06:41:43.896" /><!-- duration: 3ms -->
+                <step title="Remove temp-1c7d, Pending, received at 02/14/2026 06:29:27" date="2026-02-14T06:41:43.950" /><!-- duration: 4ms -->
+                <step title="Remove f8ae4cf2-, Failed, received at 02/14/2026 06:20:10" date="2026-02-14T06:41:44.019" /><!-- duration: 5ms -->
+              </step><!-- duration: 193ms -->
+            </step><!-- duration: 2766ms -->
+          </step><!-- duration: 2945ms -->
+          <step title="Cleaning up temp files" date="2026-02-14T06:41:44.130" /><!-- duration: 4ms -->
+          <step title="Cleaning up temp files" date="2026-02-14T06:41:44.147" /><!-- duration: 516ms -->
+          <step title="Reloading status file with latest updates" date="2026-02-14T06:41:44.994" >
+            <step title="WebHooksManager.PublishEventAsync: PostDeployment" date="2026-02-14T06:41:45.056" /><!-- duration: 481ms -->
+          </step><!-- duration: 555ms -->
+          <step title="Cleaning up temporary deployment - fetch deployment was successful" date="2026-02-14T06:41:45.587" /><!-- duration: 20ms -->
+        </step><!-- duration: 5316ms -->
+      </step><!-- duration: 7616ms -->

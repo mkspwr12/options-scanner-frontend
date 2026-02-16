@@ -1,0 +1,122 @@
+2026-02-14T23:55:24.6319405Z State: Stopping, Action: UnmountingVolumes, LastError: ContainerTimeout, LastErrorTimestamp: 02/14/2026 23:55:24, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: options-scanner-frontend-2exk6s terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-02-14T23:55:24.9224641Z State: Stopping, Action: StoppingSiteNetworks, LastError: ContainerTimeout, LastErrorTimestamp: 02/14/2026 23:55:24, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: options-scanner-frontend-2exk6s terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-02-14T23:55:25.1054140Z Site: options-scanner-frontend-2exk6s will be blocked for 2 minutes till 02/14/2026 23:57:25
+2026-02-14T23:55:25.1055626Z State: Blocked, Action: StoppingSiteNetworks, LastError: ContainerTimeout, LastErrorTimestamp: 02/14/2026 23:55:24, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site: options-scanner-frontend-2exk6s will be blocked for 2 minutes till 02/14/2026 23:57:25, DetailsLevel: WARN
+2026-02-14T23:55:25.1058830Z State: Stopped, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 02/14/2026 23:55:24, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site stopped at 02/14/2026 23:55:25 (UTC), DetailsLevel: WARN
+2026-02-14T23:55:25.1761814Z State: Stopped, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 02/14/2026 23:55:24, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site stopped at 02/14/2026 23:55:25 (UTC), DetailsLevel: WARN
+2026-02-14T23:57:25.1059506Z Site: options-scanner-frontend-2exk6s is unblocked.
+2026-02-15T06:41:57.3188617Z State: Starting, Action: EstablishingSiteNetworks, LastError: ContainerTimeout, LastErrorTimestamp: 02/14/2026 23:55:24, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site stopped at 02/14/2026 23:55:25 (UTC), DetailsLevel: WARN
+2026-02-15T06:41:58.5855435Z State: Starting, Action: StartingSiteContainers, LastError: ContainerTimeout, LastErrorTimestamp: 02/14/2026 23:55:24, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site stopped at 02/14/2026 23:55:25 (UTC), DetailsLevel: WARN
+2026-02-15T06:41:58.5857584Z Container start method called.
+2026-02-15T06:41:58.5858653Z State: Starting, Action: PullingImage, LastError: ContainerTimeout, LastErrorTimestamp: 02/14/2026 23:55:24, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Pulling image 10.1.0.5:13209/appsvc/node:24-lts_20260115.4.tuxprod for options-scanner-frontend-2exk6s., DetailsLevel: INFO
+2026-02-15T06:41:58.5860321Z Establishing network.
+2026-02-15T06:41:58.5862217Z Pulling image: appsvc/node:24-lts_20260115.4.tuxprod.
+2026-02-15T06:41:58.7902842Z Container is starting.
+2026-02-15T06:41:58.7919198Z State: Starting, Action: MountingVolumes, LastError: ContainerTimeout, LastErrorTimestamp: 02/14/2026 23:55:24, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Mounting volumes for options-scanner-frontend-2exk6s., DetailsLevel: INFO
+2026-02-15T06:41:58.7922867Z Establishing user namespace if not established already.
+2026-02-15T06:41:58.7924944Z Establishing network if not established already.
+2026-02-15T06:41:58.7931613Z Mounting volumes.
+2026-02-15T06:41:58.7935866Z Nested mountpoint site/wwwroot
+2026-02-15T06:41:58.8056234Z Nested mountpoint volatile/logs
+2026-02-15T06:41:58.8211487Z Nested mountpoint 
+2026-02-15T06:41:58.8332525Z Nested mountpoint 
+2026-02-15T06:41:58.8725667Z Nested mountpoint 
+2026-02-15T06:41:58.9110279Z Nested mountpoint 
+2026-02-15T06:41:59.2243101Z State: Starting, Action: CreatingContainer, LastError: ContainerTimeout, LastErrorTimestamp: 02/14/2026 23:55:24, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Finished pulling container image and mounting volumes for options-scanner-frontend-2exk6s. Allocatinng the rest of the container resources to finish container creation., DetailsLevel: INFO
+2026-02-15T06:41:59.2245523Z Creating container.
+2026-02-15T06:41:59.2248147Z Creating pipes for streaming container io.
+2026-02-15T06:41:59.2249967Z Creating stdout named pipe at /podr/container/pipe/13f21a7e0625_options-scanner-frontend-2exk6s/stdout_6ce27eacf73c43428e92dafbb51a7862.
+2026-02-15T06:41:59.2254163Z Successfully created stdout named pipe at: /podr/container/pipe/13f21a7e0625_options-scanner-frontend-2exk6s/stdout_6ce27eacf73c43428e92dafbb51a7862.
+2026-02-15T06:41:59.2256068Z Opening named pipe /podr/container/pipe/13f21a7e0625_options-scanner-frontend-2exk6s/stdout_6ce27eacf73c43428e92dafbb51a7862 for reading in non-blocking mode.
+2026-02-15T06:41:59.2258192Z Successfully opened named pipe: /podr/container/pipe/13f21a7e0625_options-scanner-frontend-2exk6s/stdout_6ce27eacf73c43428e92dafbb51a7862.
+2026-02-15T06:41:59.2259927Z Successfully removed non-blocking flag from /podr/container/pipe/13f21a7e0625_options-scanner-frontend-2exk6s/stdout_6ce27eacf73c43428e92dafbb51a7862.
+2026-02-15T06:41:59.2341289Z Creating stderr named pipe at /podr/container/pipe/13f21a7e0625_options-scanner-frontend-2exk6s/stderr_5929ba5f47a041feb37b0e7d7a66cfe0.
+2026-02-15T06:41:59.2348803Z Successfully created stderr named pipe at: /podr/container/pipe/13f21a7e0625_options-scanner-frontend-2exk6s/stderr_5929ba5f47a041feb37b0e7d7a66cfe0.
+2026-02-15T06:41:59.2368926Z Opening named pipe /podr/container/pipe/13f21a7e0625_options-scanner-frontend-2exk6s/stderr_5929ba5f47a041feb37b0e7d7a66cfe0 for reading in non-blocking mode.
+2026-02-15T06:41:59.2372146Z Successfully opened named pipe: /podr/container/pipe/13f21a7e0625_options-scanner-frontend-2exk6s/stderr_5929ba5f47a041feb37b0e7d7a66cfe0.
+2026-02-15T06:41:59.2374236Z Successfully removed non-blocking flag from /podr/container/pipe/13f21a7e0625_options-scanner-frontend-2exk6s/stderr_5929ba5f47a041feb37b0e7d7a66cfe0.
+2026-02-15T06:41:59.2376843Z Creating container with image: appsvc/node:24-lts_20260115.4.tuxprod from registry: 10.1.0.5:13209 and fully qualified image name: 10.1.0.5:13209/appsvc/node:24-lts_20260115.4.tuxprod
+2026-02-15T06:41:59.5775579Z Starting container: 13f21a7e0625_options-scanner-frontend-2exk6s.
+2026-02-15T06:41:59.6266650Z Starting watchers and probes.
+2026-02-15T06:41:59.6270852Z Starting metrics collection.
+2026-02-15T06:41:59.6273422Z Container is running.
+2026-02-15T06:41:59.6274626Z State: Starting, Action: CreatingContainer, LastError: ContainerTimeout, LastErrorTimestamp: 02/14/2026 23:55:24, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Container options-scanner-frontend-2exk6s successfully created and is running., DetailsLevel: INFO
+2026-02-15T06:41:59.7383045Z Container start method finished after 1152 ms.
+2026-02-15T06:41:59.7388825Z State: Starting, Action: InitiatingSiteWarmUpProbe, LastError: ContainerTimeout, LastErrorTimestamp: 02/14/2026 23:55:24, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Container options-scanner-frontend-2exk6s successfully created and is running., DetailsLevel: INFO
+2026-02-15T06:41:59.7389319Z State: Starting, Action: WaitingForSiteWarmUpProbeSuccess, LastError: ContainerTimeout, LastErrorTimestamp: 02/14/2026 23:55:24, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: INFO
+2026-02-15T06:42:19.7569884Z Container has finished running with exit code: 1.
+2026-02-15T06:42:19.7571146Z Container is terminating. Grace period: 5 seconds.
+2026-02-15T06:42:19.7579675Z Stop and delete container. Retry count = 0
+2026-02-15T06:42:19.7580753Z Stopping container: 13f21a7e0625_options-scanner-frontend-2exk6s.
+2026-02-15T06:42:19.8479588Z Deleting container: 13f21a7e0625_options-scanner-frontend-2exk6s. Retry count = 0
+2026-02-15T06:42:20.1107060Z Container spec TerminationMessagePolicy  path 
+2026-02-15T06:42:20.1112060Z Container is terminated. Total time elapsed: 353 ms.
+2026-02-15T06:42:20.1116891Z Site container: options-scanner-frontend-2exk6s terminated during site startup.
+2026-02-15T06:42:20.1121537Z State: Stopping, Action: CancellingStartup, LastError: ContainerTimeout, LastErrorTimestamp: 02/14/2026 23:55:24, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: options-scanner-frontend-2exk6s terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-02-15T06:42:20.1412854Z Site startup probe failed after 20.4010943 seconds.
+2026-02-15T06:42:20.3998267Z State: Stopping, Action: CancellingStartup, LastError: ContainerTimeout, LastErrorTimestamp: 02/15/2026 06:42:20, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: options-scanner-frontend-2exk6s terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-02-15T06:42:20.4087731Z Failed to start site. Revert by stopping site.
+2026-02-15T06:42:20.4094237Z State: Stopping, Action: StoppingSite, LastError: ContainerTimeout, LastErrorTimestamp: 02/15/2026 06:42:20, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: options-scanner-frontend-2exk6s terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-02-15T06:42:20.4098064Z State: Stopping, Action: StoppingSiteContainers, LastError: ContainerTimeout, LastErrorTimestamp: 02/15/2026 06:42:20, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: options-scanner-frontend-2exk6s terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-02-15T06:42:20.4098255Z Site: options-scanner-frontend-2exk6s stopped.
+2026-02-15T06:42:20.4180389Z State: Stopping, Action: UnmountingVolumes, LastError: ContainerTimeout, LastErrorTimestamp: 02/15/2026 06:42:20, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: options-scanner-frontend-2exk6s terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-02-15T06:42:20.7827795Z State: Stopping, Action: StoppingSiteNetworks, LastError: ContainerTimeout, LastErrorTimestamp: 02/15/2026 06:42:20, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: options-scanner-frontend-2exk6s terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-02-15T06:42:21.0217136Z Site: options-scanner-frontend-2exk6s will be blocked for 2 minutes till 02/15/2026 06:44:21
+2026-02-15T06:42:21.0222173Z State: Blocked, Action: StoppingSiteNetworks, LastError: ContainerTimeout, LastErrorTimestamp: 02/15/2026 06:42:20, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site: options-scanner-frontend-2exk6s will be blocked for 2 minutes till 02/15/2026 06:44:21, DetailsLevel: WARN
+2026-02-15T06:42:21.0227177Z State: Stopped, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 02/15/2026 06:42:20, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site stopped at 02/15/2026 06:42:21 (UTC), DetailsLevel: WARN
+2026-02-15T06:42:21.2357457Z State: Stopped, Action: None, LastError: ContainerTimeout, LastErrorTimestamp: 02/15/2026 06:42:20, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site stopped at 02/15/2026 06:42:21 (UTC), DetailsLevel: WARN
+2026-02-15T06:44:21.0236726Z Site: options-scanner-frontend-2exk6s is unblocked.
+2026-02-15T06:44:24.3751839Z State: Starting, Action: EstablishingSiteNetworks, LastError: ContainerTimeout, LastErrorTimestamp: 02/15/2026 06:42:20, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site stopped at 02/15/2026 06:42:21 (UTC), DetailsLevel: WARN
+2026-02-15T06:44:25.5956109Z State: Starting, Action: StartingSiteContainers, LastError: ContainerTimeout, LastErrorTimestamp: 02/15/2026 06:42:20, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site stopped at 02/15/2026 06:42:21 (UTC), DetailsLevel: WARN
+2026-02-15T06:44:25.5958485Z Container start method called.
+2026-02-15T06:44:25.5959232Z State: Starting, Action: PullingImage, LastError: ContainerTimeout, LastErrorTimestamp: 02/15/2026 06:42:20, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Pulling image 10.1.0.5:13209/appsvc/node:24-lts_20260115.4.tuxprod for options-scanner-frontend-2exk6s., DetailsLevel: INFO
+2026-02-15T06:44:25.5960778Z Establishing network.
+2026-02-15T06:44:25.5962607Z Pulling image: appsvc/node:24-lts_20260115.4.tuxprod.
+2026-02-15T06:44:25.7848891Z Container is starting.
+2026-02-15T06:44:25.7852214Z State: Starting, Action: MountingVolumes, LastError: ContainerTimeout, LastErrorTimestamp: 02/15/2026 06:42:20, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Mounting volumes for options-scanner-frontend-2exk6s., DetailsLevel: INFO
+2026-02-15T06:44:25.7856764Z Establishing user namespace if not established already.
+2026-02-15T06:44:25.7858755Z Establishing network if not established already.
+2026-02-15T06:44:25.7861977Z Mounting volumes.
+2026-02-15T06:44:25.7864255Z Nested mountpoint site/wwwroot
+2026-02-15T06:44:25.7982330Z Nested mountpoint volatile/logs
+2026-02-15T06:44:25.8245169Z Nested mountpoint 
+2026-02-15T06:44:25.8318618Z Nested mountpoint 
+2026-02-15T06:44:25.8733327Z Nested mountpoint 
+2026-02-15T06:44:25.9065336Z Nested mountpoint 
+2026-02-15T06:44:26.2655816Z State: Starting, Action: CreatingContainer, LastError: ContainerTimeout, LastErrorTimestamp: 02/15/2026 06:42:20, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Finished pulling container image and mounting volumes for options-scanner-frontend-2exk6s. Allocatinng the rest of the container resources to finish container creation., DetailsLevel: INFO
+2026-02-15T06:44:26.2658049Z Creating container.
+2026-02-15T06:44:26.2659743Z Creating pipes for streaming container io.
+2026-02-15T06:44:26.2661637Z Creating stdout named pipe at /podr/container/pipe/56bbe503d5b1_options-scanner-frontend-2exk6s/stdout_639fd8a99e894cd48873e7600288df2a.
+2026-02-15T06:44:26.2665003Z Successfully created stdout named pipe at: /podr/container/pipe/56bbe503d5b1_options-scanner-frontend-2exk6s/stdout_639fd8a99e894cd48873e7600288df2a.
+2026-02-15T06:44:26.2666464Z Opening named pipe /podr/container/pipe/56bbe503d5b1_options-scanner-frontend-2exk6s/stdout_639fd8a99e894cd48873e7600288df2a for reading in non-blocking mode.
+2026-02-15T06:44:26.2668431Z Successfully opened named pipe: /podr/container/pipe/56bbe503d5b1_options-scanner-frontend-2exk6s/stdout_639fd8a99e894cd48873e7600288df2a.
+2026-02-15T06:44:26.2669945Z Successfully removed non-blocking flag from /podr/container/pipe/56bbe503d5b1_options-scanner-frontend-2exk6s/stdout_639fd8a99e894cd48873e7600288df2a.
+2026-02-15T06:44:26.2672161Z Creating stderr named pipe at /podr/container/pipe/56bbe503d5b1_options-scanner-frontend-2exk6s/stderr_29fefa0b2d9b4569bb3f6b3293e25d29.
+2026-02-15T06:44:26.2674683Z Successfully created stderr named pipe at: /podr/container/pipe/56bbe503d5b1_options-scanner-frontend-2exk6s/stderr_29fefa0b2d9b4569bb3f6b3293e25d29.
+2026-02-15T06:44:26.2676357Z Opening named pipe /podr/container/pipe/56bbe503d5b1_options-scanner-frontend-2exk6s/stderr_29fefa0b2d9b4569bb3f6b3293e25d29 for reading in non-blocking mode.
+2026-02-15T06:44:26.2678360Z Successfully opened named pipe: /podr/container/pipe/56bbe503d5b1_options-scanner-frontend-2exk6s/stderr_29fefa0b2d9b4569bb3f6b3293e25d29.
+2026-02-15T06:44:26.2680044Z Successfully removed non-blocking flag from /podr/container/pipe/56bbe503d5b1_options-scanner-frontend-2exk6s/stderr_29fefa0b2d9b4569bb3f6b3293e25d29.
+2026-02-15T06:44:26.2682233Z Creating container with image: appsvc/node:24-lts_20260115.4.tuxprod from registry: 10.1.0.5:13209 and fully qualified image name: 10.1.0.5:13209/appsvc/node:24-lts_20260115.4.tuxprod
+2026-02-15T06:44:26.6897847Z Starting container: 56bbe503d5b1_options-scanner-frontend-2exk6s.
+2026-02-15T06:44:26.7269017Z Starting watchers and probes.
+2026-02-15T06:44:26.7272968Z Starting metrics collection.
+2026-02-15T06:44:26.7342057Z Container is running.
+2026-02-15T06:44:26.7344062Z State: Starting, Action: CreatingContainer, LastError: ContainerTimeout, LastErrorTimestamp: 02/15/2026 06:42:20, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Container options-scanner-frontend-2exk6s successfully created and is running., DetailsLevel: INFO
+2026-02-15T06:44:26.8257501Z Container start method finished after 1229 ms.
+2026-02-15T06:44:26.8261015Z State: Starting, Action: InitiatingSiteWarmUpProbe, LastError: ContainerTimeout, LastErrorTimestamp: 02/15/2026 06:42:20, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Container options-scanner-frontend-2exk6s successfully created and is running., DetailsLevel: INFO
+2026-02-15T06:44:26.8261467Z State: Starting, Action: WaitingForSiteWarmUpProbeSuccess, LastError: ContainerTimeout, LastErrorTimestamp: 02/15/2026 06:42:20, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: INFO
+2026-02-15T06:44:44.5933174Z Container has finished running with exit code: 1.
+2026-02-15T06:44:44.5936637Z Container is terminating. Grace period: 5 seconds.
+2026-02-15T06:44:44.6005691Z Stop and delete container. Retry count = 0
+2026-02-15T06:44:44.6008521Z Stopping container: 56bbe503d5b1_options-scanner-frontend-2exk6s.
+2026-02-15T06:44:44.6470893Z Deleting container: 56bbe503d5b1_options-scanner-frontend-2exk6s. Retry count = 0
+2026-02-15T06:44:44.7822404Z Container spec TerminationMessagePolicy  path 
+2026-02-15T06:44:44.7836671Z Container is terminated. Total time elapsed: 188 ms.
+2026-02-15T06:44:44.7839794Z Site container: options-scanner-frontend-2exk6s terminated during site startup.
+2026-02-15T06:44:44.7841589Z State: Stopping, Action: CancellingStartup, LastError: ContainerTimeout, LastErrorTimestamp: 02/15/2026 06:42:20, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: options-scanner-frontend-2exk6s terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-02-15T06:44:44.7999011Z Site startup probe failed after 17.9732036 seconds.
+2026-02-15T06:44:45.0555471Z State: Stopping, Action: CancellingStartup, LastError: ContainerTimeout, LastErrorTimestamp: 02/15/2026 06:44:45, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: options-scanner-frontend-2exk6s terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-02-15T06:44:45.0595369Z Failed to start site. Revert by stopping site.
+2026-02-15T06:44:45.0598735Z State: Stopping, Action: StoppingSite, LastError: ContainerTimeout, LastErrorTimestamp: 02/15/2026 06:44:45, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: options-scanner-frontend-2exk6s terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-02-15T06:44:45.0602683Z State: Stopping, Action: StoppingSiteContainers, LastError: ContainerTimeout, LastErrorTimestamp: 02/15/2026 06:44:45, LastErrorDetails: Container did not start within expected time limit of 230s. Please inspect your container logs for more details., Details: Site container: options-scanner-frontend-2exk6s terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-02-15T06:44:45.0602885Z Site: options-scanner-frontend-2exk6s stopped.

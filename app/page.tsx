@@ -2,6 +2,10 @@
 
 import { useEffect, useState } from 'react'
 import { ScannerSection } from './components/scanner/ScannerSection'
+import YahooDataSection from './components/yahoo/YahooDataSection'
+import ProviderSettingsSection from './components/providers/ProviderSettingsSection'
+import { StrategyBuilderSection } from './components/strategy/StrategyBuilderSection'
+import { PortfolioRiskSection } from './components/portfolio/PortfolioRiskSection'
 import type { ScanResult } from './types/scanner'
 
 const DEFAULT_API_BASE = 'https://options-scanner-backend-2exk6s.azurewebsites.net'
@@ -476,6 +480,27 @@ export default function HomePage() {
         </section>
       )}
 
+
+      {/* Yahoo Finance Data Section */}
+      <section style={{ marginTop: '24px' }}>
+        <h2 style={{ margin: '0 0 12px 0', fontSize: '16px', color: '#e2e8f0' }}>📊 Options Chain (Yahoo Finance)</h2>
+        <YahooDataSection />
+      </section>
+
+      {/* Strategy Builder Section */}
+      <section style={{ marginTop: '24px' }}>
+        <StrategyBuilderSection />
+      </section>
+
+      {/* Portfolio Risk Management Section */}
+      <section style={{ marginTop: '24px' }}>
+        <PortfolioRiskSection />
+      </section>
+
+      {/* Data Provider Settings Section */}
+      <section style={{ marginTop: '24px' }}>
+        <ProviderSettingsSection />
+      </section>
 
       {/* Diagnostics Section */}
       <section style={{ 
