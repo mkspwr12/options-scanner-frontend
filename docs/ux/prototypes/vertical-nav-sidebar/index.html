@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vertical Navigation Sidebar - Prototype</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Colors */
+            --color-bg-sidebar: #1a1d29;
+            --color-border: #2d3142;
+            --color-text-inactive: #8892a6;
+            --color-text-active: #ffffff;
+            --color-blue-active: #2563eb;
+            --color-blue-hover: #1e40af;
+            --color-blue-focus: #3b82f6;
+            --color-button-bg: #2d3142;
+            --color-button-bg-hover: #3d4155;
+            --color-overlay: rgba(0, 0, 0, 0.4);
+
+            /* Spacing */
+            --sidebar-width-expanded: 240px;
+            --sidebar-width-collapsed: 60px;
+            --tab-button-height: 56px;
+            --tab-padding: 12px 16px;
+            --tab-gap: 4px;
+
+            /* Animation */
+            --transition-duration: 300ms;
+            --transition-easing: cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0f1117;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar Container */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: var(--sidebar-width-expanded);
+            background: var(--color-bg-sidebar);
+            border-right: 1px solid var(--color-border);
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            padding: 16px 8px;
+            transition: width var(--transition-duration) var(--transition-easing);
+            z-index: 1000;
+        }
+
+        .sidebar.collapsed {
+            width: var(--sidebar-width-collapsed);
+        }
+
+        .sidebar-header {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--color-text-active);
+            padding: 0 8px 16px 8px;
+            white-space: nowrap;
+            overflow: hidden;
+            transition: opacity 200ms ease;
+        }
+
+        .sidebar.collapsed .sidebar-header {
+            opacity: 0;
+        }
+
+        /* Tab List */
+        .tab-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--tab-gap);
+            flex: 1;
+        }
+
+        /* Tab Button */
+        .tab-button {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: var(--tab-button-height);
+            padding: var(--tab-padding);
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            color: var(--color-text-inactive);
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 150ms ease-in-out;
+            position: relative;
+            white-space: nowrap;
+        }
+
+        .tab-button:hover {
+            background: var(--color-blue-hover);
+            color: var(--color-text-inactive);
+        }
+
+        .tab-button.active {
+            background: var(--color-blue-active);
+            color: var(--color-text-active);
+        }
+
+        .tab-button:focus-visible {
+            outline: 2px solid var(--color-blue-focus);
+            outline-offset: 2px;
+        }
+
+        .tab-button:active {
+            transform: scale(0.98);
+        }
+
+        .tab-icon {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+            transition: opacity 150ms ease;
+        }
+
+        .tab-label {
+            margin-left: 12px;
+            transition: opacity 200ms ease;
+        }
+
+        .sidebar.collapsed .tab-label {
+            opacity: 0;
+            width: 0;
+            overflow: hidden;
+        }
+
+        .sidebar.collapsed .tab-button {
+            justify-content: center;
+            padding: 12px;
+        }
+
+        /* Tooltip (collapsed state) */
+        .tab-button[data-tooltip]::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            left: calc(100% + 8px);
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--color-bg-sidebar);
+            border: 1px solid var(--color-border);
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-size: 12px;
+            font-weight: 400;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 200ms ease;
+            z-index: 1001;
+        }
+
+        .sidebar.collapsed .tab-button:hover[data-tooltip]::after {
+            opacity: 1;
+        }
+
+        /* Collapse/Expand Button */
+        .collapse-button {
+            width: 32px;
+            height: 32px;
+            background: var(--color-button-bg);
+            border: none;
+            border-radius: 6px;
+            color: var(--color-text-inactive);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 16px auto 0;
+            transition: all 150ms ease-in-out;
+        }
+
+        .collapse-button:hover {
+            background: var(--color-button-bg-hover);
+            color: var(--color-text-active);
+        }
+
+        .collapse-button:focus-visible {
+            outline: 2px solid var(--color-blue-focus);
+        }
+
+        .collapse-button:active {
+            transform: scale(0.95);
+        }
+
+        .collapse-icon {
+            transition: transform var(--transition-duration) var(--transition-easing);
+        }
+
+        .sidebar.collapsed .collapse-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Main Content Area */
+        .main-content {
+            margin-left: var(--sidebar-width-expanded);
+            min-height: 100vh;
+            padding: 40px;
+            transition: margin-left var(--transition-duration) var(--transition-easing);
+        }
+
+        .sidebar.collapsed ~ .main-content {
+            margin-left: var(--sidebar-width-collapsed);
+        }
+
+        /* Tab Panels */
+        .tab-panel {
+            display: none;
+            opacity: 0;
+            transition: opacity 100ms ease;
+        }
+
+        .tab-panel.active {
+            display: block;
+            animation: fadeIn 100ms ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .panel-header {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--color-text-active);
+        }
+
+        .panel-description {
+            font-size: 16px;
+            line-height: 1.5;
+            color: #a8b3cf;
+            margin-bottom: 32px;
+        }
+
+        .panel-content {
+            background: var(--color-bg-sidebar);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+
+        .panel-content h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .panel-content p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #a8b3cf;
+        }
+
+        /* Mobile Hamburger & Overlay */
+        .mobile-hamburger {
+            display: none;
+            position: fixed;
+            top: 8px;
+            left: 8px;
+            width: 44px;
+            height: 44px;
+            background: var(--color-bg-sidebar);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            z-index: 1002;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            transition: all 150ms ease;
+        }
+
+        .mobile-hamburger:hover {
+            background: var(--color-button-bg-hover);
+        }
+
+        .mobile-hamburger svg {
+            width: 24px;
+            height: 24px;
+            color: var(--color-text-active);
+        }
+
+        .mobile-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--color-overlay);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 200ms ease;
+        }
+
+        .mobile-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Keyboard Shortcut Badge (visible on desktop) */
+        .keyboard-help {
+            background: var(--color-bg-sidebar);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: 16px;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-size: 13px;
+            color: var(--color-text-inactive);
+            max-width: 250px;
+            z-index: 500;
+        }
+
+        .keyboard-help h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-text-active);
+            margin-bottom: 8px;
+        }
+
+        .keyboard-help p {
+            margin-bottom: 4px;
+        }
+
+        .kbd {
+            display: inline-block;
+            padding: 2px 6px;
+            background: var(--color-button-bg);
+            border-radius: 3px;
+            font-family: 'Inter Mono', monospace;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        /* Responsive: Tablet & Mobile */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform var(--transition-duration) ease-out;
+            }
+
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+
+            .mobile-hamburger {
+                display: flex;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .keyboard-help {
+                display: none; /* Hide keyboard shortcuts on mobile */
+            }
+        }
+
+        /* Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile Hamburger Button -->
+    <button class="mobile-hamburger" id="mobileHamburger" aria-label="Open navigation menu" aria-expanded="false">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+    </button>
+
+    <!-- Mobile Overlay -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar" id="sidebar" role="navigation" aria-label="Main navigation">
+        <div class="sidebar-header" id="sidebar-label">
+            Options Scanner
+        </div>
+
+        <div class="tab-list" role="tablist" aria-labelledby="sidebar-label" aria-orientation="vertical">
+            <button class="tab-button active" 
+                    id="tab-single" 
+                    role="tab" 
+                    aria-selected="true" 
+                    aria-controls="panel-single"
+                    data-tooltip="Single Options">
+                <svg class="tab-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                </svg>
+                <span class="tab-label">Single Options</span>
+            </button>
+
+            <button class="tab-button" 
+                    id="tab-multi" 
+                    role="tab" 
+                    aria-selected="false" 
+                    aria-controls="panel-multi"
+                    data-tooltip="Multi-Leg">
+                <svg class="tab-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <circle cx="12" cy="12" r="6"></circle>
+                    <circle cx="12" cy="12" r="2"></circle>
+                </svg>
+                <span class="tab-label">Multi-Leg</span>
+            </button>
+
+            <button class="tab-button" 
+                    id="tab-stock" 
+                    role="tab" 
+                    aria-selected="false" 
+                    aria-controls="panel-stock"
+                    data-tooltip="Stock Scans">
+                <svg class="tab-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                    <polyline points="17 6 23 6 23 12"></polyline>
+                </svg>
+                <span class="tab-label">Stock Scans</span>
+            </button>
+
+            <button class="tab-button" 
+                    id="tab-portfolio" 
+                    role="tab" 
+                    aria-selected="false" 
+                    aria-controls="panel-portfolio"
+                    data-tooltip="Portfolio">
+                <svg class="tab-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                </svg>
+                <span class="tab-label">Portfolio</span>
+            </button>
+        </div>
+
+        <button class="collapse-button" id="collapseButton" aria-label="Collapse sidebar" aria-expanded="true">
+            <svg class="collapse-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="main-content" role="main">
+        <!-- Single Options Tab Panel -->
+        <div class="tab-panel active" id="panel-single" role="tabpanel" aria-labelledby="tab-single" tabindex="0">
+            <h1 class="panel-header">Single Options Scan</h1>
+            <p class="panel-description">
+                Discover profitable options opportunities filtered by your exact criteria: delta, DTE, IV rank, and more.
+            </p>
+            <div class="panel-content">
+                <h3>📊 Filter Panel</h3>
+                <p>
+                    Set your criteria: ticker symbols, delta range (0.10-0.90), days to expiration (5-60 DTE), implied volatility rank (20-80%), and preferred strategy type (covered calls, cash-secured puts, credit spreads).
+                </p>
+            </div>
+            <div class="panel-content">
+                <h3>📈 Results Table</h3>
+                <p>
+                    See 100+ opportunities sorted by annualized return, probability of profit, or max return. Each row shows ticker, strike, expiration, premium, delta, IV, and expected profit.
+                </p>
+            </div>
+            <div class="panel-content">
+                <h3>💰 Payout Chart</h3>
+                <p>
+                    Visualize your profit/loss at expiration with an interactive chart showing breakeven points, max profit, and max loss scenarios.
+                </p>
+            </div>
+        </div>
+
+        <!-- Multi-Leg Tab Panel -->
+        <div class="tab-panel" id="panel-multi" role="tabpanel" aria-labelledby="tab-multi" tabindex="0">
+            <h1 class="panel-header">Multi-Leg Options Scan</h1>
+            <p class="panel-description">
+                Build and analyze complex multi-leg strategies: spreads, iron condors, butterflies, and custom combinations.
+            </p>
+            <div class="panel-content">
+                <h3>🎯 Strategy Builder</h3>
+                <p>
+                    Drag and drop options legs to create custom strategies. Set strike prices, expirations, and quantities. The builder automatically calculates net debit/credit, breakeven points, and Greeks.
+                </p>
+            </div>
+            <div class="panel-content">
+                <h3>📉 Risk Profile</h3>
+                <p>
+                    Visualize your complete risk profile with payoff diagrams showing profit/loss at any price point. See probability distribution overlays and Greeks sensitivity analysis.
+                </p>
+            </div>
+            <div class="panel-content">
+                <h3>🔍 Scan Results</h3>
+                <p>
+                    Scan for pre-defined strategies (iron condors, vertical spreads, calendars) matching your risk/reward criteria. Filter by max loss, probability of profit, and required buying power.
+                </p>
+            </div>
+        </div>
+
+        <!-- Stock Scans Tab Panel -->
+        <div class="tab-panel" id="panel-stock" role="tabpanel" aria-labelledby="tab-stock" tabindex="0">
+            <h1 class="panel-header">Stock Scans</h1>
+            <p class="panel-description">
+                Screen stocks using technical indicators, fundamentals, and momentum signals to find ideal options candidates.
+            </p>
+            <div class="panel-content">
+                <h3>📊 Technical Screener</h3>
+                <p>
+                    Filter by RSI, MACD, moving averages, volume spikes, and price breakouts. Find stocks with bullish/bearish patterns perfect for directional options strategies.
+                </p>
+            </div>
+            <div class="panel-content">
+                <h3>💼 Fundamental Filters</h3>
+                <p>
+                    Screen by market cap, P/E ratio, earnings growth, dividend yield, and sector. Identify high-conviction stocks for long-term options strategies.
+                </p>
+            </div>
+            <div class="panel-content">
+                <h3>🔥 Momentum Signals</h3>
+                <p>
+                    Detect unusual options activity, insider buying, analyst upgrades, and earnings announcements. Get ahead of major price moves.
+                </p>
+            </div>
+        </div>
+
+        <!-- Portfolio Tab Panel -->
+        <div class="tab-panel" id="panel-portfolio" role="tabpanel" aria-labelledby="tab-portfolio" tabindex="0">
+            <h1 class="panel-header">Portfolio Risk Analysis</h1>
+            <p class="panel-description">
+                Monitor your entire options portfolio with real-time risk metrics, P&L tracking, and position management tools.
+            </p>
+            <div class="panel-content">
+                <h3>💰 Positions Dashboard</h3>
+                <p>
+                    View all open positions with current P&L, Greeks (delta, gamma, theta, vega), and days until expiration. Sort by profit, risk, or account allocation.
+                </p>
+            </div>
+            <div class="panel-content">
+                <h3>📊 Risk Metrics</h3>
+                <p>
+                    Portfolio-level Greeks, max buying power usage, portfolio beta, and concentration risk. Visualize your aggregate risk exposure across all positions.
+                </p>
+            </div>
+            <div class="panel-content">
+                <h3>🎯 Position Management</h3>
+                <p>
+                    Receive alerts for positions approaching max loss, hitting profit targets, or requiring adjustment. One-click close or roll positions to new strikes/expirations.
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Keyboard Shortcuts Help -->
+    <div class="keyboard-help">
+        <h4>⌨️ Keyboard Shortcuts</h4>
+        <p><span class="kbd">Cmd/Ctrl</span> + <span class="kbd">1</span> Single Options</p>
+        <p><span class="kbd">Cmd/Ctrl</span> + <span class="kbd">2</span> Multi-Leg</p>
+        <p><span class="kbd">Cmd/Ctrl</span> + <span class="kbd">3</span> Stock Scans</p>
+        <p><span class="kbd">Cmd/Ctrl</span> + <span class="kbd">4</span> Portfolio</p>
+    </div>
+
+    <script>
+        // State
+        let sidebarCollapsed = localStorage.getItem('sidebar-collapsed') === 'true';
+        let activeTab = localStorage.getItem('last-active-tab') || 'single';
+        let isMobileMenuOpen = false;
+
+        // DOM Elements
+        const sidebar = document.getElementById('sidebar');
+        const collapseButton = document.getElementById('collapseButton');
+        const mobileHamburger = document.getElementById('mobileHamburger');
+        const mobileOverlay = document.getElementById('mobileOverlay');
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabPanels = document.querySelectorAll('.tab-panel');
+
+        // Initialize sidebar state
+        if (sidebarCollapsed) {
+            sidebar.classList.add('collapsed');
+            collapseButton.setAttribute('aria-label', 'Expand sidebar');
+            collapseButton.setAttribute('aria-expanded', 'false');
+        }
+
+        // Collapse/Expand Sidebar
+        collapseButton.addEventListener('click', () => {
+            sidebarCollapsed = !sidebarCollapsed;
+            sidebar.classList.toggle('collapsed');
+            localStorage.setItem('sidebar-collapsed', sidebarCollapsed);
+
+            // Update ARIA
+            const isExpanded = !sidebarCollapsed;
+            collapseButton.setAttribute('aria-label', isExpanded ? 'Collapse sidebar' : 'Expand sidebar');
+            collapseButton.setAttribute('aria-expanded', isExpanded);
+
+            // Announce to screen readers
+            announceToScreenReader(isExpanded ? 'Sidebar expanded' : 'Sidebar collapsed');
+        });
+
+        // Tab Switching
+        tabButtons.forEach((button, index) => {
+            button.addEventListener('click', () => {
+                const tabId = button.id.replace('tab-', '');
+                switchTab(tabId);
+                closeMobileMenu(); // Close mobile menu on tab switch
+            });
+        });
+
+        function switchTab(tabId) {
+            // Remove active state from all tabs
+            tabButtons.forEach(btn => {
+                btn.classList.remove('active');
+                btn.setAttribute('aria-selected', 'false');
+            });
+
+            tabPanels.forEach(panel => {
+                panel.classList.remove('active');
+            });
+
+            // Add active state to selected tab
+            const activeButton = document.getElementById(`tab-${tabId}`);
+            const activePanel = document.getElementById(`panel-${tabId}`);
+
+            if (activeButton && activePanel) {
+                activeButton.classList.add('active');
+                activeButton.setAttribute('aria-selected', 'true');
+                activePanel.classList.add('active');
+
+                // Save to localStorage
+                localStorage.setItem('last-active-tab', tabId);
+
+                // Update URL (simulated, no page reload)
+                const routeMap = {
+                    'single': '/scans/single',
+                    'multi': '/scans/multi',
+                    'stock': '/scans/stock',
+                    'portfolio': '/portfolio'
+                };
+                window.history.pushState({}, '', routeMap[tabId]);
+
+                // Announce to screen readers
+                const tabNumber = Array.from(tabButtons).indexOf(activeButton) + 1;
+                const tabLabel = activeButton.querySelector('.tab-label').textContent;
+                announceToScreenReader(`${tabLabel} tab, ${tabNumber} of ${tabButtons.length}, selected`);
+            }
+        }
+
+        // Keyboard Shortcuts
+        document.addEventListener('keydown', (e) => {
+            const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+            const modifierKey = isMac ? e.metaKey : e.ctrlKey;
+
+            if (modifierKey) {
+                switch (e.key) {
+                    case '1':
+                        e.preventDefault();
+                        switchTab('single');
+                        break;
+                    case '2':
+                        e.preventDefault();
+                        switchTab('multi');
+                        break;
+                    case '3':
+                        e.preventDefault();
+                        switchTab('stock');
+                        break;
+                    case '4':
+                        e.preventDefault();
+                        switchTab('portfolio');
+                        break;
+                }
+            }
+
+            // Escape to close mobile menu
+            if (e.key === 'Escape' && isMobileMenuOpen) {
+                closeMobileMenu();
+            }
+        });
+
+        // Arrow key navigation
+        let currentFocusIndex = 0;
+        const tabButtonsArray = Array.from(tabButtons);
+
+        tabButtons.forEach((button, index) => {
+            button.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    currentFocusIndex = (index + 1) % tabButtonsArray.length;
+                    tabButtonsArray[currentFocusIndex].focus();
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    currentFocusIndex = (index - 1 + tabButtonsArray.length) % tabButtonsArray.length;
+                    tabButtonsArray[currentFocusIndex].focus();
+                }
+            });
+        });
+
+        // Mobile Menu
+        mobileHamburger.addEventListener('click', () => {
+            if (isMobileMenuOpen) {
+                closeMobileMenu();
+            } else {
+                openMobileMenu();
+            }
+        });
+
+        mobileOverlay.addEventListener('click', () => {
+            closeMobileMenu();
+        });
+
+        function openMobileMenu() {
+            sidebar.classList.add('mobile-open');
+            mobileOverlay.classList.add('active');
+            mobileHamburger.setAttribute('aria-label', 'Close navigation menu');
+            mobileHamburger.setAttribute('aria-expanded', 'true');
+            isMobileMenuOpen = true;
+
+            // Change hamburger icon to X
+            mobileHamburger.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            `;
+
+            announceToScreenReader('Navigation menu opened');
+        }
+
+        function closeMobileMenu() {
+            sidebar.classList.remove('mobile-open');
+            mobileOverlay.classList.remove('active');
+            mobileHamburger.setAttribute('aria-label', 'Open navigation menu');
+            mobileHamburger.setAttribute('aria-expanded', 'false');
+            isMobileMenuOpen = false;
+
+            // Change X icon back to hamburger
+            mobileHamburger.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            `;
+
+            announceToScreenReader('Navigation menu closed');
+        }
+
+        // Screen Reader Announcements
+        function announceToScreenReader(message) {
+            const liveRegion = document.getElementById('screenReaderAnnounce') || createLiveRegion();
+            liveRegion.textContent = message;
+
+            // Clear after announcement
+            setTimeout(() => {
+                liveRegion.textContent = '';
+            }, 1000);
+        }
+
+        function createLiveRegion() {
+            const liveRegion = document.createElement('div');
+            liveRegion.id = 'screenReaderAnnounce';
+            liveRegion.setAttribute('aria-live', 'polite');
+            liveRegion.setAttribute('aria-atomic', 'true');
+            liveRegion.style.position = 'absolute';
+            liveRegion.style.left = '-10000px';
+            liveRegion.style.width = '1px';
+            liveRegion.style.height = '1px';
+            liveRegion.style.overflow = 'hidden';
+            document.body.appendChild(liveRegion);
+            return liveRegion;
+        }
+
+        // Initialize on load
+        switchTab(activeTab);
+    </script>
+</body>
+</html>
