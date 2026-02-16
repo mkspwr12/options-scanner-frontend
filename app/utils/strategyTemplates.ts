@@ -2,14 +2,7 @@
 // See SPEC-3.md Section 5.3 for template definitions
 
 import type { StrategyLeg } from '../types/strategy';
-
-/** Generate a unique leg ID */
-function uid(): string {
-  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
-    return crypto.randomUUID();
-  }
-  return Date.now().toString(36) + Math.random().toString(36).slice(2, 9);
-}
+import { uid } from './uid';
 
 /**
  * Bull Call Spread: Buy lower-strike call, sell higher-strike call.

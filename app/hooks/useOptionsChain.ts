@@ -27,32 +27,42 @@ interface CacheEntry {
 const chainCache = new Map<string, CacheEntry>();
 
 /** Map a single raw contract object to OptionContract */
+/** Returns a finite number or fallback — prevents NaN propagation from API strings like "N/A" */
+function safeNumber(v: unknown, fallback = 0): number {
+  const n = Number(v);
+  return Number.isFinite(n) ? n : fallback;
+}
+
 function mapContract(raw: Record<string, unknown>): OptionContract {
   return {
     contractSymbol: String(raw.contract_symbol ?? raw.contractSymbol ?? ''),
-    strike: Number(raw.strike ?? 0),
+    strike: safeNumber(raw.strike),
     expiration: String(raw.expiration ?? ''),
     optionType: raw.option_type === 'put' || raw.optionType === 'put' ? 'put' : 'call',
-    bid: Number(raw.bid ?? 0),
-    ask: Number(raw.ask ?? 0),
-    last: Number(raw.last ?? raw.lastPrice ?? 0),
-    volume: Number(raw.volume ?? 0),
-    openInterest: Number(raw.open_interest ?? raw.openInterest ?? 0),
-    impliedVolatility: Number(raw.implied_volatility ?? raw.impliedVolatility ?? 0),
-    delta: Number(raw.delta ?? 0),
-    gamma: Number(raw.gamma ?? 0),
-    theta: Number(raw.theta ?? 0),
-    vega: Number(raw.vega ?? 0),
+    bid: safeNumber(raw.bid),
+    ask: safeNumber(raw.ask),
+    last: safeNumber(raw.last ?? raw.lastPrice),
+    volume: safeNumber(raw.volume),
+    openInterest: safeNumber(raw.open_interest ?? raw.openInterest),
+    impliedVolatility: safeNumber(raw.implied_volatility ?? raw.impliedVolatility),
+    delta: safeNumber(raw.delta),
+    gamma: safeNumber(raw.gamma),
+    theta: safeNumber(raw.theta),
+    vega: safeNumber(raw.vega),
     inTheMoney: Boolean(raw.in_the_money ?? raw.inTheMoney ?? false),
   };
 }
 
 /** Map raw API response to OptionsChain */
 function mapChain(ticker: string, json: Record<string, unknown>): OptionsChain {
-  const rawContracts: Record<string, unknown>[] =
-    (json.contracts as Record<string, unknown>[]) ?? [];
-  const rawDates: string[] =
-    (json.expiration_dates as string[]) ?? (json.expirationDates as string[]) ?? [];
+  const rawContracts: Record<string, unknown>[] = Array.isArray(json.contracts)
+    ? (json.contracts as Record<string, unknown>[])
+    : [];
+  const rawDates: string[] = Array.isArray(json.expiration_dates)
+    ? (json.expiration_dates as string[])
+    : Array.isArray(json.expirationDates)
+      ? (json.expirationDates as string[])
+      : [];
 
   return {
     ticker,

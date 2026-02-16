@@ -8,18 +8,11 @@ import { PayoffChart } from './PayoffChart';
 import { StrategyMetricsPanel } from './StrategyMetricsPanel';
 import { SavedStrategiesDrawer } from './SavedStrategiesDrawer';
 import type { StrategyConfig } from '../../types/strategy';
+import { uid } from '../../utils/uid';
 import styles from '../../styles/strategy.module.css';
 
 const STEPS = ['template', 'legs', 'review'] as const;
 const STEP_LABELS = ['Template', 'Legs', 'Review'];
-
-/** Generate a unique config ID */
-function uid(): string {
-  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
-    return crypto.randomUUID();
-  }
-  return Date.now().toString(36) + Math.random().toString(36).slice(2, 9);
-}
 
 /**
  * Inner builder — must be inside StrategyProvider.

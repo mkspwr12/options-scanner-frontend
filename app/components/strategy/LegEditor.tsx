@@ -9,15 +9,8 @@ import {
   createIronCondor,
   createStraddle,
 } from '../../utils/strategyTemplates';
+import { uid } from '../../utils/uid';
 import styles from '../../styles/strategy.module.css';
-
-/** Generate a unique leg ID */
-function uid(): string {
-  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
-    return crypto.randomUUID();
-  }
-  return Date.now().toString(36) + Math.random().toString(36).slice(2, 9);
-}
 
 /**
  * Step 2 of the strategy wizard — configure individual legs.

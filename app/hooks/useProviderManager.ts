@@ -125,10 +125,14 @@ export function useProviderManager() {
     }
   }, []);
 
-  // Persist to localStorage whenever providers change
+  // Persist to localStorage whenever providers change (strip API keys for security)
   useEffect(() => {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state.providers));
+      const safeProviders = state.providers.map(({ apiKey, ...rest }) => ({
+        ...rest,
+        apiKey: apiKey ? '***' : undefined,
+      }));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(safeProviders));
     } catch {
       // Quota exceeded — ignore
     }

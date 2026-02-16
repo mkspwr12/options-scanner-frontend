@@ -160,6 +160,8 @@ export function usePortfolio() {
     const summary = calculateSummary(state.positions);
     dispatch({ type: 'UPDATE_SUMMARY', payload: summary });
 
+    // Clear existing alerts before re-evaluating to prevent unbounded accumulation
+    dispatch({ type: 'CLEAR_ALERTS' });
     const alerts = evaluateThresholds(summary, state.thresholds);
     for (const alert of alerts) {
       dispatch({ type: 'TRIGGER_ALERT', payload: alert });

@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { usePortfolioContext } from './PortfolioContext';
 import type { RiskThreshold } from '../../types/portfolio';
+import { uid } from '../../utils/uid';
 import styles from '../../styles/portfolio.module.css';
 
 const METRICS: RiskThreshold['metric'][] = ['delta', 'gamma', 'theta', 'vega', 'pnl'];
@@ -12,14 +13,6 @@ const OPERATORS: { value: RiskThreshold['operator']; label: string }[] = [
   { value: 'gte', label: '≥' },
   { value: 'lte', label: '≤' },
 ];
-
-/** Generate a simple unique ID */
-function uid(): string {
-  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
-    return crypto.randomUUID();
-  }
-  return Date.now().toString(36) + Math.random().toString(36).slice(2, 9);
-}
 
 /**
  * Configuration panel for risk thresholds.
