@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yahoo Finance Data Integration — Options Scanner Prototype</title>
+<style>
+  :root {
+    --bg: #0a0a0a; --surface: #1a1a2e; --card: #16213e; --accent: #00d4ff;
+    --success: #4ade80; --warning: #fbbf24; --error: #ef4444;
+    --text: #e2e8f0; --muted: #94a3b8; --border: #2a2a4a;
+    --radius: 8px; --transition: .25s ease;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
+  /* ── Toolbar ── */
+  .toolbar { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 20px; background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 50; }
+  .toolbar button { padding: 6px 14px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); color: var(--text); cursor: pointer; font-size: .82rem; transition: background var(--transition), border-color var(--transition); }
+  .toolbar button:hover { border-color: var(--accent); background: #1e2a4a; }
+  .toolbar button.active { border-color: var(--accent); background: rgba(0,212,255,.12); }
+  /* ── Layout ── */
+  .container { max-width: 1280px; margin: 0 auto; padding: 20px; display: grid; gap: 16px; }
+  .row { display: flex; flex-wrap: wrap; gap: 16px; align-items: start; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
+  /* ── Connection Badge ── */
+  .badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; border-radius: 20px; font-size: .85rem; font-weight: 600; }
+  .badge .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .badge.connected { background: rgba(74,222,128,.12); color: var(--success); }
+  .badge.connected .dot { background: var(--success); box-shadow: 0 0 6px var(--success); }
+  .badge.degraded { background: rgba(251,191,36,.12); color: var(--warning); }
+  .badge.degraded .dot { background: var(--warning); box-shadow: 0 0 6px var(--warning); }
+  .badge.offline  { background: rgba(239,68,68,.12); color: var(--error); }
+  .badge.offline .dot  { background: var(--error); box-shadow: 0 0 6px var(--error); }
+  /* ── Freshness ── */
+  .freshness { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .freshness-text { font-size: .85rem; color: var(--muted); }
+  .countdown-ring { width: 32px; height: 32px; transform: rotate(-90deg); }
+  .countdown-ring circle { fill: none; stroke-width: 3; }
+  .countdown-ring .track { stroke: var(--border); }
+  .countdown-ring .fill  { stroke: var(--accent); stroke-linecap: round; transition: stroke-dashoffset .4s linear; }
+  .refresh-btn { background: none; border: 1px solid var(--accent); color: var(--accent); padding: 4px 12px; border-radius: var(--radius); cursor: pointer; font-size: .8rem; transition: background var(--transition); }
+  .refresh-btn:hover { background: rgba(0,212,255,.1); }
+  .interval-select { background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: var(--radius); padding: 4px 8px; font-size: .8rem; }
+  .toggle-label { display: flex; align-items: center; gap: 6px; font-size: .8rem; color: var(--muted); cursor: pointer; }
+  .toggle-label input { accent-color: var(--accent); }
+  /* ── Stale Banner ── */
+  .stale-banner { display: none; align-items: center; gap: 12px; padding: 12px 16px; background: rgba(251,191,36,.08); border: 1px solid rgba(251,191,36,.3); border-radius: var(--radius); color: var(--warning); font-size: .85rem; animation: slideDown .3s ease; }
+  .stale-banner.visible { display: flex; }
+  .stale-banner .close-btn { margin-left: auto; background: none; border: none; color: var(--warning); cursor: pointer; font-size: 1.1rem; }
+  @keyframes slideDown { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+  /* ── Rate Limit ── */
+  .rate-limit { flex: 1; min-width: 240px; }
+  .rate-bar-wrap { height: 8px; background: var(--surface); border-radius: 4px; overflow: hidden; margin-top: 8px; }
+  .rate-bar { height: 100%; border-radius: 4px; transition: width .5s ease, background .5s ease; }
+  .rate-label { font-size: .8rem; color: var(--muted); margin-top: 4px; }
+  /* ── Table ── */
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: .82rem; }
+  th { text-align: left; padding: 10px 12px; background: var(--surface); color: var(--muted); font-weight: 600; cursor: pointer; user-select: none; white-space: nowrap; position: sticky; top: 0; border-bottom: 2px solid var(--border); }
+  th:hover { color: var(--accent); }
+  th .sort-arrow { margin-left: 4px; font-size: .7rem; }
+  td { padding: 9px 12px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  tr:hover td { background: rgba(0,212,255,.04); }
+  .greek-cell { position: relative; cursor: help; }
+  .pos { color: var(--success); } .neg { color: var(--error); }
+  /* ── Tooltip ── */
+  .tooltip { position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 14px; font-size: .78rem; color: var(--text); width: 220px; white-space: normal; z-index: 40; pointer-events: none; opacity: 0; transition: opacity .2s; box-shadow: 0 4px 20px rgba(0,0,0,.4); }
+  .greek-cell:hover .tooltip { opacity: 1; }
+  .tooltip::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 6px solid transparent; border-top-color: var(--surface); }
+  /* ── Skeleton ── */
+  .skeleton td span { display: block; height: 14px; border-radius: 4px; background: linear-gradient(90deg, var(--surface) 25%, #252548 50%, var(--surface) 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; }
+  @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+  /* ── Error State ── */
+  .error-state { display: none; flex-direction: column; align-items: center; gap: 12px; padding: 40px; text-align: center; }
+  .error-state.visible { display: flex; }
+  .error-state .icon { font-size: 2.4rem; }
+  .error-state p { color: var(--muted); font-size: .9rem; max-width: 400px; }
+  .error-state button { padding: 8px 20px; background: var(--error); border: none; color: #fff; border-radius: var(--radius); cursor: pointer; font-size: .85rem; transition: opacity var(--transition); }
+  .error-state button:hover { opacity: .85; }
+  /* ── Responsive ── */
+  @media (max-width: 768px) { .row { flex-direction: column; } .container { padding: 12px; } }
+</style>
+</head>
+<body>
+
+<!-- Toolbar -->
+<div class="toolbar">
+  <button onclick="cycleConnection()">Toggle Connection</button>
+  <button onclick="toggleStale()">Toggle Stale Banner</button>
+  <button id="skelBtn" onclick="toggleSkeleton()">Show Skeleton</button>
+  <button id="errBtn" onclick="toggleError()">Show Error</button>
+  <button onclick="setRate(0.3)">Rate 30%</button>
+  <button onclick="setRate(0.7)">Rate 70%</button>
+  <button onclick="setRate(0.95)">Rate 95%</button>
+</div>
+
+<div class="container">
+  <!-- Row 1: Connection + Freshness -->
+  <div class="row">
+    <div class="card" style="flex:0 0 auto;">
+      <div id="connBadge" class="badge connected"><span class="dot"></span><span id="connLabel">Connected</span></div>
+    </div>
+    <div class="card freshness" style="flex:1;">
+      <svg class="countdown-ring" viewBox="0 0 36 36">
+        <circle class="track" cx="18" cy="18" r="15.5" />
+        <circle class="fill" id="cdRing" cx="18" cy="18" r="15.5" stroke-dasharray="97.4" stroke-dashoffset="0" />
+      </svg>
+      <span class="freshness-text" id="freshText">Last updated: <strong>2 min ago</strong></span>
+      <button class="refresh-btn" onclick="refreshData()">↻ Refresh</button>
+      <label class="toggle-label"><input type="checkbox" id="autoToggle" checked onchange="toggleAuto()"> Auto-refresh</label>
+      <select class="interval-select" id="intervalSel" onchange="changeInterval()">
+        <option value="30">30s</option><option value="60" selected>60s</option><option value="120">120s</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Stale Banner -->
+  <div id="staleBanner" class="stale-banner">
+    <span>⚠️ Data may be stale — last update was <strong>7 minutes ago</strong>.</span>
+    <button class="refresh-btn" onclick="refreshData()">Refresh Now</button>
+    <button class="close-btn" onclick="dismissStale()">✕</button>
+  </div>
+
+  <!-- Row 2: Rate Limit -->
+  <div class="card rate-limit">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <span style="font-size:.85rem;font-weight:600;">API Rate Limit</span>
+      <span class="rate-label" id="rateText">1,247 / 2,000 requests this hour</span>
+    </div>
+    <div class="rate-bar-wrap"><div class="rate-bar" id="rateBar" style="width:62%;background:var(--warning);"></div></div>
+  </div>
+
+  <!-- Options Chain Table -->
+  <div class="card">
+    <h3 style="margin-bottom:12px;font-size:.95rem;">AAPL Options Chain — Jan 17 2026 Calls</h3>
+    <div class="table-wrap">
+      <div id="errorState" class="error-state">
+        <span class="icon">⚠️</span>
+        <h3 style="color:var(--error)">Failed to Load Options Data</h3>
+        <p>Yahoo Finance API returned an error. This may be due to rate limiting or a temporary outage.</p>
+        <button onclick="retryLoad()">↻ Retry</button>
+      </div>
+      <table id="optTable">
+        <thead>
+          <tr>
+            <th data-col="strike" data-type="num">Strike <span class="sort-arrow"></span></th>
+            <th data-col="bid" data-type="num">Bid <span class="sort-arrow"></span></th>
+            <th data-col="ask" data-type="num">Ask <span class="sort-arrow"></span></th>
+            <th data-col="last" data-type="num">Last <span class="sort-arrow"></span></th>
+            <th data-col="volume" data-type="num">Volume <span class="sort-arrow"></span></th>
+            <th data-col="oi" data-type="num">OI <span class="sort-arrow"></span></th>
+            <th data-col="iv" data-type="num">IV% <span class="sort-arrow"></span></th>
+            <th data-col="delta" data-type="num">Delta <span class="sort-arrow"></span></th>
+            <th data-col="gamma" data-type="num">Gamma <span class="sort-arrow"></span></th>
+            <th data-col="theta" data-type="num">Theta <span class="sort-arrow"></span></th>
+            <th data-col="vega" data-type="num">Vega <span class="sort-arrow"></span></th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Data ──
+const OPTIONS = [
+  { strike:170, bid:28.50, ask:28.90, last:28.70, volume:1243, oi:15420, iv:32.1, delta:0.88, gamma:0.018, theta:-0.12, vega:0.22 },
+  { strike:175, bid:23.80, ask:24.20, last:24.00, volume:2871, oi:22340, iv:30.5, delta:0.82, gamma:0.024, theta:-0.14, vega:0.28 },
+  { strike:180, bid:19.30, ask:19.70, last:19.50, volume:4562, oi:31250, iv:29.8, delta:0.74, gamma:0.031, theta:-0.16, vega:0.33 },
+  { strike:185, bid:15.10, ask:15.50, last:15.30, volume:6894, oi:28760, iv:28.9, delta:0.64, gamma:0.038, theta:-0.17, vega:0.36 },
+  { strike:190, bid:11.40, ask:11.80, last:11.60, volume:9213, oi:42180, iv:28.3, delta:0.53, gamma:0.042, theta:-0.18, vega:0.38 },
+  { strike:195, bid:8.20,  ask:8.55,  last:8.35,  volume:11540,oi:38920, iv:27.9, delta:0.42, gamma:0.043, theta:-0.17, vega:0.37 },
+  { strike:200, bid:5.60,  ask:5.90,  last:5.75,  volume:14320,oi:51340, iv:27.6, delta:0.31, gamma:0.040, theta:-0.15, vega:0.34 },
+  { strike:205, bid:3.50,  ask:3.80,  last:3.65,  volume:8970, oi:29870, iv:27.4, delta:0.21, gamma:0.034, theta:-0.13, vega:0.29 },
+  { strike:210, bid:2.05,  ask:2.30,  last:2.15,  volume:6540, oi:18430, iv:27.8, delta:0.13, gamma:0.026, theta:-0.10, vega:0.23 },
+  { strike:215, bid:1.05,  ask:1.25,  last:1.12,  volume:3210, oi:12560, iv:28.5, delta:0.07, gamma:0.017, theta:-0.07, vega:0.16 },
+];
+
+const GREEK_TIPS = {
+  delta: 'Delta measures the rate of change in option price per $1 move in the underlying. Calls: 0→1, Puts: -1→0.',
+  gamma: 'Gamma measures the rate of change of delta per $1 move in the underlying. Highest for at-the-money options.',
+  theta: 'Theta measures daily time decay — how much value the option loses each day, all else equal.',
+  vega:  'Vega measures sensitivity to a 1% change in implied volatility. Higher for longer-dated options.',
+};
+
+// ── State ──
+let connState = 0; // 0=connected,1=degraded,2=offline
+const CONN = ['connected','degraded','offline'];
+const CONN_LABELS = ['Connected','Degraded','Offline'];
+let skeletonOn = false, errorOn = false, staleShown = false;
+let autoRefresh = true, interval = 60, countdown = 60, cdTimer = null;
+let sortCol = null, sortAsc = true;
+
+// ── Connection ──
+function cycleConnection() {
+  connState = (connState + 1) % 3;
+  const b = document.getElementById('connBadge');
+  b.className = 'badge ' + CONN[connState];
+  document.getElementById('connLabel').textContent = CONN_LABELS[connState];
+}
+
+// ── Stale Banner ──
+function toggleStale() {
+  staleShown = !staleShown;
+  document.getElementById('staleBanner').classList.toggle('visible', staleShown);
+}
+function dismissStale() {
+  staleShown = false;
+  document.getElementById('staleBanner').classList.remove('visible');
+}
+
+// ── Freshness / Countdown ──
+function startCountdown() {
+  clearInterval(cdTimer);
+  countdown = interval;
+  updateRing();
+  cdTimer = setInterval(() => {
+    if (!autoRefresh) return;
+    countdown--;
+    if (countdown <= 0) { refreshData(); countdown = interval; }
+    updateRing();
+  }, 1000);
+}
+function updateRing() {
+  const circ = 97.4;
+  const offset = circ * (1 - countdown / interval);
+  document.getElementById('cdRing').setAttribute('stroke-dashoffset', offset);
+}
+function refreshData() {
+  countdown = interval;
+  updateRing();
+  document.getElementById('freshText').innerHTML = 'Last updated: <strong>just now</strong>';
+  dismissStale();
+}
+function toggleAuto() {
+  autoRefresh = document.getElementById('autoToggle').checked;
+  if (autoRefresh) startCountdown();
+}
+function changeInterval() {
+  interval = parseInt(document.getElementById('intervalSel').value);
+  countdown = interval;
+  startCountdown();
+}
+
+// ── Rate Limit ──
+function setRate(pct) {
+  const used = Math.round(pct * 2000);
+  const bar = document.getElementById('rateBar');
+  bar.style.width = (pct * 100) + '%';
+  bar.style.background = pct < 0.5 ? 'var(--success)' : pct < 0.8 ? 'var(--warning)' : 'var(--error)';
+  document.getElementById('rateText').textContent = used.toLocaleString() + ' / 2,000 requests this hour';
+}
+
+// ── Table Render ──
+function renderTable(data) {
+  const tb = document.getElementById('tableBody');
+  if (skeletonOn) { renderSkeleton(tb); return; }
+  tb.innerHTML = '';
+  data.forEach(r => {
+    const tr = document.createElement('tr');
+    const deltaClass = r.delta >= 0.5 ? 'pos' : (r.delta < 0.2 ? 'neg' : '');
+    tr.innerHTML = `
+      <td>${r.strike.toFixed(0)}</td><td>${r.bid.toFixed(2)}</td><td>${r.ask.toFixed(2)}</td>
+      <td>${r.last.toFixed(2)}</td><td>${r.volume.toLocaleString()}</td><td>${r.oi.toLocaleString()}</td>
+      <td>${r.iv.toFixed(1)}%</td>
+      <td class="greek-cell ${deltaClass}">${r.delta.toFixed(3)}<div class="tooltip">${GREEK_TIPS.delta}</div></td>
+      <td class="greek-cell">${r.gamma.toFixed(3)}<div class="tooltip">${GREEK_TIPS.gamma}</div></td>
+      <td class="greek-cell neg">${(-Math.abs(r.theta)).toFixed(3)}<div class="tooltip">${GREEK_TIPS.theta}</div></td>
+      <td class="greek-cell">${r.vega.toFixed(3)}<div class="tooltip">${GREEK_TIPS.vega}</div></td>`;
+    tb.appendChild(tr);
+  });
+}
+function renderSkeleton(tb) {
+  tb.innerHTML = '';
+  for (let i = 0; i < 8; i++) {
+    const tr = document.createElement('tr');
+    tr.className = 'skeleton';
+    const widths = [40,50,50,50,55,55,45,48,48,48,48];
+    tr.innerHTML = widths.map(w => `<td><span style="width:${w}px"></span></td>`).join('');
+    tb.appendChild(tr);
+  }
+}
+
+// ── Sort ──
+document.querySelectorAll('#optTable th').forEach(th => {
+  th.addEventListener('click', () => {
+    const col = th.dataset.col;
+    if (sortCol === col) { sortAsc = !sortAsc; } else { sortCol = col; sortAsc = true; }
+    document.querySelectorAll('#optTable th .sort-arrow').forEach(s => s.textContent = '');
+    th.querySelector('.sort-arrow').textContent = sortAsc ? '▲' : '▼';
+    const sorted = [...OPTIONS].sort((a, b) => sortAsc ? a[col] - b[col] : b[col] - a[col]);
+    renderTable(sorted);
+  });
+});
+
+// ── Skeleton Toggle ──
+function toggleSkeleton() {
+  skeletonOn = !skeletonOn;
+  document.getElementById('skelBtn').classList.toggle('active', skeletonOn);
+  if (skeletonOn) { errorOn = false; document.getElementById('errBtn').classList.remove('active'); showError(false); }
+  renderTable(OPTIONS);
+}
+
+// ── Error Toggle ──
+function toggleError() {
+  errorOn = !errorOn;
+  document.getElementById('errBtn').classList.toggle('active', errorOn);
+  if (errorOn) { skeletonOn = false; document.getElementById('skelBtn').classList.remove('active'); }
+  showError(errorOn);
+  document.getElementById('optTable').style.display = errorOn ? 'none' : '';
+}
+function showError(show) { document.getElementById('errorState').classList.toggle('visible', show); }
+function retryLoad() {
+  errorOn = false;
+  document.getElementById('errBtn').classList.remove('active');
+  showError(false);
+  document.getElementById('optTable').style.display = '';
+  renderTable(OPTIONS);
+}
+
+// ── Init ──
+renderTable(OPTIONS);
+startCountdown();
+</script>
+</body>
+</html>

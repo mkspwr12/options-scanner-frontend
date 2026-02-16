@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Provider Settings — Options Scanner</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0a0a0a;color:#e2e8f0;min-height:100vh;line-height:1.5}
+  .container{max-width:1100px;margin:0 auto;padding:24px 20px}
+
+  /* Header */
+  .page-header{margin-bottom:28px}
+  .page-header h1{font-size:1.75rem;font-weight:700;color:#e2e8f0}
+  .page-header p{color:#94a3b8;font-size:.95rem;margin-top:4px}
+
+  /* Failover Banner */
+  .failover-banner{background:#1a1a2e;border:1px solid #fbbf24;border-radius:10px;padding:14px 20px;display:flex;align-items:center;gap:12px;margin-bottom:24px;animation:slideDown .4s ease}
+  @keyframes slideDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
+  .failover-banner.hidden{display:none}
+  .failover-banner .icon{font-size:1.3rem}
+  .failover-banner .msg{flex:1;font-size:.9rem;color:#fbbf24}
+  .failover-banner .msg strong{color:#e2e8f0}
+  .failover-banner button{background:none;border:1px solid #94a3b8;color:#94a3b8;border-radius:6px;padding:4px 12px;cursor:pointer;font-size:.8rem;transition:all .2s}
+  .failover-banner button:hover{border-color:#00d4ff;color:#00d4ff}
+
+  /* Grid */
+  .provider-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px;margin-bottom:24px}
+
+  /* Card */
+  .card{background:#16213e;border:1px solid #1a1a2e;border-radius:12px;padding:20px;transition:transform .2s,box-shadow .2s;position:relative}
+  .card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.35)}
+  .card-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
+  .card-head .name{font-size:1.1rem;font-weight:600}
+  .card-head .reorder{display:flex;flex-direction:column;gap:2px}
+  .card-head .reorder button{background:none;border:1px solid #94a3b8;color:#94a3b8;width:26px;height:20px;border-radius:4px;cursor:pointer;font-size:.7rem;display:flex;align-items:center;justify-content:center;transition:all .2s}
+  .card-head .reorder button:hover{border-color:#00d4ff;color:#00d4ff}
+  .badges{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+  .badge{padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+  .badge-connected{background:rgba(74,222,128,.15);color:#4ade80;border:1px solid rgba(74,222,128,.3)}
+  .badge-disconnected{background:rgba(239,68,68,.12);color:#ef4444;border:1px solid rgba(239,68,68,.25)}
+  .badge-primary{background:rgba(0,212,255,.12);color:#00d4ff;border:1px solid rgba(0,212,255,.25)}
+  .badge-secondary{background:rgba(148,163,184,.12);color:#94a3b8;border:1px solid rgba(148,163,184,.25)}
+  .badge-inactive{background:rgba(148,163,184,.08);color:#64748b;border:1px solid rgba(148,163,184,.15)}
+
+  .stat-row{display:flex;justify-content:space-between;font-size:.82rem;color:#94a3b8;margin-bottom:6px}
+  .stat-row .val{color:#e2e8f0;font-weight:500}
+
+  /* Rate limit bar */
+  .rate-bar-wrap{margin:10px 0 14px}
+  .rate-bar-label{display:flex;justify-content:space-between;font-size:.78rem;color:#94a3b8;margin-bottom:4px}
+  .rate-bar{height:6px;background:#1a1a2e;border-radius:4px;overflow:hidden}
+  .rate-bar-fill{height:100%;border-radius:4px;transition:width .6s ease}
+
+  /* Sparkline */
+  .metrics-panel{background:#1a1a2e;border-radius:10px;padding:16px 20px;margin-bottom:24px}
+  .metrics-panel h3{font-size:1rem;font-weight:600;margin-bottom:14px;color:#e2e8f0}
+  .metrics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+  .metric-card{background:#16213e;border-radius:8px;padding:14px}
+  .metric-card .label{font-size:.78rem;color:#94a3b8;margin-bottom:4px}
+  .metric-card .value{font-size:1.35rem;font-weight:700;color:#00d4ff}
+  .metric-card .value.green{color:#4ade80}
+  .sparkline{display:flex;align-items:flex-end;gap:3px;height:40px;margin-top:8px}
+  .sparkline .bar{flex:1;background:#00d4ff;border-radius:2px 2px 0 0;transition:height .3s;min-width:6px;opacity:.7}
+  .sparkline .bar:last-child{opacity:1}
+
+  /* Buttons */
+  .btn{padding:7px 16px;border-radius:7px;font-size:.82rem;font-weight:500;cursor:pointer;border:none;transition:all .2s;display:inline-flex;align-items:center;gap:6px}
+  .btn-primary{background:#00d4ff;color:#0a0a0a}
+  .btn-primary:hover{background:#00b8d9;transform:scale(1.03)}
+  .btn-outline{background:none;border:1px solid #94a3b8;color:#94a3b8}
+  .btn-outline:hover{border-color:#00d4ff;color:#00d4ff}
+  .btn-danger{background:none;border:1px solid #ef4444;color:#ef4444}
+  .btn-danger:hover{background:rgba(239,68,68,.1)}
+  .btn-success{background:rgba(74,222,128,.15);color:#4ade80;border:1px solid rgba(74,222,128,.3)}
+  .btn-error{background:rgba(239,68,68,.12);color:#ef4444;border:1px solid rgba(239,68,68,.25)}
+  .card-actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+
+  .add-btn{width:100%;padding:16px;border:2px dashed #94a3b8;border-radius:12px;background:none;color:#94a3b8;font-size:.95rem;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:8px}
+  .add-btn:hover{border-color:#00d4ff;color:#00d4ff;background:rgba(0,212,255,.04)}
+
+  /* Modal */
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;z-index:100;opacity:0;pointer-events:none;transition:opacity .25s}
+  .modal-overlay.open{opacity:1;pointer-events:auto}
+  .modal{background:#16213e;border-radius:14px;width:95%;max-width:500px;padding:28px;transform:scale(.92);transition:transform .25s}
+  .modal-overlay.open .modal{transform:scale(1)}
+  .modal h2{font-size:1.2rem;margin-bottom:18px}
+  .form-group{margin-bottom:14px}
+  .form-group label{display:block;font-size:.82rem;color:#94a3b8;margin-bottom:5px}
+  .form-group input,.form-group select{width:100%;padding:9px 12px;background:#1a1a2e;border:1px solid #2a2a4e;border-radius:7px;color:#e2e8f0;font-size:.9rem;outline:none;transition:border-color .2s}
+  .form-group input:focus,.form-group select:focus{border-color:#00d4ff}
+  .input-wrap{position:relative}
+  .input-wrap .toggle-eye{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:#94a3b8;cursor:pointer;font-size:.85rem}
+  .priority-group{display:flex;gap:8px}
+  .priority-group button{flex:1;padding:8px;border:1px solid #2a2a4e;border-radius:7px;background:#1a1a2e;color:#94a3b8;cursor:pointer;font-size:.82rem;transition:all .2s}
+  .priority-group button.active{border-color:#00d4ff;color:#00d4ff;background:rgba(0,212,255,.08)}
+  .modal-actions{display:flex;gap:10px;margin-top:20px;justify-content:flex-end}
+  .test-result{font-size:.82rem;margin-top:8px;min-height:20px;transition:opacity .3s}
+
+  /* Spinner */
+  .spinner{width:14px;height:14px;border:2px solid transparent;border-top-color:currentColor;border-radius:50%;animation:spin .6s linear infinite;display:inline-block}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  @media(max-width:700px){.provider-grid{grid-template-columns:1fr}.metrics-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="container">
+  <!-- Header -->
+  <div class="page-header">
+    <h1>Data Provider Settings</h1>
+    <p>Manage your market data sources</p>
+  </div>
+
+  <!-- Failover Banner -->
+  <div class="failover-banner" id="failoverBanner">
+    <span class="icon">⚠️</span>
+    <span class="msg"><strong>Failover Active:</strong> Switched to Alpaca Markets — Yahoo Finance is unavailable.</span>
+    <button onclick="showDetails()">Details</button>
+    <button onclick="dismissBanner()">Dismiss</button>
+  </div>
+
+  <!-- Provider Cards -->
+  <div class="provider-grid" id="providerGrid"></div>
+
+  <!-- Add Provider -->
+  <button class="add-btn" onclick="openModal()">+ Add Data Provider</button>
+
+  <!-- Metrics Panel -->
+  <div class="metrics-panel">
+    <h3>Provider Metrics — Last 24h</h3>
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="label">Calls / Hour</div>
+        <div class="value">142</div>
+        <div class="sparkline" id="sparkline"></div>
+      </div>
+      <div class="metric-card">
+        <div class="label">Uptime</div>
+        <div class="value green">99.7%</div>
+      </div>
+      <div class="metric-card">
+        <div class="label">Avg Latency</div>
+        <div class="value">187 ms</div>
+      </div>
+      <div class="metric-card">
+        <div class="label">Error Rate</div>
+        <div class="value" style="color:#fbbf24">0.3%</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <h2>Add Data Provider</h2>
+    <div class="form-group">
+      <label>Provider Type</label>
+      <select id="provType">
+        <option>Yahoo Finance</option><option>Alpaca Markets</option><option>Tradier</option><option>Polygon.io</option><option>Custom</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Display Name</label>
+      <input id="provName" placeholder="e.g. My Yahoo Feed">
+    </div>
+    <div class="form-group">
+      <label>API Key</label>
+      <div class="input-wrap">
+        <input id="provKey" type="password" placeholder="Enter API key">
+        <button class="toggle-eye" onclick="toggleKey()">👁</button>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Base URL</label>
+      <input id="provUrl" placeholder="https://api.example.com/v1">
+    </div>
+    <div class="form-group">
+      <label>Priority</label>
+      <div class="priority-group">
+        <button class="active" onclick="setPriority(this,'Primary')">Primary</button>
+        <button onclick="setPriority(this,'Secondary')">Secondary</button>
+        <button onclick="setPriority(this,'Tertiary')">Tertiary</button>
+      </div>
+    </div>
+    <button class="btn btn-outline" onclick="testNewConnection(this)" style="width:100%">Test Connection</button>
+    <div class="test-result" id="modalTestResult"></div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveProvider()">Save Provider</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// Provider data
+let providers = [
+  { id:1, name:'Yahoo Finance', priority:'Primary', connected:true, tier:'Free', used:1247, limit:2000, latency:245, errorRate:0.2 },
+  { id:2, name:'Alpaca Markets', priority:'Secondary', connected:true, tier:'Basic', used:89, limit:200, latency:312, errorRate:0.1 },
+  { id:3, name:'Tradier', priority:'Inactive', connected:false, tier:'—', used:0, limit:500, latency:0, errorRate:0 }
+];
+let nextId = 4;
+
+function renderCards() {
+  const grid = document.getElementById('providerGrid');
+  grid.innerHTML = '';
+  providers.forEach((p, idx) => {
+    const pct = p.limit ? Math.round(p.used / p.limit * 100) : 0;
+    const barColor = pct > 80 ? '#ef4444' : pct > 50 ? '#fbbf24' : '#4ade80';
+    const statusCls = p.connected ? 'badge-connected' : 'badge-disconnected';
+    const statusTxt = p.connected ? 'Connected' : 'Disconnected';
+    const priCls = p.priority === 'Primary' ? 'badge-primary' : p.priority === 'Secondary' ? 'badge-secondary' : 'badge-inactive';
+
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.dataset.idx = idx;
+    card.innerHTML = `
+      <div class="card-head">
+        <span class="name">${p.name}</span>
+        <div class="reorder">
+          <button title="Move up" onclick="moveProvider(${idx},-1)">▲</button>
+          <button title="Move down" onclick="moveProvider(${idx},1)">▼</button>
+        </div>
+      </div>
+      <div class="badges">
+        <span class="badge ${statusCls}">${statusTxt}</span>
+        <span class="badge ${priCls}">${p.priority}</span>
+      </div>
+      <div class="stat-row"><span>Tier</span><span class="val">${p.tier}</span></div>
+      <div class="stat-row"><span>Avg Latency</span><span class="val">${p.latency ? p.latency + ' ms' : '—'}</span></div>
+      <div class="stat-row"><span>Error Rate</span><span class="val">${p.errorRate ? p.errorRate + '%' : '—'}</span></div>
+      <div class="rate-bar-wrap">
+        <div class="rate-bar-label"><span>Rate Limit</span><span>${p.used.toLocaleString()} / ${p.limit.toLocaleString()}</span></div>
+        <div class="rate-bar"><div class="rate-bar-fill" style="width:${pct}%;background:${barColor}"></div></div>
+      </div>
+      <div class="card-actions">
+        <button class="btn btn-outline" onclick="alert('Configure ${p.name}')">Configure</button>
+        <button class="btn btn-outline" id="testBtn${p.id}" onclick="testConnection(${p.id},this)">Test</button>
+        <button class="btn btn-danger" onclick="removeProvider(${p.id})">Remove</button>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+// Reorder
+function moveProvider(idx, dir) {
+  const target = idx + dir;
+  if (target < 0 || target >= providers.length) return;
+  [providers[idx], providers[target]] = [providers[target], providers[idx]];
+  renderCards();
+}
+
+// Test connection on card
+function testConnection(id, btn) {
+  const orig = btn.textContent;
+  btn.innerHTML = '<span class="spinner"></span> Testing…';
+  btn.disabled = true;
+  const p = providers.find(p => p.id === id);
+  const success = p && p.connected;
+  setTimeout(() => {
+    if (success) {
+      const ms = 180 + Math.floor(Math.random() * 150);
+      btn.className = 'btn btn-success';
+      btn.innerHTML = '✓ Connected (' + ms + 'ms)';
+    } else {
+      btn.className = 'btn btn-error';
+      btn.innerHTML = '✕ Failed: Connection refused';
+    }
+    setTimeout(() => { btn.className = 'btn btn-outline'; btn.textContent = orig; btn.disabled = false; }, 2500);
+  }, 1200 + Math.random() * 600);
+}
+
+// Remove
+function removeProvider(id) {
+  providers = providers.filter(p => p.id !== id);
+  renderCards();
+}
+
+// Banner
+function dismissBanner() {
+  const b = document.getElementById('failoverBanner');
+  b.style.opacity = '0'; b.style.transform = 'translateY(-12px)';
+  setTimeout(() => b.classList.add('hidden'), 300);
+}
+function showDetails() { alert('Failover triggered at 14:32 UTC.\nYahoo Finance returned HTTP 503 for 3 consecutive health checks.\nAutomatic switch to Alpaca Markets (Secondary).'); }
+
+// Modal
+function openModal() { document.getElementById('modalOverlay').classList.add('open'); }
+function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); document.getElementById('modalTestResult').textContent = ''; }
+function closeModalOutside(e) { if (e.target === e.currentTarget) closeModal(); }
+
+function toggleKey() {
+  const inp = document.getElementById('provKey');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+}
+
+let selectedPriority = 'Primary';
+function setPriority(btn, val) {
+  selectedPriority = val;
+  btn.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function testNewConnection(btn) {
+  const res = document.getElementById('modalTestResult');
+  btn.innerHTML = '<span class="spinner"></span> Testing…';
+  btn.disabled = true;
+  const key = document.getElementById('provKey').value;
+  setTimeout(() => {
+    if (key.length > 0) {
+      const ms = 150 + Math.floor(Math.random() * 200);
+      res.innerHTML = '<span style="color:#4ade80">✓ Connection successful (' + ms + 'ms)</span>';
+    } else {
+      res.innerHTML = '<span style="color:#ef4444">✕ Failed: Invalid API key</span>';
+    }
+    btn.innerHTML = 'Test Connection';
+    btn.disabled = false;
+  }, 1400);
+}
+
+function saveProvider() {
+  const name = document.getElementById('provName').value || document.getElementById('provType').value;
+  providers.push({ id: nextId++, name, priority: selectedPriority, connected: true, tier: 'Free', used: 0, limit: 500, latency: 0, errorRate: 0 });
+  renderCards();
+  closeModal();
+}
+
+// Sparkline
+function renderSparkline() {
+  const el = document.getElementById('sparkline');
+  const data = [65,80,45,90,72,110,95,130,142,88,105,120];
+  const max = Math.max(...data);
+  el.innerHTML = data.map(v => `<div class="bar" style="height:${(v/max)*100}%"></div>`).join('');
+}
+
+renderCards();
+renderSparkline();
+</script>
+</body>
+</html>
