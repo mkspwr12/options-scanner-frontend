@@ -2,9 +2,9 @@
 
 import { useState, useCallback } from 'react';
 import { FilterPanel } from '../../components/shared/FilterPanel';
-import { TechnicalFilters } from '../../components/stock-screener/TechnicalFilters';
-import { FundamentalFilters } from '../../components/stock-screener/FundamentalFilters';
-import { MomentumFilters } from '../../components/stock-screener/MomentumFilters';
+import { TechnicalFilters as TechnicalFiltersComponent, type TechnicalFilters } from '../../components/stock-screener/TechnicalFilters';
+import { FundamentalFilters as FundamentalFiltersComponent, type FundamentalFilters } from '../../components/stock-screener/FundamentalFilters';
+import { MomentumFilters as MomentumFiltersComponent, type MomentumFilters } from '../../components/stock-screener/MomentumFilters';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE || 'https://options-scanner-backend-2exk6s.azurewebsites.net';
 
@@ -30,21 +30,21 @@ interface StockResult {
 
 export default function StockScansPage() {
   const [activeTab, setActiveTab] = useState<'technical' | 'fundamental' | 'momentum'>('technical');
-  const [technicalFilters, setTechnicalFilters] = useState({
+  const [technicalFilters, setTechnicalFilters] = useState<TechnicalFilters>({
     rsi: { min: 0, max: 100 },
     macdBullish: false,
     above50MA: false,
     above200MA: false,
     unusualVolume: false,
   });
-  const [fundamentalFilters, setFundamentalFilters] = useState({
+  const [fundamentalFilters, setFundamentalFilters] = useState<FundamentalFilters>({
     peRatio: { min: 0, max: 100 },
-    marketCap: 'all' as const,
+    marketCap: 'all',
     earningsGrowth: { min: -100, max: 100 },
   });
-  const [momentumFilters, setMomentumFilters] = useState({
+  const [momentumFilters, setMomentumFilters] = useState<MomentumFilters>({
     insiderBuying: false,
-    earningsWithinDays: null as number | null,
+    earningsWithinDays: null,
     volumeSpike: { min: 1.0, max: 10.0 },
   });
 
@@ -183,13 +183,13 @@ export default function StockScansPage() {
         </div>
 
         {activeTab === 'technical' && (
-          <TechnicalFilters filters={technicalFilters} onChange={setTechnicalFilters} />
+          <TechnicalFiltersComponent filters={technicalFilters} onChange={setTechnicalFilters} />
         )}
         {activeTab === 'fundamental' && (
-          <FundamentalFilters filters={fundamentalFilters} onChange={setFundamentalFilters} />
+          <FundamentalFiltersComponent filters={fundamentalFilters} onChange={setFundamentalFilters} />
         )}
         {activeTab === 'momentum' && (
-          <MomentumFilters filters={momentumFilters} onChange={setMomentumFilters} />
+          <MomentumFiltersComponent filters={momentumFilters} onChange={setMomentumFilters} />
         )}
 
         <div className="mt-4">

@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface TechnicalFilters {
+export interface TechnicalFilters {
   rsi: { min: number; max: number };
   macdBullish: boolean;
   above50MA: boolean;

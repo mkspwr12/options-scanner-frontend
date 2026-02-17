@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface MomentumFilters {
+export interface MomentumFilters {
   insiderBuying: boolean;
   earningsWithinDays: number | null;
   volumeSpike: { min: number; max: number };

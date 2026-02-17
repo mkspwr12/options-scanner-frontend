@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface FundamentalFilters {
+export interface FundamentalFilters {
   peRatio: { min: number; max: number };
   marketCap: 'all' | 'small' | 'mid' | 'large' | 'mega';
   earningsGrowth: { min: number; max: number };
