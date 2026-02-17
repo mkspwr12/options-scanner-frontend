@@ -8,7 +8,7 @@ interface FundamentalFilters {
 
 interface FundamentalFiltersProps {
   filters: FundamentalFilters;
-  onChange: (filters: FundamentalFilters) => void;
+  onChange: React.Dispatch<React.SetStateAction<FundamentalFilters>>;
 }
 
 export function FundamentalFilters({ filters, onChange }: FundamentalFiltersProps) {

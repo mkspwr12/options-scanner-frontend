@@ -8,7 +8,7 @@ interface MomentumFilters {
 
 interface MomentumFiltersProps {
   filters: MomentumFilters;
-  onChange: (filters: MomentumFilters) => void;
+  onChange: React.Dispatch<React.SetStateAction<MomentumFilters>>;
 }
 
 export function MomentumFilters({ filters, onChange }: MomentumFiltersProps) {

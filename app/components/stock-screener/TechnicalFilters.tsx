@@ -10,7 +10,7 @@ interface TechnicalFilters {
 
 interface TechnicalFiltersProps {
   filters: TechnicalFilters;
-  onChange: (filters: TechnicalFilters) => void;
+  onChange: React.Dispatch<React.SetStateAction<TechnicalFilters>>;
 }
 
 export function TechnicalFilters({ filters, onChange }: TechnicalFiltersProps) {
