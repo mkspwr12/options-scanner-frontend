@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Scans Tab - UX Prototype</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Main Navigation -->
+    <nav class="main-nav" aria-label="Main navigation">
+        <button class="nav-tab">Options Scanner</button>
+        <button class="nav-tab">Strategy Builder</button>
+        <button class="nav-tab active" aria-current="page">Stock Scans</button>
+        <button class="nav-tab">Portfolio</button>
+    </nav>
+
+    <main class="stock-scans-container">
+        <!-- Filter Panel -->
+        <aside class="filter-panel" aria-label="Stock filter panel">
+            <div class="filter-header">
+                <div class="filter-controls">
+                    <button class="preset-dropdown" id="presetDropdown" aria-haspopup="true" aria-expanded="false">
+                        <span id="selectedPreset">All Stocks</span>
+                        <span class="dropdown-icon">▼</span>
+                    </button>
+                    <div class="preset-menu" id="presetMenu" role="menu" hidden>
+                        <button class="preset-item" role="menuitem" data-preset="all">All Stocks</button>
+                        <button class="preset-item" role="menuitem" data-preset="oversold">🔴 High RSI Oversold</button>
+                        <button class="preset-item" role="menuitem" data-preset="overbought">🟢 High RSI Overbought</button>
+                        <button class="preset-item" role="menuitem" data-preset="macd">📈 MACD Bullish Crossover</button>
+                        <button class="preset-item" role="menuitem" data-preset="earnings">📅 Earnings This Week</button>
+                        <button class="preset-item" role="menuitem" data-preset="value">💼 Large Cap Value</button>
+                        <button class="preset-item" role="menuitem" data-preset="unusual">⚠️ Unusual Options Activity</button>
+                        <button class="preset-item" role="menuitem" data-preset="insider">👔 Insider Buying</button>
+                        <button class="preset-item" role="menuitem" data-preset="momentum">🚀 Momentum Breakout</button>
+                    </div>
+                    
+                    <button class="clear-filters" id="clearFilters">Clear All</button>
+                    
+                    <label class="auto-update-toggle">
+                        <input type="checkbox" id="autoUpdate" checked aria-label="Auto-update results">
+                        <span class="toggle-switch"></span>
+                        <span class="toggle-label">Auto-update</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="filter-tabs" role="tablist" aria-label="Filter categories">
+                <button class="filter-tab active" role="tab" aria-selected="true" aria-controls="technical-panel" id="technical-tab">
+                    Technical
+                </button>
+                <button class="filter-tab" role="tab" aria-selected="false" aria-controls="fundamental-panel" id="fundamental-tab">
+                    Fundamental
+                </button>
+                <button class="filter-tab" role="tab" aria-selected="false" aria-controls="momentum-panel" id="momentum-tab">
+                    Momentum
+                </button>
+            </div>
+
+            <!-- Technical Filters Panel -->
+            <div class="filter-content" id="technical-panel" role="tabpanel" aria-labelledby="technical-tab">
+                <div class="filter-group">
+                    <label class="filter-label">
+                        RSI Range:
+                        <span class="info-tooltip" aria-label="Relative Strength Index - oversold < 30, overbought > 70">ℹ️</span>
+                    </label>
+                    <div class="range-slider-container">
+                        <input type="range" id="rsiMin" min="0" max="100" value="0" class="range-slider" aria-label="RSI minimum value">
+                        <input type="range" id="rsiMax" min="0" max="100" value="100" class="range-slider" aria-label="RSI maximum value">
+                        <div class="range-display">
+                            <span id="rsiMinValue">0</span> - <span id="rsiMaxValue">100</span>
+                        </div>
+                    </div>
+                    <div class="quick-buttons">
+                        <button class="quick-btn" data-rsi="0,30">&lt;30 Oversold</button>
+                        <button class="quick-btn" data-rsi="70,100">&gt;70 Overbought</button>
+                        <button class="quick-btn" data-rsi="40,60">40-60 Neutral</button>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label">MACD Signal:</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="macdBullish" aria-label="MACD Bullish">
+                            <span class="checkbox-custom"></span>
+                            Bullish (MACD &gt; Signal)
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="macdBearish" aria-label="MACD Bearish">
+                            <span class="checkbox-custom"></span>
+                            Bearish (MACD &lt; Signal)
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="macdNeutral" aria-label="MACD Neutral">
+                            <span class="checkbox-custom"></span>
+                            Neutral
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label">Moving Averages:</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="ma50" aria-label="Price above 50-day MA">
+                            <span class="checkbox-custom"></span>
+                            Price &gt; 50-day MA
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="ma200" aria-label="Price above 200-day MA">
+                            <span class="checkbox-custom"></span>
+                            Price &gt; 200-day MA
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="goldenCross" aria-label="Golden Cross">
+                            <span class="checkbox-custom"></span>
+                            Golden Cross (50 MA &gt; 200 MA)
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label">
+                        Volume Spike:
+                        <span class="info-tooltip" aria-label="Filter stocks with unusual volume activity">ℹ️</span>
+                    </label>
+                    <div class="single-slider">
+                        <input type="range" id="volumeSpike" min="1.0" max="5.0" step="0.1" value="1.0" class="range-slider" aria-label="Volume spike multiplier">
+                        <div class="range-display">
+                            &gt; <span id="volumeSpikeValue">1.0</span>x average
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fundamental Filters Panel -->
+            <div class="filter-content" id="fundamental-panel" role="tabpanel" aria-labelledby="fundamental-tab" hidden>
+                <div class="filter-group">
+                    <label class="filter-label">Market Cap:</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="capMicro" aria-label="Micro cap">
+                            <span class="checkbox-custom"></span>
+                            Micro (&lt;$300M)
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="capSmall" aria-label="Small cap">
+                            <span class="checkbox-custom"></span>
+                            Small ($300M-$2B)
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="capMid" aria-label="Mid cap" checked>
+                            <span class="checkbox-custom"></span>
+                            Mid ($2B-$10B)
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="capLarge" aria-label="Large cap" checked>
+                            <span class="checkbox-custom"></span>
+                            Large (&gt;$10B)
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="capMega" aria-label="Mega cap">
+                            <span class="checkbox-custom"></span>
+                            Mega (&gt;$200B)
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label">
+                        P/E Ratio:
+                        <span class="info-tooltip" aria-label="Price-to-Earnings ratio - lower = value, higher = growth">ℹ️</span>
+                    </label>
+                    <div class="single-slider">
+                        <input type="range" id="peRatio" min="0" max="100" value="100" class="range-slider" aria-label="Maximum P/E ratio">
+                        <div class="range-display">
+                            &lt; <span id="peRatioValue">Off</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label">
+                        Earnings Growth (YoY):
+                        <span class="info-tooltip" aria-label="Year-over-year earnings growth percentage">ℹ️</span>
+                    </label>
+                    <div class="single-slider">
+                        <input type="range" id="earningsGrowth" min="-50" max="200" value="0" class="range-slider" aria-label="Minimum earnings growth">
+                        <div class="range-display">
+                            &gt; <span id="earningsGrowthValue">0</span>%
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label">Sector:</label>
+                    <select id="sectorSelect" class="sector-select" aria-label="Select sector">
+                        <option value="all">All Sectors</option>
+                        <option value="technology">Technology</option>
+                        <option value="healthcare">Healthcare</option>
+                        <option value="financials">Financials</option>
+                        <option value="energy">Energy</option>
+                        <option value="consumer">Consumer</option>
+                        <option value="industrials">Industrials</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Momentum Filters Panel -->
+            <div class="filter-content" id="momentum-panel" role="tabpanel" aria-labelledby="momentum-tab" hidden>
+                <div class="filter-group">
+                    <label class="filter-label">
+                        Unusual Options Activity:
+                        <span class="info-tooltip" aria-label="Detects unusual derivatives trading patterns">ℹ️</span>
+                    </label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="highOI" aria-label="High Open Interest">
+                            <span class="checkbox-custom"></span>
+                            High Open Interest (OI &gt; 2x avg volume)
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="ivRank" aria-label="IV Rank">
+                            <span class="checkbox-custom"></span>
+                            IV Rank &gt; 50
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label">
+                        Insider Activity:
+                        <span class="info-tooltip" aria-label="Tracks company insider transactions">ℹ️</span>
+                    </label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="insiderBuy" aria-label="Insider Buying">
+                            <span class="checkbox-custom"></span>
+                            Insider Buying (last 30 days)
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="insiderSell" aria-label="Insider Selling">
+                            <span class="checkbox-custom"></span>
+                            Insider Selling (last 30 days)
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label">Corporate Events:</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="earningsWeek" aria-label="Earnings This Week">
+                            <span class="checkbox-custom"></span>
+                            Earnings This Week (next 7 days)
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="analystUpgrade" aria-label="Analyst Upgrades">
+                            <span class="checkbox-custom"></span>
+                            Analyst Upgrades (last 7 days)
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label">Price Momentum:</label>
+                    <div class="single-slider">
+                        <input type="range" id="priceMomentum" min="-50" max="50" value="0" class="range-slider" aria-label="Price change this week">
+                        <div class="range-display">
+                            &gt; <span id="priceMomentumValue">0</span>% this week
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Active Filters -->
+            <div class="active-filters" id="activeFilters">
+                <div class="filter-logic-toggle">
+                    <label>
+                        <select id="filterLogic" aria-label="Filter logic">
+                            <option value="AND">AND logic</option>
+                            <option value="OR">OR logic</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="filter-badges" id="filterBadges" aria-live="polite">
+                    <!-- Dynamic filter badges appear here -->
+                </div>
+            </div>
+        </aside>
+
+        <!-- Results Panel -->
+        <section class="results-panel">
+            <div class="results-header">
+                <h2 class="results-title">
+                    Results (<span id="resultsCount">247</span> stocks)
+                </h2>
+                <div class="results-controls">
+                    <label>
+                        Sort by:
+                        <select id="sortBy" aria-label="Sort results by">
+                            <option value="symbol">Symbol</option>
+                            <option value="price">Price</option>
+                            <option value="change">Change %</option>
+                            <option value="rsi">RSI</option>
+                            <option value="volume">Volume</option>
+                        </select>
+                    </label>
+                    <label>
+                        Show:
+                        <select id="pageSize" aria-label="Results per page">
+                            <option value="10" selected>10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                        </select>
+                        per page
+                    </label>
+                </div>
+            </div>
+
+            <!-- Results Table -->
+            <div class="results-table-container" role="region" aria-label="Filtered stock results" tabindex="0">
+                <table class="results-table" id="resultsTable">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="sortable" data-column="symbol">
+                                Symbol <span class="sort-indicator">↕</span>
+                            </th>
+                            <th scope="col">Name</th>
+                            <th scope="col" class="sortable" data-column="price">
+                                Price <span class="sort-indicator">↕</span>
+                            </th>
+                            <th scope="col" class="sortable" data-column="change">
+                                Change <span class="sort-indicator">↕</span>
+                            </th>
+                            <th scope="col" class="sortable" data-column="rsi">
+                                RSI <span class="sort-indicator">↕</span>
+                            </th>
+                            <th scope="col">Chart</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultsBody">
+                        <!-- Dynamic rows rendered by JavaScript -->
+                    </tbody>
+                </table>
+
+                <!-- Loading State -->
+                <div class="skeleton-loader" id="skeletonLoader" hidden>
+                    <div class="skeleton-row"></div>
+                    <div class="skeleton-row"></div>
+                    <div class="skeleton-row"></div>
+                    <div class="skeleton-row"></div>
+                    <div class="skeleton-row"></div>
+                </div>
+
+                <!-- Empty State -->
+                <div class="empty-state" id="emptyState" hidden>
+                    <div class="empty-icon">🔍</div>
+                    <h3>No stocks match your filters</h3>
+                    <p>Your current filters are too restrictive. Try one of these:</p>
+                    <ul>
+                        <li>Remove some filters</li>
+                        <li>Switch from AND to OR logic</li>
+                        <li>Broaden RSI range or other thresholds</li>
+                        <li>Use a preset scan to start fresh</li>
+                    </ul>
+                    <button class="btn-primary" id="emptyStateClear">Clear Filters</button>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination" id="pagination">
+                <button class="pagination-btn" id="prevPage" aria-label="Previous page">← Previous</button>
+                <span class="pagination-info">Page <span id="currentPage">1</span> of <span id="totalPages">25</span></span>
+                <button class="pagination-btn" id="nextPage" aria-label="Next page">Next →</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Chart Tooltip (appears on hover) -->
+    <div class="chart-tooltip" id="chartTooltip" role="tooltip" hidden>
+        <div class="tooltip-header">
+            <strong id="tooltipSymbol">AAPL</strong>
+            <span id="tooltipTrend">+5.3% (30 days)</span>
+        </div>
+        <canvas id="tooltipChart" width="300" height="150"></canvas>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
