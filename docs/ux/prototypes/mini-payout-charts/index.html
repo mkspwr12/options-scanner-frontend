@@ -105,14 +105,26 @@
             margin-left: 6px;
         }
 
-        .type-call {
-            background: rgba(16, 185, 129, 0.2);
+        .type-long-call {
+            background: rgba(16, 185, 129, 0.3);
             color: var(--color-green);
         }
 
-        .type-put {
-            background: rgba(239, 68, 68, 0.2);
+        .type-short-call {
+            background: rgba(239, 68, 68, 0.3);
             color: var(--color-red);
+            border: 1px solid var(--color-red);
+        }
+
+        .type-long-put {
+            background: rgba(16, 185, 129, 0.3);
+            color: var(--color-green);
+        }
+
+        .type-short-put {
+            background: rgba(239, 68, 68, 0.3);
+            color: var(--color-red);
+            border: 1px solid var(--color-red);
         }
 
         /* Mini Payout Chart */
@@ -367,6 +379,7 @@
             {
                 ticker: 'AAPL',
                 type: 'call',
+                position: 'long',
                 strike: 175,
                 expiration: 30,
                 premium: 3.50,
@@ -384,6 +397,7 @@
             {
                 ticker: 'TSLA',
                 type: 'put',
+                position: 'short',
                 strike: 240,
                 expiration: 45,
                 premium: 5.20,
@@ -401,6 +415,7 @@
             {
                 ticker: 'MSFT',
                 type: 'call',
+                position: 'short',
                 strike: 410,
                 expiration: 20,
                 premium: 2.80,
@@ -418,6 +433,7 @@
             {
                 ticker: 'NVDA',
                 type: 'call',
+                position: 'long',
                 strike: 500,
                 expiration: 35,
                 premium: 8.50,
@@ -435,6 +451,7 @@
             {
                 ticker: 'GOOGL',
                 type: 'put',
+                position: 'long',
                 strike: 140,
                 expiration: 25,
                 premium: 3.20,
@@ -452,6 +469,7 @@
             {
                 ticker: 'AMZN',
                 type: 'call',
+                position: 'long',
                 strike: 175,
                 expiration: 40,
                 premium: 4.80,
@@ -469,6 +487,7 @@
             {
                 ticker: 'META',
                 type: 'call',
+                position: 'short',
                 strike: 520,
                 expiration: 28,
                 premium: 12.50,
@@ -486,6 +505,7 @@
             {
                 ticker: 'SPY',
                 type: 'put',
+                position: 'long',
                 strike: 480,
                 expiration: 15,
                 premium: 2.10,
@@ -626,7 +646,7 @@
                 row.innerHTML = `
                     <td class="ticker-cell">
                         ${result.ticker}
-                        <span class="type-indicator type-${result.type}">${result.type.toUpperCase()}</span>
+                        <span class="type-indicator type-${result.position}-${result.type}">${result.position.toUpperCase()} ${result.type.toUpperCase()}</span>
                     </td>
                     <td>$${result.strike}</td>
                     <td>${result.expiration} DTE</td>
@@ -679,7 +699,7 @@
                 card.innerHTML = `
                     <div class="card-header">
                         <div class="card-title">
-                            ${result.ticker} $${result.strike} ${result.type.toUpperCase()}
+                            ${result.ticker} $${result.strike} ${result.position.toUpperCase()} ${result.type.toUpperCase()}
                         </div>
                         ${getProbabilityBadge(result.probability)}
                     </div>

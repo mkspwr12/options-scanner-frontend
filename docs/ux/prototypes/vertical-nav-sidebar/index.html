@@ -360,6 +360,97 @@
             font-weight: 500;
         }
 
+        /* P&L Widget */
+        .pnl-widget {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            background: var(--color-bg-sidebar);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: 16px 20px;
+            min-width: 220px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            z-index: 500;
+            transition: all 150ms ease;
+        }
+
+        .pnl-widget:hover {
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+        }
+
+        .pnl-header {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--color-text-inactive);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .pnl-total {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            transition: color 150ms ease;
+        }
+
+        .pnl-total.positive {
+            color: var(--color-green);
+        }
+
+        .pnl-total.negative {
+            color: var(--color-red);
+        }
+
+        .pnl-change {
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 12px;
+        }
+
+        .pnl-change.positive {
+            color: var(--color-green);
+        }
+
+        .pnl-change.negative {
+            color: var(--color-red);
+        }
+
+        .pnl-footer {
+            font-size: 11px;
+            color: var(--color-text-inactive);
+            padding-top: 12px;
+            border-top: 1px solid var(--color-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .pnl-update-time {
+            opacity: 0.7;
+        }
+
+        .pnl-indicator {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--color-green);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
         /* Responsive: Tablet & Mobile */
         @media (max-width: 768px) {
             .sidebar {
@@ -557,6 +648,20 @@
 
         <!-- Portfolio Tab Panel -->
         <div class="tab-panel" id="panel-portfolio" role="tabpanel" aria-labelledby="tab-portfolio" tabindex="0">
+            <!-- P&L Widget -->
+            <div class="pnl-widget" id="pnlWidget">
+                <div class="pnl-header">Total P&L</div>
+                <div class="pnl-total positive" id="pnlTotal">$+1,234.56</div>
+                <div class="pnl-change positive" id="pnlChange">
+                    <span>↑ +2.4%</span>
+                    <span>Today</span>
+                </div>
+                <div class="pnl-footer">
+                    <span class="pnl-update-time" id="pnlUpdateTime">Updated just now</span>
+                    <div class="pnl-indicator"></div>
+                </div>
+            </div>
+
             <h1 class="panel-header">Portfolio Risk Analysis</h1>
             <p class="panel-description">
                 Monitor your entire options portfolio with real-time risk metrics, P&L tracking, and position management tools.
@@ -802,6 +907,56 @@
 
         // Initialize on load
         switchTab(activeTab);
+
+        // P&L Widget Auto-Update
+        function updatePnLWidget() {
+            // Simulate P&L data (in production, this would fetch from API)
+            const scenarios = [
+                { total: '+1,234.56', change: '+2.4%', isPositive: true },
+                { total: '-456.78', change: '-1.2%', isPositive: false },
+                { total: '+2,890.12', change: '+3.8%', isPositive: true },
+                { total: '+567.89', change: '+0.9%', isPositive: false }
+            ];
+            
+            // Randomly select a scenario for demo purposes
+            const scenario = scenarios[Math.floor(Math.random() * scenarios.length)];
+            
+            const pnlTotal = document.getElementById('pnlTotal');
+            const pnlChange = document.getElementById('pnlChange');
+            const pnlUpdateTime = document.getElementById('pnlUpdateTime');
+            
+            // Update total
+            pnlTotal.textContent = `$${scenario.total}`;
+            pnlTotal.className = 'pnl-total ' + (scenario.isPositive ? 'positive' : 'negative');
+            
+            // Update change
+            const arrow = scenario.isPositive ? '↑' : '↓';
+            pnlChange.innerHTML = `<span>${arrow} ${scenario.change}</span><span>Today</span>`;
+            pnlChange.className = 'pnl-change ' + (scenario.isPositive ? 'positive' : 'negative');
+            
+            // Update time
+            pnlUpdateTime.textContent = 'Updated just now';
+            
+            // Gradually change "just now" to time ago
+            let seconds = 0;
+            const timeInterval = setInterval(() => {
+                seconds += 30;
+                if (seconds < 60) {
+                    pnlUpdateTime.textContent = `Updated ${seconds}s ago`;
+                } else if (seconds < 300) {
+                    const minutes = Math.floor(seconds / 60);
+                    pnlUpdateTime.textContent = `Updated ${minutes}m ago`;
+                } else {
+                    clearInterval(timeInterval);
+                }
+            }, 30000); // Update every 30 seconds
+        }
+
+        // Update P&L every 5 minutes
+        setInterval(updatePnLWidget, 5 * 60 * 1000);
+        
+        // Initial update
+        updatePnLWidget();
     </script>
 </body>
 </html>
