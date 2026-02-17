@@ -75,15 +75,25 @@ export default function StockScansPage() {
       });
 
       if (!response.ok) {
-        throw new Error(`Stock scan failed: ${response.statusText}`);
+        let errorMessage = `HTTP ${response.status}`;
+        try {
+          const errorData = await response.json();
+          errorMessage += `: ${errorData.error || errorData.message || response.statusText}`;
+        } catch {
+          errorMessage += `: ${response.statusText}`;
+        }
+        throw new Error(`Stock scan failed - ${errorMessage}. API endpoint may not be implemented yet.`);
       }
 
       const data = await response.json();
       setResults(data.results || []);
       setTotalPages(data.totalPages || 1);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to scan stocks');
+      const errorMsg = err instanceof Error ? err.message : 'Failed to scan stocks. Check console for details.';
+      setError(errorMsg);
       console.error('Stock scan error:', err);
+      console.error('API Base:', API_BASE);
+      console.error('Endpoint:', `${API_BASE}/api/stock-scan`);
     } finally {
       setIsLoading(false);
     }
@@ -204,8 +214,18 @@ export default function StockScansPage() {
       </FilterPanel>
 
       {error && (
-        <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-md text-red-700">
-          {error}
+        <div className="mb-6 p-4 bg-red-50 border-2 border-red-400 rounded-lg">
+          <div className="flex items-start">
+            <div className="flex-shrink-0">
+              <svg className="h-5 w-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+              </svg>
+            </div>
+            <div className="ml-3">
+              <h3 className="text-sm font-medium text-red-800">Scan Error</h3>
+              <div className="mt-1 text-sm text-red-700">{error}</div>
+            </div>
+          </div>
         </div>
       )}
 
