@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multi-Leg Strategy Builder — Options Scanner Prototype</title>
+  <style>
+    /* ========================================================
+       Design System — Dark Theme (from globals.css)
+       ======================================================== */
+    :root {
+      --bg-base: #0b1224;
+      --bg-elevated: #132046;
+      --bg-card: rgba(9, 16, 31, 0.65);
+      --border-card: rgba(255, 255, 255, 0.08);
+      --text-primary: #e6edf7;
+      --text-secondary: #b7c3d9;
+      --text-muted: #94a3b8;
+      --blue-primary: #1976d2;
+      --blue-light: #64b5f6;
+      --blue-bg: rgba(25, 118, 210, 0.12);
+      --blue-border: rgba(25, 118, 210, 0.3);
+      --amber: #f5a623;
+      --amber-bg: rgba(245, 166, 35, 0.15);
+      --amber-border: rgba(245, 166, 35, 0.3);
+      --red: #ef5350;
+      --green: #66bb6a;
+      --success: #4CAF50;
+      --slider-track: rgba(255, 255, 255, 0.15);
+      --card-radius: 16px;
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-mono);
+      background: radial-gradient(ellipse at 60% 0%, #132046 0%, #0b1224 50%, #08101f 100%);
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    /* ========= Page Layout ========= */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .page-header {
+      margin-bottom: 24px;
+    }
+
+    .page-header h1 {
+      font-size: 40px;
+      font-weight: 700;
+      line-height: 1.2;
+      background: linear-gradient(135deg, #e6edf7, #94a3b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+
+    .page-header p {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* ========= Preset Strategy Buttons ========= */
+    .presets-section {
+      margin-bottom: 24px;
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .presets-bar {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+
+    .preset-button {
+      min-width: 140px;
+      height: 100px;
+      padding: 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .preset-button:hover {
+      border-color: var(--blue-primary);
+      box-shadow: 0 4px 12px rgba(25, 118, 210, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .preset-button.active {
+      background: var(--blue-primary);
+      border-color: var(--blue-primary);
+    }
+
+    .preset-icon {
+      font-size: 32px;
+    }
+
+    .preset-name {
+      font-size: 14px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .preset-legs {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .preset-button.active .preset-legs {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    /* ========= Strategy Builder ========= */
+    .strategy-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--card-radius);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .strategy-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .symbol-input {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .symbol-input label {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .symbol-input select,
+    .symbol-input input {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-card);
+      color: var(--text-primary);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-family: var(--font-mono);
+      font-size: 14px;
+    }
+
+    .current-price {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .current-price .price {
+      color: var(--green);
+      font-weight: 600;
+    }
+
+    /* ========= Strategy Legs ========= */
+    .legs-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .leg-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-card);
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .leg-card:hover {
+      background: rgba(25, 118, 210, 0.05);
+    }
+
+    .leg-card.dragging {
+      opacity: 0.6;
+      cursor: grabbing;
+    }
+
+    .drag-handle {
+      cursor: grab;
+      color: var(--text-muted);
+      font-size: 20px;
+      user-select: none;
+      opacity: 0.5;
+      transition: opacity 0.2s;
+    }
+
+    .leg-card:hover .drag-handle {
+      opacity: 1;
+    }
+
+    .leg-number {
+      font-size: 12px;
+      color: var(--text-muted);
+      min-width: 40px;
+    }
+
+    .leg-action {
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      min-width: 60px;
+      text-align: center;
+    }
+
+    .leg-action.buy {
+      background: rgba(102, 187, 106, 0.15);
+      color: var(--green);
+    }
+
+    .leg-action.sell {
+      background: rgba(239, 83, 80, 0.15);
+      color: var(--red);
+    }
+
+    .leg-type {
+      padding: 6px 12px;
+      background: var(--bg-card);
+      border-radius: 6px;
+      font-size: 12px;
+      min-width: 60px;
+      text-align: center;
+    }
+
+    .leg-strike {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .leg-strike span {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .leg-strike input {
+      background: var(--bg-base);
+      border: 1px solid var(--border-card);
+      color: var(--text-primary);
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      width: 80px;
+      text-align: right;
+    }
+
+    .leg-premium {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-left: auto;
+    }
+
+    .leg-premium .value {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .leg-remove {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 20px;
+      cursor: pointer;
+      padding: 4px 8px;
+      transition: color 0.2s;
+    }
+
+    .leg-remove:hover {
+      color: var(--red);
+    }
+
+    .leg-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+    }
+
+    .btn-secondary {
+      background: var(--bg-elevated);
+      color: var(--text-primary);
+      border: 1px solid var(--border-card);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--blue-border);
+    }
+
+    .btn-primary {
+      background: var(--blue-primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--blue-light);
+      box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+    }
+
+    /* ========= P&L Chart ========= */
+    .chart-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--card-radius);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .chart-title {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .chart-metrics {
+      display: flex;
+      gap: 24px;
+      font-size: 12px;
+    }
+
+    .metric {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .metric-label {
+      color: var(--text-muted);
+    }
+
+    .metric-value {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .metric-value.profit {
+      color: var(--green);
+    }
+
+    .metric-value.loss {
+      color: var(--red);
+    }
+
+    .chart-container {
+      position: relative;
+      width: 100%;
+      height: 400px;
+      background: var(--bg-elevated);
+      border-radius: 12px;
+      margin-top: 16px;
+      overflow: hidden;
+    }
+
+    #payoutChart {
+      width: 100%;
+      height: 100%;
+    }
+
+    .chart-tooltip {
+      position: absolute;
+      padding: 12px 16px;
+      background: rgba(19, 32, 70, 0.98);
+      border: 1px solid var(--blue-border);
+      border-radius: 8px;
+      font-size: 12px;
+      pointer-events: none;
+      z-index: 10;
+      opacity: 0;
+      transition: opacity 0.1s;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .chart-tooltip.visible {
+      opacity: 1;
+    }
+
+    .tooltip-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 6px;
+    }
+
+    .tooltip-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .tooltip-label {
+      color: var(--text-muted);
+    }
+
+    .tooltip-value {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .tooltip-value.profit {
+      color: var(--green);
+    }
+
+    .tooltip-value.loss {
+      color: var(--red);
+    }
+
+    /* ========= Scan Filters ========= */
+    .filters-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--card-radius);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .filters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-bottom: 16px;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .filter-label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-weight: 600;
+    }
+
+    .slider-container {
+      position: relative;
+      padding: 8px 0;
+    }
+
+    .slider {
+      width: 100%;
+      height: 8px;
+      border-radius: 4px;
+      background: var(--slider-track);
+      position: relative;
+      cursor: pointer;
+    }
+
+    .slider-fill {
+      height: 100%;
+      border-radius: 4px;
+      background: linear-gradient(90deg, var(--red), var(--amber), var(--green));
+      transition: width 0.1s ease;
+    }
+
+    .slider-thumb {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: white;
+      border: 2px solid var(--blue-primary);
+      border-radius: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      cursor: grab;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      transition: transform 0.1s ease;
+    }
+
+    .slider-thumb:active {
+      cursor: grabbing;
+      transform: translate(-50%, -50%) scale(1.2);
+    }
+
+    .slider-value {
+      position: absolute;
+      top: -24px;
+      left: 0;
+      background: var(--blue-primary);
+      color: white;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      transform: translateX(-50%);
+    }
+
+    .filter-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
+    /* ========= Results Section ========= */
+    .results-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--card-radius);
+      padding: 24px;
+    }
+
+    .results-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .results-title {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .results-count {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .results-table th {
+      text-align: left;
+      padding: 12px;
+      font-size: 12px;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border-card);
+      font-weight: 600;
+    }
+
+    .results-table td {
+      padding: 16px 12px;
+      border-bottom: 1px solid var(--border-card);
+      font-size: 14px;
+    }
+
+    .results-table tr:hover {
+      background: rgba(25, 118, 210, 0.05);
+    }
+
+    .symbol-cell {
+      font-weight: 600;
+      color: var(--blue-light);
+    }
+
+    .strikes-cell {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .probability-cell {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .probability-bar {
+      width: 60px;
+      height: 6px;
+      background: var(--slider-track);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .probability-fill {
+      height: 100%;
+      background: var(--green);
+      transition: width 0.3s ease;
+    }
+
+    .probability-text {
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-small {
+      padding: 6px 12px;
+      font-size: 12px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-card);
+      color: var(--text-primary);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-small:hover {
+      border-color: var(--blue-border);
+      background: var(--blue-bg);
+    }
+
+    /* ========= Empty State ========= */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-muted);
+    }
+
+    .empty-state-icon {
+      font-size: 64px;
+      margin-bottom: 16px;
+    }
+
+    .empty-state-text {
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .empty-state-subtext {
+      font-size: 14px;
+    }
+
+    /* ========= Responsive ========= */
+    @media (max-width: 768px) {
+      body {
+        padding: 16px;
+      }
+
+      .page-header h1 {
+        font-size: 32px;
+      }
+
+      .presets-bar {
+        gap: 8px;
+      }
+
+      .preset-button {
+        min-width: 120px;
+        height: 80px;
+        padding: 12px;
+      }
+
+      .preset-icon {
+        font-size: 24px;
+      }
+
+      .preset-name {
+        font-size: 12px;
+      }
+
+      .chart-container {
+        height: 300px;
+      }
+
+      .chart-metrics {
+        flex-wrap: wrap;
+      }
+
+      .filters-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .results-table {
+        font-size: 12px;
+      }
+
+      .results-table th,
+      .results-table td {
+        padding: 8px;
+      }
+
+      .leg-card {
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .leg-premium {
+        width: 100%;
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1>Multi-Leg Strategy Builder</h1>
+      <p>Build complex options strategies with visual risk profiles and real-time P&L charts</p>
+    </div>
+
+    <!-- Preset Strategies -->
+    <div class="presets-section">
+      <div class="section-title">Preset Strategies</div>
+      <div class="presets-bar">
+        <button class="preset-button active" data-preset="iron-condor">
+          <div class="preset-icon">🦅</div>
+          <div class="preset-name">Iron Condor</div>
+          <div class="preset-legs">4 legs</div>
+        </button>
+        <button class="preset-button" data-preset="bull-call">
+          <div class="preset-icon">📈</div>
+          <div class="preset-name">Bull Call Spread</div>
+          <div class="preset-legs">2 legs</div>
+        </button>
+        <button class="preset-button" data-preset="bear-put">
+          <div class="preset-icon">📉</div>
+          <div class="preset-name">Bear Put Spread</div>
+          <div class="preset-legs">2 legs</div>
+        </button>
+        <button class="preset-button" data-preset="calendar">
+          <div class="preset-icon">📅</div>
+          <div class="preset-name">Calendar Spread</div>
+          <div class="preset-legs">2 legs</div>
+        </button>
+        <button class="preset-button" data-preset="straddle">
+          <div class="preset-icon">🎯</div>
+          <div class="preset-name">Long Straddle</div>
+          <div class="preset-legs">2 legs</div>
+        </button>
+      </div>
+    </div>
+
+    <!-- Strategy Builder -->
+    <div class="strategy-section">
+      <div class="strategy-header">
+        <div class="symbol-input">
+          <label>Underlying:</label>
+          <select id="symbolSelect">
+            <option value="SPY">SPY</option>
+            <option value="QQQ">QQQ</option>
+            <option value="AAPL">AAPL</option>
+            <option value="TSLA">TSLA</option>
+          </select>
+          <span class="current-price">Current: <span class="price">$580.24</span></span>
+        </div>
+        <div class="symbol-input">
+          <label>Expiration:</label>
+          <select id="expirationSelect">
+            <option value="30">30 DTE</option>
+            <option value="45">45 DTE</option>
+            <option value="60">60 DTE</option>
+            <option value="90">90 DTE</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="section-title">Strategy Legs</div>
+      <div id="legsContainer" class="legs-container">
+        <!-- Legs will be dynamically inserted here -->
+      </div>
+
+      <div class="leg-actions">
+        <button class="btn btn-secondary" id="clearAllBtn">Clear All</button>
+        <button class="btn btn-secondary" id="addLegBtn">+ Add Leg</button>
+        <button class="btn btn-primary" id="scanMarketBtn">Scan Market →</button>
+      </div>
+    </div>
+
+    <!-- P&L Chart -->
+    <div class="chart-section">
+      <div class="chart-header">
+        <div class="chart-title">Profit/Loss Profile</div>
+        <div class="chart-metrics">
+          <div class="metric">
+            <div class="metric-label">Max Profit</div>
+            <div class="metric-value profit" id="maxProfit">$460</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Max Loss</div>
+            <div class="metric-value loss" id="maxLoss">-$540</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Breakevens</div>
+            <div class="metric-value" id="breakevens">$577.40, $587.60</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Probability of Profit</div>
+            <div class="metric-value" id="probability">68%</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <canvas id="payoutChart"></canvas>
+        <div class="chart-tooltip" id="chartTooltip">
+          <div class="tooltip-row">
+            <span class="tooltip-label">Price:</span>
+            <span class="tooltip-value" id="tooltipPrice">$580.50</span>
+          </div>
+          <div class="tooltip-row">
+            <span class="tooltip-label">P&L:</span>
+            <span class="tooltip-value profit" id="tooltipPL">+$385</span>
+          </div>
+          <div class="tooltip-row">
+            <span class="tooltip-label">Delta:</span>
+            <span class="tooltip-value" id="tooltipDelta">+0.12</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scan Filters -->
+    <div class="filters-section">
+      <div class="section-title">Scan Filters</div>
+      <div class="filters-grid">
+        <div class="filter-group">
+          <label class="filter-label">Probability of Profit: <span id="probValue">70%</span></label>
+          <div class="slider-container">
+            <div class="slider" id="probSlider">
+              <div class="slider-fill" id="probFill" style="width: 70%"></div>
+              <div class="slider-thumb" id="probThumb" style="left: 70%">
+                <div class="slider-value">70%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label">Max Loss: <span id="maxLossValue">$500</span></label>
+          <div class="slider-container">
+            <div class="slider" id="maxLossSlider">
+              <div class="slider-fill" id="maxLossFill" style="width: 50%; background: var(--red)"></div>
+              <div class="slider-thumb" id="maxLossThumb" style="left: 50%">
+                <div class="slider-value">$500</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="filter-actions">
+        <button class="btn btn-secondary">Reset</button>
+        <button class="btn btn-primary">Apply Filters</button>
+      </div>
+    </div>
+
+    <!-- Results Section -->
+    <div class="results-section">
+      <div class="results-header">
+        <div class="results-title">Strategy Scan Results</div>
+        <div class="results-count">47 Iron Condors Found</div>
+      </div>
+
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Symbol</th>
+            <th>Strikes</th>
+            <th>Max P/L</th>
+            <th>Probability</th>
+            <th>PoP Weighted</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td class="symbol-cell">SPY</td>
+            <td class="strikes-cell">575/580/585/590</td>
+            <td><span style="color: var(--green)">+$460</span> / <span style="color: var(--red)">-$540</span></td>
+            <td>
+              <div class="probability-cell">
+                <div class="probability-bar">
+                  <div class="probability-fill" style="width: 78%"></div>
+                </div>
+                <span class="probability-text">78%</span>
+              </div>
+            </td>
+            <td>$358.80</td>
+            <td>
+              <div class="action-buttons">
+                <button class="btn-small">Details</button>
+                <button class="btn-small">Trade</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td class="symbol-cell">QQQ</td>
+            <td class="strikes-cell">480/485/495/500</td>
+            <td><span style="color: var(--green)">+$425</span> / <span style="color: var(--red)">-$575</span></td>
+            <td>
+              <div class="probability-cell">
+                <div class="probability-bar">
+                  <div class="probability-fill" style="width: 76%"></div>
+                </div>
+                <span class="probability-text">76%</span>
+              </div>
+            </td>
+            <td>$323.00</td>
+            <td>
+              <div class="action-buttons">
+                <button class="btn-small">Details</button>
+                <button class="btn-small">Trade</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td class="symbol-cell">AAPL</td>
+            <td class="strikes-cell">185/188/193/196</td>
+            <td><span style="color: var(--green)">+$380</span> / <span style="color: var(--red)">-$620</span></td>
+            <td>
+              <div class="probability-cell">
+                <div class="probability-bar">
+                  <div class="probability-fill" style="width: 74%"></div>
+                </div>
+                <span class="probability-text">74%</span>
+              </div>
+            </td>
+            <td>$281.20</td>
+            <td>
+              <div class="action-buttons">
+                <button class="btn-small">Details</button>
+                <button class="btn-small">Trade</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td class="symbol-cell">TSLA</td>
+            <td class="strikes-cell">240/245/255/260</td>
+            <td><span style="color: var(--green)">+$510</span> / <span style="color: var(--red)">-$490</span></td>
+            <td>
+              <div class="probability-cell">
+                <div class="probability-bar">
+                  <div class="probability-fill" style="width: 72%"></div>
+                </div>
+                <span class="probability-text">72%</span>
+              </div>
+            </td>
+            <td>$367.20</td>
+            <td>
+              <div class="action-buttons">
+                <button class="btn-small">Details</button>
+                <button class="btn-small">Trade</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // ========================================================
+    // Data Models
+    // ========================================================
+    const presets = {
+      'iron-condor': [
+        { action: 'BUY', type: 'PUT', strike: 575, quantity: 1, premium: 2.45 },
+        { action: 'SELL', type: 'PUT', strike: 580, quantity: 1, premium: 4.80 },
+        { action: 'SELL', type: 'CALL', strike: 585, quantity: 1, premium: 4.20 },
+        { action: 'BUY', type: 'CALL', strike: 590, quantity: 1, premium: 1.95 }
+      ],
+      'bull-call': [
+        { action: 'BUY', type: 'CALL', strike: 580, quantity: 1, premium: 5.50 },
+        { action: 'SELL', type: 'CALL', strike: 590, quantity: 1, premium: 2.20 }
+      ],
+      'bear-put': [
+        { action: 'BUY', type: 'PUT', strike: 590, quantity: 1, premium: 6.80 },
+        { action: 'SELL', type: 'PUT', strike: 580, quantity: 1, premium: 3.40 }
+      ],
+      'calendar': [
+        { action: 'SELL', type: 'CALL', strike: 585, quantity: 1, premium: 4.20 },
+        { action: 'BUY', type: 'CALL', strike: 585, quantity: 1, premium: 6.50 }
+      ],
+      'straddle': [
+        { action: 'BUY', type: 'CALL', strike: 580, quantity: 1, premium: 5.50 },
+        { action: 'BUY', type: 'PUT', strike: 580, quantity: 1, premium: 4.80 }
+      ]
+    };
+
+    let currentLegs = [...presets['iron-condor']];
+    const currentPrice = 580.24;
+
+    // ========================================================
+    // Render Functions
+    // ========================================================
+    function renderLegs() {
+      const container = document.getElementById('legsContainer');
+      container.innerHTML = '';
+
+      currentLegs.forEach((leg, index) => {
+        const legCard = document.createElement('div');
+        legCard.className = 'leg-card';
+        legCard.innerHTML = `
+          <div class="drag-handle">⋮⋮</div>
+          <div class="leg-number">Leg ${index + 1}</div>
+          <div class="leg-action ${leg.action.toLowerCase()}">${leg.action}</div>
+          <div class="leg-type">${leg.type}</div>
+          <div class="leg-strike">
+            <span>@</span>
+            <input type="number" value="${leg.strike}" step="1" data-index="${index}">
+          </div>
+          <div class="leg-premium">Premium: <span class="value">$${leg.premium.toFixed(2)}</span></div>
+          <button class="leg-remove" data-index="${index}">✕</button>
+        `;
+        container.appendChild(legCard);
+      });
+
+      // Add event listeners
+      document.querySelectorAll('.leg-remove').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const index = parseInt(e.target.dataset.index);
+          currentLegs.splice(index, 1);
+          renderLegs();
+          updateChart();
+        });
+      });
+
+      document.querySelectorAll('.leg-strike input').forEach(input => {
+        input.addEventListener('change', (e) => {
+          const index = parseInt(e.target.dataset.index);
+          currentLegs[index].strike = parseFloat(e.target.value);
+          updateChart();
+        });
+      });
+    }
+
+    // ========================================================
+    // Chart Drawing
+    // ========================================================
+    let chart = null;
+
+    function updateChart() {
+      const canvas = document.getElementById('payoutChart');
+      const ctx = canvas.getContext('2d');
+      
+      // Set canvas size
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+
+      const width = canvas.width;
+      const height = canvas.height;
+      const padding = { top: 40, right: 40, bottom: 50, left: 60 };
+      const chartWidth = width - padding.left - padding.right;
+      const chartHeight = height - padding.top - padding.bottom;
+
+      // Calculate P&L data
+      const minStrike = Math.min(...currentLegs.map(l => l.strike));
+      const maxStrike = Math.max(...currentLegs.map(l => l.strike));
+      const priceRange = maxStrike - minStrike;
+      const minPrice = minStrike - priceRange * 0.2;
+      const maxPrice = maxStrike + priceRange * 0.2;
+      const priceStep = (maxPrice - minPrice) / 100;
+
+      const plData = [];
+      let maxProfit = -Infinity;
+      let maxLoss = Infinity;
+
+      for (let price = minPrice; price <= maxPrice; price += priceStep) {
+        let pl = 0;
+        currentLegs.forEach(leg => {
+          const intrinsic = leg.type === 'CALL' 
+            ? Math.max(0, price - leg.strike)
+            : Math.max(0, leg.strike - price);
+          const legPL = leg.action === 'BUY' 
+            ? (intrinsic - leg.premium) * 100
+            : (leg.premium - intrinsic) * 100;
+          pl += legPL;
+        });
+        plData.push({ price, pl });
+        maxProfit = Math.max(maxProfit, pl);
+        maxLoss = Math.min(maxLoss, pl);
+      }
+
+      // Find breakevens
+      const breakevens = [];
+      for (let i = 1; i < plData.length; i++) {
+        if ((plData[i-1].pl < 0 && plData[i].pl >= 0) || (plData[i-1].pl >= 0 && plData[i].pl < 0)) {
+          breakevens.push(plData[i].price);
+        }
+      }
+
+      // Update metrics display
+      document.getElementById('maxProfit').textContent = `$${Math.round(maxProfit)}`;
+      document.getElementById('maxLoss').textContent = `-$${Math.abs(Math.round(maxLoss))}`;
+      document.getElementById('breakevens').textContent = breakevens.map(be => `$${be.toFixed(2)}`).join(', ');
+      
+      // Calculate probability (simplified - assumes normal distribution)
+      const profitZone = plData.filter(d => d.pl > 0);
+      const probability = Math.round((profitZone.length / plData.length) * 100);
+      document.getElementById('probability').textContent = `${probability}%`;
+
+      // Clear canvas
+      ctx.clearRect(0, 0, width, height);
+
+      // Draw background
+      ctx.fillStyle = 'rgba(19, 32, 70, 0.1)';
+      ctx.fillRect(padding.left, padding.top, chartWidth, chartHeight);
+
+      // Calculate scales
+      const xScale = (price) => padding.left + ((price - minPrice) / (maxPrice - minPrice)) * chartWidth;
+      const yScale = (pl) => {
+        const range = Math.max(Math.abs(maxProfit), Math.abs(maxLoss)) * 1.2;
+        return padding.top + chartHeight / 2 - (pl / range) * (chartHeight / 2);
+      };
+
+      // Draw profit/loss zones
+      ctx.beginPath();
+      ctx.moveTo(xScale(plData[0].price), yScale(plData[0].pl));
+      plData.forEach(d => ctx.lineTo(xScale(d.price), yScale(d.pl)));
+      ctx.lineTo(xScale(maxPrice), yScale(0));
+      ctx.lineTo(xScale(minPrice), yScale(0));
+      ctx.closePath();
+      
+      const gradient = ctx.createLinearGradient(0, padding.top, 0, padding.top + chartHeight);
+      gradient.addColorStop(0, 'rgba(102, 187, 106, 0.15)');
+      gradient.addColorStop(0.5, 'rgba(102, 187, 106, 0)');
+      gradient.addColorStop(0.5, 'rgba(239, 83, 80, 0)');
+      gradient.addColorStop(1, 'rgba(239, 83, 80, 0.1)');
+      ctx.fillStyle = gradient;
+      ctx.fill();
+
+      // Draw grid lines
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+      ctx.lineWidth = 1;
+      for (let i = 0; i <= 4; i++) {
+        const y = padding.top + (chartHeight / 4) * i;
+        ctx.beginPath();
+        ctx.moveTo(padding.left, y);
+        ctx.lineTo(padding.left + chartWidth, y);
+        ctx.stroke();
+      }
+
+      // Draw zero line
+      ctx.strokeStyle = 'rgba(148, 163, 184, 0.5)';
+      ctx.lineWidth = 2;
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.moveTo(padding.left, yScale(0));
+      ctx.lineTo(padding.left + chartWidth, yScale(0));
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Draw current price line
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+      ctx.lineWidth = 2;
+      ctx.setLineDash([6, 3]);
+      ctx.beginPath();
+      ctx.moveTo(xScale(currentPrice), padding.top);
+      ctx.lineTo(xScale(currentPrice), padding.top + chartHeight);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Draw P&L line
+      ctx.strokeStyle = '#1976d2';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(xScale(plData[0].price), yScale(plData[0].pl));
+      plData.forEach(d => ctx.lineTo(xScale(d.price), yScale(d.pl)));
+      ctx.stroke();
+
+      // Draw breakeven markers
+      ctx.fillStyle = '#f5a623';
+      breakevens.forEach(be => {
+        ctx.beginPath();
+        ctx.arc(xScale(be), yScale(0), 6, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Label
+        ctx.fillStyle = '#e6edf7';
+        ctx.font = '11px monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText('BE', xScale(be), yScale(0) - 12);
+      });
+
+      // Draw axes
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(padding.left, padding.top);
+      ctx.lineTo(padding.left, padding.top + chartHeight);
+      ctx.lineTo(padding.left + chartWidth, padding.top + chartHeight);
+      ctx.stroke();
+
+      // Draw axis labels
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '12px monospace';
+      ctx.textAlign = 'center';
+      
+      // X-axis labels (prices)
+      for (let i = 0; i <= 4; i++) {
+        const price = minPrice + (maxPrice - minPrice) * (i / 4);
+        const x = xScale(price);
+        ctx.fillText(`$${price.toFixed(0)}`, x, height - padding.bottom + 20);
+      }
+
+      // Y-axis labels (P&L)
+      ctx.textAlign = 'right';
+      const range = Math.max(Math.abs(maxProfit), Math.abs(maxLoss)) * 1.2;
+      for (let i = 0; i <= 4; i++) {
+        const pl = range - (range * 2) * (i / 4);
+        const y = padding.top + (chartHeight / 4) * i;
+        ctx.fillText(`$${Math.round(pl)}`, padding.left - 10, y + 4);
+      }
+
+      // Store chart data for interaction
+      chart = { plData, xScale, yScale, padding, chartWidth, chartHeight };
+    }
+
+    // ========================================================
+    // Chart Interaction (Crosshair)
+    // ========================================================
+    const chartCanvas = document.getElementById('payoutChart');
+    const tooltip = document.getElementById('chartTooltip');
+
+    chartCanvas.addEventListener('mousemove', (e) => {
+      if (!chart) return;
+
+      const rect = chartCanvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      // Check if mouse is within chart area
+      if (x < chart.padding.left || x > chart.padding.left + chart.chartWidth ||
+          y < chart.padding.top || y > chart.padding.top + chart.chartHeight) {
+        tooltip.classList.remove('visible');
+        return;
+      }
+
+      // Find nearest data point
+      const prices = chart.plData.map(d => d.price);
+      const minPrice = Math.min(...prices);
+      const maxPrice = Math.max(...prices);
+      const price = minPrice + ((x - chart.padding.left) / chart.chartWidth) * (maxPrice - minPrice);
+      
+      const nearest = chart.plData.reduce((prev, curr) => 
+        Math.abs(curr.price - price) < Math.abs(prev.price - price) ? curr : prev
+      );
+
+      // Update tooltip
+      document.getElementById('tooltipPrice').textContent = `$${nearest.price.toFixed(2)}`;
+      const plValue = Math.round(nearest.pl);
+      const plElement = document.getElementById('tooltipPL');
+      plElement.textContent = `${plValue >= 0 ? '+' : ''}$${plValue}`;
+      plElement.className = `tooltip-value ${plValue >= 0 ? 'profit' : 'loss'}`;
+      
+      // Calculate delta (simplified)
+      const delta = (nearest.pl / 1000).toFixed(2);
+      document.getElementById('tooltipDelta').textContent = `${delta >= 0 ? '+' : ''}${delta}`;
+
+      // Position tooltip
+      tooltip.style.left = `${x}px`;
+      tooltip.style.top = `${y - 80}px`;
+      tooltip.classList.add('visible');
+    });
+
+    chartCanvas.addEventListener('mouseleave', () => {
+      tooltip.classList.remove('visible');
+    });
+
+    // ========================================================
+    // Sliders
+    // ========================================================
+    function initSlider(sliderId, thumbId, fillId, valueId, min, max, initialValue, formatter) {
+      const slider = document.getElementById(sliderId);
+      const thumb = document.getElementById(thumbId);
+      const fill = document.getElementById(fillId);
+      const valueDisplay = document.getElementById(valueId);
+      let isDragging = false;
+
+      function updateSlider(percentage) {
+        percentage = Math.max(0, Math.min(100, percentage));
+        thumb.style.left = `${percentage}%`;
+        fill.style.width = `${percentage}%`;
+        
+        const value = min + (max - min) * (percentage / 100);
+        valueDisplay.textContent = formatter(value);
+        thumb.querySelector('.slider-value').textContent = formatter(value);
+      }
+
+      slider.addEventListener('click', (e) => {
+        if (e.target === thumb) return;
+        const rect = slider.getBoundingClientRect();
+        const percentage = ((e.clientX - rect.left) / rect.width) * 100;
+        updateSlider(percentage);
+      });
+
+      thumb.addEventListener('mousedown', () => {
+        isDragging = true;
+      });
+
+      document.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        const rect = slider.getBoundingClientRect();
+        const percentage = ((e.clientX - rect.left) / rect.width) * 100;
+        updateSlider(percentage);
+      });
+
+      document.addEventListener('mouseup', () => {
+        isDragging = false;
+      });
+
+      // Initialize
+      const initialPercentage = ((initialValue - min) / (max - min)) * 100;
+      updateSlider(initialPercentage);
+    }
+
+    initSlider('probSlider', 'probThumb', 'probFill', 'probValue', 0, 100, 70, (v) => `${Math.round(v)}%`);
+    initSlider('maxLossSlider', 'maxLossThumb', 'maxLossFill', 'maxLossValue', 0, 1000, 500, (v) => `$${Math.round(v)}`);
+
+    // ========================================================
+    // Preset Buttons
+    // ========================================================
+    document.querySelectorAll('.preset-button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.preset-button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        const preset = btn.dataset.preset;
+        currentLegs = [...presets[preset]];
+        renderLegs();
+        updateChart();
+      });
+    });
+
+    // ========================================================
+    // Button Actions
+    // ========================================================
+    document.getElementById('addLegBtn').addEventListener('click', () => {
+      currentLegs.push({
+        action: 'BUY',
+        type: 'CALL',
+        strike: 585,
+        quantity: 1,
+        premium: 3.50
+      });
+      renderLegs();
+      updateChart();
+    });
+
+    document.getElementById('clearAllBtn').addEventListener('click', () => {
+      currentLegs = [];
+      renderLegs();
+      updateChart();
+    });
+
+    document.getElementById('scanMarketBtn').addEventListener('click', () => {
+      alert('Scanning market for matching strategies...\n(In production, this would query the backend API)');
+    });
+
+    // ========================================================
+    // Initialize
+    // ========================================================
+    renderLegs();
+    updateChart();
+
+    // Handle window resize
+    window.addEventListener('resize', updateChart);
+  </script>
+</body>
+</html>
