@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Dashboard — Options Scanner UX Prototype</title>
+    <style>
+        /* ========== CSS Reset ========== */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ========== Design Tokens ========== */
+        :root {
+            /* P&L Colors */
+            --color-profit: #66bb6a;
+            --color-loss: #ef5350;
+            --color-neutral: #9e9e9e;
+
+            /* Chart Colors */
+            --color-chart-line: #2196f3;
+            --color-chart-max-profit: #66bb6a;
+            --color-chart-max-loss: #ef5350;
+            --color-chart-current: #757575;
+
+            /* Status Indicators */
+            --color-status-active: #66bb6a;
+            --color-status-refreshing: #ff9800;
+            --color-status-error: #ef5350;
+
+            /* Backgrounds */
+            --bg-page: #fafafa;
+            --bg-card: #ffffff;
+            --bg-hover: #f5f5f5;
+            --bg-expanded: #fafafa;
+
+            /* Borders */
+            --border-default: #e0e0e0;
+            --border-hover: #bdbdbd;
+            --border-accent-profit: #66bb6a;
+            --border-accent-loss: #ef5350;
+
+            /* Text */
+            --text-primary: #212121;
+            --text-secondary: #757575;
+            --text-muted: #9e9e9e;
+
+            /* Spacing */
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+
+            /* Shadows */
+            --shadow-card: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.06);
+            --shadow-hover: 0 4px 6px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.06);
+            --shadow-modal: 0 10px 25px rgba(0,0,0,0.15), 0 6px 10px rgba(0,0,0,0.1);
+            --shadow-tooltip: 0 2px 8px rgba(0,0,0,0.15);
+
+            /* Border Radius */
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+        }
+
+        /* ========== Base Styles ========== */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg-page);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: var(--spacing-lg);
+        }
+
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+        }
+
+        /* ========== Header ========== */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-lg);
+            padding-bottom: var(--spacing-md);
+            border-bottom: 1px solid var(--border-default);
+        }
+
+        .header__title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .header__meta {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: var(--spacing-xs);
+        }
+
+        /* ========== Auto-Refresh Indicator ========== */
+        .auto-refresh {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: var(--bg-card);
+            border: 1px solid var(--border-default);
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .auto-refresh__indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--color-status-active);
+        }
+
+        .auto-refresh__indicator--refreshing {
+            background: var(--color-status-refreshing);
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.1); }
+        }
+
+        .auto-refresh__button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            padding: var(--spacing-xs);
+            color: var(--text-secondary);
+            transition: color 200ms ease, transform 200ms ease;
+        }
+
+        .auto-refresh__button:hover {
+            color: var(--text-primary);
+            transform: rotate(90deg);
+        }
+
+        .auto-refresh__button:active {
+            transform: rotate(180deg);
+        }
+
+        /* ========== Summary Cards ========== */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .summary-card {
+            background: var(--bg-card);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-card);
+        }
+
+        .summary-card__label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .summary-card__value {
+            font-size: 24px;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .summary-card__value--profit {
+            color: var(--color-profit);
+        }
+
+        .summary-card__value--loss {
+            color: var(--color-loss);
+        }
+
+        .summary-card__detail {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        /* ========== Filters ========== */
+        .filters {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .filter-btn {
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: var(--bg-card);
+            border: 1px solid var(--border-default);
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 200ms ease;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--border-hover);
+            background: var(--bg-hover);
+        }
+
+        .filter-btn--active {
+            background: var(--color-chart-line);
+            color: white;
+            border-color: var(--color-chart-line);
+        }
+
+        /* ========== Positions Table ========== */
+        .positions-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-card);
+            overflow: hidden;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .positions-card__header {
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-bottom: 1px solid var(--border-default);
+        }
+
+        .positions-card__title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .positions-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .positions-table th {
+            text-align: left;
+            padding: var(--spacing-md);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            font-weight: 600;
+            border-bottom: 1px solid var(--border-default);
+            background: var(--bg-hover);
+        }
+
+        .positions-table td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--border-default);
+        }
+
+        .position-row {
+            cursor: pointer;
+            transition: background-color 200ms ease;
+        }
+
+        .position-row:hover {
+            background: var(--bg-hover);
+        }
+
+        .position-row--expanded {
+            background: var(--bg-expanded);
+            border-left: 3px solid var(--color-profit);
+        }
+
+        .position-row--expanded.position-row--loss {
+            border-left-color: var(--color-loss);
+        }
+
+        .position-row__symbol {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .position-row__detail {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .position-row__pnl {
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .position-row__pnl--profit {
+            color: var(--color-profit);
+        }
+
+        .position-row__pnl--loss {
+            color: var(--color-loss);
+        }
+
+        .position-row__sparkline {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* ========== Sparkline ========== */
+        .sparkline {
+            width: 100px;
+            height: 24px;
+            display: block;
+        }
+
+        .sparkline__path--profit {
+            stroke: var(--color-profit);
+            fill: none;
+            stroke-width: 1.5;
+            stroke-linecap: round;
+        }
+
+        .sparkline__path--loss {
+            stroke: var(--color-loss);
+            fill: none;
+            stroke-width: 1.5;
+            stroke-linecap: round;
+        }
+
+        .sparkline-tooltip {
+            position: absolute;
+            background: rgba(33, 33, 33, 0.95);
+            color: white;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            font-size: 11px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 150ms ease;
+            white-space: nowrap;
+            z-index: 100;
+            box-shadow: var(--shadow-tooltip);
+        }
+
+        .position-row__sparkline:hover .sparkline-tooltip {
+            opacity: 1;
+        }
+
+        /* ========== Action Buttons ========== */
+        .action-buttons {
+            display: flex;
+            gap: var(--spacing-xs);
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 11px;
+            font-weight: 500;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 150ms ease;
+        }
+
+        .action-btn--close {
+            background: var(--color-loss);
+            color: white;
+        }
+
+        .action-btn--close:hover {
+            background: #d32f2f;
+            transform: scale(1.05);
+        }
+
+        .action-btn--roll {
+            background: var(--color-chart-line);
+            color: white;
+        }
+
+        .action-btn--roll:hover {
+            background: #1976d2;
+            transform: scale(1.05);
+        }
+
+        .action-btn--adjust {
+            background: var(--text-secondary);
+            color: white;
+        }
+
+        .action-btn--adjust:hover {
+            background: #616161;
+            transform: scale(1.05);
+        }
+
+        .action-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* ========== Expanded Row Details ========== */
+        .expanded-details {
+            display: none;
+        }
+
+        .position-row--expanded + tr .expanded-details {
+            display: block;
+        }
+
+        .expanded-details__content {
+            padding: var(--spacing-lg);
+            background: var(--bg-expanded);
+            border-bottom: 1px solid var(--border-default);
+        }
+
+        .expanded-details__section {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .expanded-details__label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .expanded-details__legs {
+            list-style: none;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .expanded-details__greeks {
+            display: flex;
+            gap: var(--spacing-lg);
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: 13px;
+        }
+
+        /* ========== Aggregate Chart ========== */
+        .chart-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-card);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .chart-card__title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+        }
+
+        .chart-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .chart-axis {
+            stroke: var(--border-default);
+            stroke-width: 1;
+        }
+
+        .chart-axis-label {
+            font-size: 11px;
+            fill: var(--text-muted);
+        }
+
+        .chart-curve {
+            stroke: var(--color-chart-line);
+            stroke-width: 2.5;
+            fill: none;
+            stroke-linecap: round;
+            stroke-dasharray: 1000;
+            animation: draw-curve 800ms ease-out forwards;
+        }
+
+        @keyframes draw-curve {
+            0% { stroke-dashoffset: 1000; }
+            100% { stroke-dashoffset: 0; }
+        }
+
+        .chart-annotation {
+            stroke-dasharray: 4 4;
+            stroke-width: 1;
+        }
+
+        .chart-annotation--profit {
+            stroke: var(--color-chart-max-profit);
+        }
+
+        .chart-annotation--loss {
+            stroke: var(--color-chart-max-loss);
+        }
+
+        .chart-annotation--current {
+            stroke: var(--color-chart-current);
+            stroke-width: 2;
+            stroke-dasharray: none;
+        }
+
+        .chart-crosshair {
+            stroke: var(--text-muted);
+            stroke-width: 1;
+            stroke-dasharray: 2 2;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .chart-tooltip {
+            position: absolute;
+            background: rgba(33, 33, 33, 0.95);
+            color: white;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius-sm);
+            font-size: 12px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 150ms ease;
+            z-index: 100;
+            box-shadow: var(--shadow-tooltip);
+        }
+
+        .chart-legend {
+            display: flex;
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-md);
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .chart-legend__item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+
+        .chart-legend__color {
+            width: 16px;
+            height: 3px;
+            border-radius: 2px;
+        }
+
+        /* ========== Modal ========== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay--visible {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-modal);
+            width: 90%;
+            max-width: 500px;
+            animation: modal-enter 200ms ease-out;
+        }
+
+        @keyframes modal-enter {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal__header {
+            padding: var(--spacing-lg);
+            border-bottom: 1px solid var(--border-default);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal__title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .modal__close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-muted);
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-sm);
+        }
+
+        .modal__close:hover {
+            background: var(--bg-hover);
+            color: var(--text-primary);
+        }
+
+        .modal__body {
+            padding: var(--spacing-lg);
+        }
+
+        .modal__field {
+            margin-bottom: var(--spacing-md);
+            font-size: 14px;
+        }
+
+        .modal__field-label {
+            color: var(--text-secondary);
+        }
+
+        .modal__field-value {
+            font-weight: 600;
+            margin-left: var(--spacing-sm);
+        }
+
+        .modal__warning {
+            background: #fff3e0;
+            border: 1px solid #ff9800;
+            border-radius: var(--radius-sm);
+            padding: var(--spacing-md);
+            margin-top: var(--spacing-md);
+            font-size: 13px;
+            color: #e65100;
+        }
+
+        .modal__footer {
+            padding: var(--spacing-lg);
+            border-top: 1px solid var(--border-default);
+            display: flex;
+            justify-content: flex-end;
+            gap: var(--spacing-sm);
+        }
+
+        .modal__button {
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 150ms ease;
+        }
+
+        .modal__button--cancel {
+            background: var(--bg-hover);
+            color: var(--text-primary);
+        }
+
+        .modal__button--cancel:hover {
+            background: var(--border-hover);
+        }
+
+        .modal__button--confirm {
+            background: var(--color-loss);
+            color: white;
+        }
+
+        .modal__button--confirm:hover {
+            background: #d32f2f;
+        }
+
+        /* ========== Responsive Design ========== */
+        @media (max-width: 1023px) {
+            .positions-table {
+                display: none;
+            }
+
+            .positions-card-list {
+                display: block;
+            }
+
+            .chart-container {
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            body {
+                padding: var(--spacing-md);
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--spacing-md);
+            }
+
+            .summary-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .chart-container {
+                height: 250px;
+            }
+
+            .chart-legend {
+                flex-direction: column;
+                gap: var(--spacing-xs);
+            }
+
+            .action-btn {
+                min-height: 44px;
+                padding: 8px 16px;
+                font-size: 13px;
+            }
+        }
+
+        /* ========== Accessibility ========== */
+        .position-row:focus-visible,
+        .action-btn:focus-visible,
+        .filter-btn:focus-visible {
+            outline: 2px solid var(--color-chart-line);
+            outline-offset: 2px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        @media (prefers-contrast: high) {
+            .position-row:focus-visible,
+            .action-btn:focus-visible {
+                outline-width: 3px;
+            }
+        }
+
+        /* ========== Loading States ========== */
+        @keyframes shimmer {
+            0% { background-position: -200px 0; }
+            100% { background-position: calc(200px + 100%) 0; }
+        }
+
+        .skeleton-bar {
+            height: 16px;
+            background: linear-gradient(90deg, #f0f0f0 0%, #f8f8f8 50%, #f0f0f0 100%);
+            background-size: 200px 100%;
+            animation: shimmer 1.5s ease-in-out infinite;
+            border-radius: var(--radius-sm);
+        }
+
+        /* ========== Hide on Desktop ========== */
+        .positions-card-list {
+            display: none;
+        }
+
+        @media (max-width: 1023px) {
+            .positions-card-list {
+                display: block;
+            }
+        }
+
+        .position-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-card);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+            cursor: pointer;
+            transition: box-shadow 200ms ease;
+        }
+
+        .position-card:hover {
+            box-shadow: var(--shadow-hover);
+        }
+
+        .position-card__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .position-card__info h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .position-card__info p {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .position-card__pnl {
+            text-align: right;
+        }
+
+        .position-card__value {
+            font-size: 18px;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .position-card__sparkline {
+            margin: var(--spacing-md) 0;
+        }
+
+        .position-card__actions {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-md);
+        }
+
+        .position-card__action-btn {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div>
+                <h1 class="header__title">Portfolio Dashboard</h1>
+                <p class="header__meta">8 positions · $52,340 total value</p>
+            </div>
+            <div class="auto-refresh" role="status" aria-live="polite" aria-label="Portfolio updated 2 minutes ago">
+                <span class="auto-refresh__indicator" id="statusIndicator"></span>
+                <span id="lastUpdate">Updated 2 min ago</span>
+                <button class="auto-refresh__button" id="refreshBtn" aria-label="Refresh portfolio data" title="Refresh portfolio data">
+                    ⟳
+                </button>
+            </div>
+        </header>
+
+        <!-- Summary Cards -->
+        <section class="summary-grid" aria-label="Portfolio summary metrics">
+            <div class="summary-card">
+                <div class="summary-card__label">Total P&L</div>
+                <div class="summary-card__value summary-card__value--profit">+$1,245</div>
+                <div class="summary-card__detail">+5.04% overall</div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-card__label">Portfolio Delta</div>
+                <div class="summary-card__value">+0.42</div>
+                <div class="summary-card__detail">Low risk</div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-card__label">Portfolio Theta</div>
+                <div class="summary-card__value summary-card__value--loss">-$45/day</div>
+                <div class="summary-card__detail">Time decay</div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-card__label">Win Rate</div>
+                <div class="summary-card__value">62%</div>
+                <div class="summary-card__detail">5 of 8 profitable</div>
+            </div>
+        </section>
+
+        <!-- Filters -->
+        <div class="filters" role="group" aria-label="Filter positions">
+            <button class="filter-btn filter-btn--active" data-filter="all">All (8)</button>
+            <button class="filter-btn" data-filter="winners">Winners (5)</button>
+            <button class="filter-btn" data-filter="losers">Losers (3)</button>
+        </div>
+
+        <!-- Positions Table (Desktop) -->
+        <section class="positions-card" aria-label="Portfolio positions">
+            <div class="positions-card__header">
+                <h2 class="positions-card__title">Positions</h2>
+            </div>
+            <table class="positions-table">
+                <thead>
+                    <tr>
+                        <th>Symbol</th>
+                        <th>Strategy</th>
+                        <th>Legs</th>
+                        <th>Cost Basis</th>
+                        <th>Value</th>
+                        <th>P&L ($)</th>
+                        <th>P&L (%)</th>
+                        <th>30-Day</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="position-row" data-profit="true" tabindex="0" role="button" aria-expanded="false" aria-label="AAPL 175 Call Vertical Spread, expires March 15, profit $250, up 20.8 percent">
+                        <td>
+                            <div class="position-row__symbol">AAPL</div>
+                            <div class="position-row__detail">175C Mar 15</div>
+                        </td>
+                        <td>Vertical Spread</td>
+                        <td>2</td>
+                        <td>$1,200</td>
+                        <td>$1,450</td>
+                        <td class="position-row__pnl position-row__pnl--profit">+$250</td>
+                        <td class="position-row__pnl position-row__pnl--profit">+20.8%</td>
+                        <td>
+                            <div class="position-row__sparkline">
+                                <svg class="sparkline" role="img" aria-label="30-day P&L trend, currently up 20 percent">
+                                    <path class="sparkline__path--profit" d="M 0 20 L 20 18 L 40 12 L 60 8 L 80 6 L 100 4"></path>
+                                </svg>
+                                <div class="sparkline-tooltip" role="tooltip">
+                                    <div>Feb 16: +$250</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn action-btn--close" aria-label="Close position">Close</button>
+                                <button class="action-btn action-btn--roll" aria-label="Roll position">Roll</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="9">
+                            <div class="expanded-details">
+                                <div class="expanded-details__content">
+                                    <div class="expanded-details__section">
+                                        <div class="expanded-details__label">Legs</div>
+                                        <ul class="expanded-details__legs">
+                                            <li>• Long 175C @ $5.20 × 10 = $5,200</li>
+                                            <li>• Short 180C @ $3.80 × 10 = -$3,800</li>
+                                        </ul>
+                                    </div>
+                                    <div class="expanded-details__section">
+                                        <div class="expanded-details__label">Greeks</div>
+                                        <div class="expanded-details__greeks">
+                                            <span>Δ +0.32</span>
+                                            <span>Γ +0.08</span>
+                                            <span>Θ -$12/day</span>
+                                            <span>ν +$48</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr class="position-row" data-profit="false" tabindex="0" role="button" aria-expanded="false" aria-label="TSLA 220 Put Iron Condor, expires April 21, loss $300, down 8.6 percent">
+                        <td>
+                            <div class="position-row__symbol">TSLA</div>
+                            <div class="position-row__detail">220P Apr 21</div>
+                        </td>
+                        <td>Iron Condor</td>
+                        <td>4</td>
+                        <td>$3,500</td>
+                        <td>$3,200</td>
+                        <td class="position-row__pnl position-row__pnl--loss">-$300</td>
+                        <td class="position-row__pnl position-row__pnl--loss">-8.6%</td>
+                        <td>
+                            <div class="position-row__sparkline">
+                                <svg class="sparkline" role="img" aria-label="30-day P&L trend, currently down 8 percent">
+                                    <path class="sparkline__path--loss" d="M 0 4 L 20 8 L 40 12 L 60 16 L 80 18 L 100 20"></path>
+                                </svg>
+                                <div class="sparkline-tooltip" role="tooltip">
+                                    <div>Feb 16: -$300</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn action-btn--close" aria-label="Close position">Close</button>
+                                <button class="action-btn action-btn--roll" aria-label="Roll position">Roll</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="9">
+                            <div class="expanded-details">
+                                <div class="expanded-details__content">
+                                    <div class="expanded-details__section">
+                                        <div class="expanded-details__label">Legs</div>
+                                        <ul class="expanded-details__legs">
+                                            <li>• Long 200P @ $2.20 × 5 = $1,100</li>
+                                            <li>• Short 210P @ $4.50 × 5 = -$2,250</li>
+                                            <li>• Short 230C @ $3.80 × 5 = -$1,900</li>
+                                            <li>• Long 240C @ $1.90 × 5 = $950</li>
+                                        </ul>
+                                    </div>
+                                    <div class="expanded-details__section">
+                                        <div class="expanded-details__label">Greeks</div>
+                                        <div class="expanded-details__greeks">
+                                            <span>Δ -0.12</span>
+                                            <span>Γ +0.04</span>
+                                            <span>Θ -$8/day</span>
+                                            <span>ν +$32</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr class="position-row" data-profit="true" tabindex="0" role="button" aria-expanded="false" aria-label="MSFT 350 Straddle, expires March 29, profit $300, up 10.7 percent">
+                        <td>
+                            <div class="position-row__symbol">MSFT</div>
+                            <div class="position-row__detail">350 Mar 29</div>
+                        </td>
+                        <td>Straddle</td>
+                        <td>2</td>
+                        <td>$2,800</td>
+                        <td>$3,100</td>
+                        <td class="position-row__pnl position-row__pnl--profit">+$300</td>
+                        <td class="position-row__pnl position-row__pnl--profit">+10.7%</td>
+                        <td>
+                            <div class="position-row__sparkline">
+                                <svg class="sparkline" role="img" aria-label="30-day P&L trend, currently up 10 percent">
+                                    <path class="sparkline__path--profit" d="M 0 16 L 20 14 L 40 10 L 60 8 L 80 6 L 100 5"></path>
+                                </svg>
+                                <div class="sparkline-tooltip" role="tooltip">
+                                    <div>Feb 16: +$300</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn action-btn--close" aria-label="Close position">Close</button>
+                                <button class="action-btn action-btn--roll" aria-label="Roll position">Roll</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="9">
+                            <div class="expanded-details">
+                                <div class="expanded-details__content">
+                                    <div class="expanded-details__section">
+                                        <div class="expanded-details__label">Legs</div>
+                                        <ul class="expanded-details__legs">
+                                            <li>• Long 350C @ $14.00 × 2 = $2,800</li>
+                                            <li>• Long 350P @ $14.00 × 2 = $2,800</li>
+                                        </ul>
+                                    </div>
+                                    <div class="expanded-details__section">
+                                        <div class="expanded-details__label">Greeks</div>
+                                        <div class="expanded-details__greeks">
+                                            <span>Δ +0.04</span>
+                                            <span>Γ +0.12</span>
+                                            <span>Θ -$18/day</span>
+                                            <span>ν +$96</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Positions Card List (Mobile/Tablet) -->
+        <section class="positions-card-list" aria-label="Portfolio positions">
+            <div class="position-card">
+                <div class="position-card__header">
+                    <div class="position-card__info">
+                        <h3>AAPL 175C</h3>
+                        <p>Vertical Spread · Mar 15 · 12 DTE</p>
+                    </div>
+                    <div class="position-card__pnl">
+                        <div class="position-card__value position-row__pnl--profit">+$250</div>
+                        <div class="position-row__detail">+20.8%</div>
+                    </div>
+                </div>
+                <div class="position-card__sparkline">
+                    <svg class="sparkline" style="width: 100%; height: 32px;">
+                        <path class="sparkline__path--profit" d="M 0 28 L 50 24 L 100 20 L 150 16 L 200 12 L 250 8 L 300 4"></path>
+                    </svg>
+                </div>
+                <div class="position-card__actions">
+                    <button class="action-btn action-btn--close position-card__action-btn">Close</button>
+                    <button class="action-btn action-btn--roll position-card__action-btn">Roll</button>
+                </div>
+            </div>
+
+            <div class="position-card">
+                <div class="position-card__header">
+                    <div class="position-card__info">
+                        <h3>TSLA 220P</h3>
+                        <p>Iron Condor · Apr 21 · 64 DTE</p>
+                    </div>
+                    <div class="position-card__pnl">
+                        <div class="position-card__value position-row__pnl--loss">-$300</div>
+                        <div class="position-row__detail">-8.6%</div>
+                    </div>
+                </div>
+                <div class="position-card__sparkline">
+                    <svg class="sparkline" style="width: 100%; height: 32px;">
+                        <path class="sparkline__path--loss" d="M 0 4 L 50 8 L 100 12 L 150 16 L 200 20 L 250 24 L 300 28"></path>
+                    </svg>
+                </div>
+                <div class="position-card__actions">
+                    <button class="action-btn action-btn--close position-card__action-btn">Close</button>
+                    <button class="action-btn action-btn--roll position-card__action-btn">Roll</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Aggregate Payout Chart -->
+        <section class="chart-card" aria-label="Aggregate portfolio payout chart">
+            <h2 class="chart-card__title">Aggregate Portfolio Payout</h2>
+            <div class="chart-container">
+                <svg class="chart-svg" viewBox="0 0 800 400" aria-label="Portfolio payout curve showing max profit at $4,250 and max loss at $4,800">
+                    <!-- Axes -->
+                    <line class="chart-axis" x1="60" y1="320" x2="760" y2="320"></line>
+                    <line class="chart-axis" x1="60" y1="40" x2="60" y2="320"></line>
+
+                    <!-- Y-axis labels -->
+                    <text class="chart-axis-label" x="45" y="45" text-anchor="end">+$5K</text>
+                    <text class="chart-axis-label" x="45" y="120" text-anchor="end">+$3K</text>
+                    <text class="chart-axis-label" x="45" y="195" text-anchor="end">+$1K</text>
+                    <text class="chart-axis-label" x="45" y="270" text-anchor="end">-$1K</text>
+                    <text class="chart-axis-label" x="45" y="325" text-anchor="end">$0</text>
+
+                    <!-- X-axis labels -->
+                    <text class="chart-axis-label" x="60" y="345" text-anchor="middle">$200</text>
+                    <text class="chart-axis-label" x="200" y="345" text-anchor="middle">$250</text>
+                    <text class="chart-axis-label" x="340" y="345" text-anchor="middle">$300</text>
+                    <text class="chart-axis-label" x="480" y="345" text-anchor="middle">$350</text>
+                    <text class="chart-axis-label" x="620" y="345" text-anchor="middle">$400</text>
+                    <text class="chart-axis-label" x="760" y="345" text-anchor="middle">$450</text>
+
+                    <!-- Annotations -->
+                    <line class="chart-annotation chart-annotation--profit" x1="60" y1="100" x2="760" y2="100"></line>
+                    <text class="chart-axis-label" x="765" y="105" style="fill: var(--color-chart-max-profit);">Max Profit: +$4,250</text>
+
+                    <line class="chart-annotation chart-annotation--loss" x1="60" y1="290" x2="760" y2="290"></line>
+                    <text class="chart-axis-label" x="765" y="295" style="fill: var(--color-chart-max-loss);">Max Loss: -$4,800</text>
+
+                    <line class="chart-annotation chart-annotation--current" x1="340" y1="40" x2="340" y2="320"></line>
+                    <circle cx="340" cy="320" r="5" fill="var(--color-chart-current)"></circle>
+                    <text class="chart-axis-label" x="340" y="365" text-anchor="middle" style="fill: var(--color-chart-current); font-weight: 600;">Current: $285</text>
+
+                    <!-- Payout Curve -->
+                    <path class="chart-curve" d="M 60 300 L 120 280 L 200 150 L 280 100 L 340 90 L 400 100 L 480 150 L 580 280 L 640 300 L 700 310 L 760 315"></path>
+
+                    <!-- Interactive crosshair (hidden by default) -->
+                    <line class="chart-crosshair" id="crosshair" x1="0" y1="40" x2="0" y2="320"></line>
+                </svg>
+                <div class="chart-tooltip" id="chartTooltip">
+                    <div><strong>Price:</strong> <span id="tooltipPrice">$0</span></div>
+                    <div><strong>P&L:</strong> <span id="tooltipPnl">$0</span></div>
+                </div>
+            </div>
+            <div class="chart-legend">
+                <div class="chart-legend__item">
+                    <div class="chart-legend__color" style="background: var(--color-chart-line);"></div>
+                    <span>Aggregate P&L</span>
+                </div>
+                <div class="chart-legend__item">
+                    <div class="chart-legend__color" style="background: var(--color-chart-max-profit);"></div>
+                    <span>Max Profit</span>
+                </div>
+                <div class="chart-legend__item">
+                    <div class="chart-legend__color" style="background: var(--color-chart-max-loss);"></div>
+                    <span>Max Loss</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Modal -->
+        <div class="modal-overlay" id="modalOverlay">
+            <div class="modal" role="dialog" aria-labelledby="modalTitle" aria-modal="true">
+                <div class="modal__header">
+                    <h2 class="modal__title" id="modalTitle">Close Position</h2>
+                    <button class="modal__close" aria-label="Close dialog">&times;</button>
+                </div>
+                <div class="modal__body">
+                    <div class="modal__field">
+                        <span class="modal__field-label">Position:</span>
+                        <span class="modal__field-value" id="modalPosition">AAPL 175C Vertical Spread</span>
+                    </div>
+                    <div class="modal__field">
+                        <span class="modal__field-label">Expiration:</span>
+                        <span class="modal__field-value">Mar 15, 2026 · 12 DTE</span>
+                    </div>
+                    <div class="modal__field">
+                        <span class="modal__field-label">Current Value:</span>
+                        <span class="modal__field-value">$1,450</span>
+                    </div>
+                    <div class="modal__field">
+                        <span class="modal__field-label">Cost Basis:</span>
+                        <span class="modal__field-value">$1,200</span>
+                    </div>
+                    <div class="modal__field">
+                        <span class="modal__field-label">Realized P&L:</span>
+                        <span class="modal__field-value position-row__pnl--profit">+$250 (+20.8%)</span>
+                    </div>
+                    <div class="modal__warning">
+                        ⚠ This action cannot be undone
+                    </div>
+                </div>
+                <div class="modal__footer">
+                    <button class="modal__button modal__button--cancel" id="modalCancel">Cancel</button>
+                    <button class="modal__button modal__button--confirm" id="modalConfirm">Close Position</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========== Auto-Refresh Functionality ==========
+        let lastUpdateTime = new Date();
+        const statusIndicator = document.getElementById('statusIndicator');
+        const lastUpdateText = document.getElementById('lastUpdate');
+        const refreshBtn = document.getElementById('refreshBtn');
+
+        function updateLastUpdateText() {
+            const now = new Date();
+            const diffMs = now - lastUpdateTime;
+            const diffMin = Math.floor(diffMs / 60000);
+            
+            if (diffMin === 0) {
+                lastUpdateText.textContent = 'Updated just now';
+            } else if (diffMin === 1) {
+                lastUpdateText.textContent = 'Updated 1 min ago';
+            } else if (diffMin < 60) {
+                lastUpdateText.textContent = `Updated ${diffMin} min ago`;
+            } else {
+                lastUpdateText.textContent = 'Updated >1 hour ago';
+            }
+        }
+
+        function simulateRefresh() {
+            statusIndicator.classList.add('auto-refresh__indicator--refreshing');
+            lastUpdateText.textContent = 'Refreshing...';
+            
+            setTimeout(() => {
+                statusIndicator.classList.remove('auto-refresh__indicator--refreshing');
+                lastUpdateTime = new Date();
+                updateLastUpdateText();
+            }, 1000);
+        }
+
+        refreshBtn.addEventListener('click', simulateRefresh);
+        setInterval(updateLastUpdateText, 10000); // Update text every 10 seconds
+
+        // Auto-refresh every 5 minutes
+        setInterval(simulateRefresh, 300000);
+
+        // ========== Position Row Toggle ==========
+        const positionRows = document.querySelectorAll('.position-row');
+        positionRows.forEach(row => {
+            row.addEventListener('click', (e) => {
+                // Don't toggle if clicking action buttons
+                if (e.target.closest('.action-btn')) return;
+                
+                const isExpanded = row.classList.contains('position-row--expanded');
+                const isLoss = row.dataset.profit === 'false';
+                
+                if (isExpanded) {
+                    row.classList.remove('position-row--expanded');
+                    if (isLoss) {
+                        row.classList.remove('position-row--loss');
+                    }
+                    row.setAttribute('aria-expanded', 'false');
+                } else {
+                    row.classList.add('position-row--expanded');
+                    if (isLoss) {
+                        row.classList.add('position-row--loss');
+                    }
+                    row.setAttribute('aria-expanded', 'true');
+                }
+            });
+
+            // Keyboard support
+            row.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    row.click();
+                }
+            });
+        });
+
+        // ========== Filter Buttons ==========
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterButtons.forEach(b => b.classList.remove('filter-btn--active'));
+                btn.classList.add('filter-btn--active');
+                
+                const filter = btn.dataset.filter;
+                positionRows.forEach(row => {
+                    if (filter === 'all') {
+                        row.style.display = '';
+                    } else if (filter === 'winners') {
+                        row.style.display = row.dataset.profit === 'true' ? '' : 'none';
+                    } else if (filter === 'losers') {
+                        row.style.display = row.dataset.profit === 'false' ? '' : 'none';
+                    }
+                });
+            });
+        });
+
+        // ========== Modal Functionality ==========
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalCancel = document.getElementById('modalCancel');
+        const modalConfirm = document.getElementById('modalConfirm');
+        const modalClose = document.querySelector('.modal__close');
+        const closeButtons = document.querySelectorAll('.action-btn--close');
+
+        closeButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                modalOverlay.classList.add('modal-overlay--visible');
+            });
+        });
+
+        function closeModal() {
+            modalOverlay.classList.remove('modal-overlay--visible');
+        }
+
+        modalCancel.addEventListener('click', closeModal);
+        modalClose.addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) {
+                closeModal();
+            }
+        });
+
+        modalConfirm.addEventListener('click', () => {
+            alert('Position closed! (Demo only)');
+            closeModal();
+        });
+
+        // Escape key to close modal
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modalOverlay.classList.contains('modal-overlay--visible')) {
+                closeModal();
+            }
+        });
+
+        // ========== Chart Interactivity ==========
+        const chartSvg = document.querySelector('.chart-svg');
+        const crosshair = document.getElementById('crosshair');
+        const chartTooltip = document.getElementById('chartTooltip');
+        const tooltipPrice = document.getElementById('tooltipPrice');
+        const tooltipPnl = document.getElementById('tooltipPnl');
+
+        chartSvg.addEventListener('mouseenter', () => {
+            crosshair.style.opacity = '1';
+            chartTooltip.style.opacity = '1';
+        });
+
+        chartSvg.addEventListener('mouseleave', () => {
+            crosshair.style.opacity = '0';
+            chartTooltip.style.opacity = '0';
+        });
+
+        chartSvg.addEventListener('mousemove', (e) => {
+            const rect = chartSvg.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            // Update crosshair
+            crosshair.setAttribute('x1', x);
+            crosshair.setAttribute('x2', x);
+            
+            // Calculate price and P&L (simplified)
+            const priceRange = 450 - 200;
+            const svgWidth = 760 - 60;
+            const price = 200 + ((x - 60) / svgWidth) * priceRange;
+            
+            // Simplified P&L calculation based on curve
+            let pnl = 0;
+            if (x < 200) pnl = -3800;
+            else if (x < 340) pnl = (x - 60) * 40 - 4000;
+            else if (x < 480) pnl = 4250 - (x - 340) * 30;
+            else pnl = (x - 480) * -15 + 1000;
+            
+            tooltipPrice.textContent = `$${Math.round(price)}`;
+            tooltipPnl.textContent = pnl >= 0 ? `+$${Math.round(pnl)}` : `-$${Math.round(Math.abs(pnl))}`;
+            
+            // Position tooltip
+            chartTooltip.style.left = `${x + 10}px`;
+            chartTooltip.style.top = `${y - 20}px`;
+        });
+
+        // ========== Initial State ==========
+        updateLastUpdateText();
+    </script>
+</body>
+</html>
