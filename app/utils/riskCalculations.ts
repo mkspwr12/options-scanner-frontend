@@ -44,7 +44,7 @@ export function aggregateGreeks(positions: Position[]): PortfolioGreeks {
 export function calculateSummary(positions: Position[]): PortfolioSummary {
   const totalValue = positions.reduce((sum, p) => sum + p.currentValue, 0);
   const totalCostBasis = positions.reduce((sum, p) => sum + p.costBasis, 0);
-  const totalPnL = positions.reduce((sum, p) => sum + p.unrealizedPnL, 0);
+  const totalPnL = positions.reduce((sum, p) => sum + p.pnl, 0);
   const pnlPercent = totalCostBasis !== 0 ? (totalPnL / totalCostBasis) * 100 : 0;
   const greeks = aggregateGreeks(positions);
 
