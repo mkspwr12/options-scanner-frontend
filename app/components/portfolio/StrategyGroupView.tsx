@@ -6,13 +6,15 @@ import { aggregateGreeks } from '../../utils/riskCalculations';
 import type { Position } from '../../types/portfolio';
 import styles from '../../styles/portfolio.module.css';
 
-const STRATEGY_LABELS: Record<NonNullable<Position['strategyType']>, string> = {
+const STRATEGY_LABELS: Record<string, string> = {
   single: 'Single Leg',
   vertical: 'Vertical Spread',
   'iron-condor': 'Iron Condor',
   straddle: 'Straddle',
   strangle: 'Strangle',
   custom: 'Custom',
+  stock: 'Stock',
+  unknown: 'Unknown',
 };
 
 /**
@@ -72,7 +74,7 @@ export function StrategyGroupView() {
               onClick={() => toggleGroup(type)}
             >
               <span className={styles.groupChevron}>{isExpanded ? '▾' : '▸'}</span>
-              <span className={styles.groupName}>{STRATEGY_LABELS[type]}</span>
+              <span className={styles.groupName}>{STRATEGY_LABELS[type] || type}</span>
               <span className={styles.groupCount}>{groupPositions.length} position{groupPositions.length > 1 ? 's' : ''}</span>
               <span className={styles.groupPnL} style={{ color: pnlColor }}>
                 {totalPnL >= 0 ? '+' : ''}${totalPnL.toLocaleString()}
