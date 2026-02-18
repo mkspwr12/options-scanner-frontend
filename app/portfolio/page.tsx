@@ -218,8 +218,8 @@ export default function PortfolioPage() {
                         <span
                           className={`font-medium ${
                             position.pnl >= 0 ? 'text-green-600' : 'text-red-600'
-                          }>
-                          
+                          }`}
+                        >
                           ${position.pnl.toFixed(2)}
                         </span>
                         <span
