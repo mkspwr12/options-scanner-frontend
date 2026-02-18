@@ -125,7 +125,7 @@ export default function PortfolioPage() {
   // Calculate P&L percentage for each position
   const getPositionPnlPercent = (position: typeof state.positions[0]) => {
     if (!position.costBasis || position.costBasis === 0) return 0;
-    return ((position.unrealizedPnL || 0) / position.costBasis) * 100;
+    return position.pnlPercent;
   };
 
   return (
@@ -217,10 +217,10 @@ export default function PortfolioPage() {
                       <div className="flex flex-col items-end">
                         <span
                           className={`font-medium ${
-                            (position.unrealizedPnL || 0) >= 0 ? 'text-green-600' : 'text-red-600'
-                          }`}
-                        >
-                          ${(position.unrealizedPnL || 0).toFixed(2)}
+                            position.pnl >= 0 ? 'text-green-600' : 'text-red-600'
+                          }>
+                          
+                          ${position.pnl.toFixed(2)}
                         </span>
                         <span
                           className={`text-xs ${
@@ -272,7 +272,7 @@ export default function PortfolioPage() {
         legs: p.legs.map(l => `${l.strike}${l.optionType === 'call' ? 'C' : 'P'}`).join('/'),
         costBasis: p.costBasis || 0,
         currentValue: p.currentValue || 0,
-        pnl: p.unrealizedPnL || 0,
+        pnl: p.pnl,
         pnlPercent: getPositionPnlPercent(p),
         sparklineData: [],
       }))} />

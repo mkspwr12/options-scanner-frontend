@@ -5,11 +5,11 @@ import { usePortfolioContext } from './PortfolioContext';
 import type { Position } from '../../types/portfolio';
 import styles from '../../styles/portfolio.module.css';
 
-type SortKey = 'ticker' | 'strategyName' | 'costBasis' | 'currentValue' | 'unrealizedPnL' | 'pnlPercent';
+type SortKey = 'ticker' | 'strategyName' | 'costBasis' | 'currentValue' | 'pnl' | 'pnlPercent';
 type SortDir = 'asc' | 'desc';
 
-function pnlPercent(p: Position): number {
-  return p.costBasis !== 0 ? (p.unrealizedPnL / p.costBasis) * 100 : 0;
+function calcPnlPercent(p: Position): number {
+  return p.pnlPercent;
 }
 
 /**
@@ -39,11 +39,11 @@ export function PositionsTable() {
       let cmp = 0;
       switch (sortKey) {
         case 'ticker': cmp = a.ticker.localeCompare(b.ticker); break;
-        case 'strategyName': cmp = a.strategyName.localeCompare(b.strategyName); break;
+        case 'strategyName': cmp = (a.strategyName || a.strategy).localeCompare(b.strategyName || b.strategy); break;
         case 'costBasis': cmp = a.costBasis - b.costBasis; break;
         case 'currentValue': cmp = a.currentValue - b.currentValue; break;
-        case 'unrealizedPnL': cmp = a.unrealizedPnL - b.unrealizedPnL; break;
-        case 'pnlPercent': cmp = pnlPercent(a) - pnlPercent(b); break;
+        case 'pnl': cmp = a.pnl - b.pnl; break;
+        case 'pnlPercent': cmp = calcPnlPercent(a) - calcPnlPercent(b); break;
       }
       return sortDir === 'asc' ? cmp : -cmp;
     });
@@ -113,14 +113,14 @@ export function PositionsTable() {
               <th>Legs</th>
               <th onClick={() => handleSort('costBasis')} className={styles.sortable}>Cost Basis{sortIndicator('costBasis')}</th>
               <th onClick={() => handleSort('currentValue')} className={styles.sortable}>Value{sortIndicator('currentValue')}</th>
-              <th onClick={() => handleSort('unrealizedPnL')} className={styles.sortable}>P&L{sortIndicator('unrealizedPnL')}</th>
+              <th onClick={() => handleSort('pnl')} className={styles.sortable}>P&L{sortIndicator('pnl')}</th>
               <th onClick={() => handleSort('pnlPercent')} className={styles.sortable}>P&L%{sortIndicator('pnlPercent')}</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {sorted.map((pos) => {
-              const pnl = pos.unrealizedPnL;
+              const pnl = pos.pnl;
               const pnlPct = pnlPercent(pos);
               const pnlColor = pnl >= 0 ? '#66bb6a' : '#ef5350';
               const isExpanded = expandedId === pos.id;

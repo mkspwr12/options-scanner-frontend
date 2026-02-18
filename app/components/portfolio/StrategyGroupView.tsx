@@ -60,7 +60,7 @@ export function StrategyGroupView() {
       {Array.from(groups.entries()).map(([type, groupPositions]) => {
         const isExpanded = expandedGroups.has(type);
         const greeks = aggregateGreeks(groupPositions);
-        const totalPnL = groupPositions.reduce((s, p) => s + p.unrealizedPnL, 0);
+        const totalPnL = groupPositions.reduce((s, p) => s + p.pnl, 0);
         const pnlColor = totalPnL >= 0 ? '#66bb6a' : '#ef5350';
 
         return (
@@ -90,8 +90,8 @@ export function StrategyGroupView() {
                     <li key={pos.id} className={styles.groupPositionItem}>
                       <span className={styles.groupPositionTicker}>{pos.ticker}</span>
                       <span>{pos.strategyName}</span>
-                      <span style={{ color: pos.unrealizedPnL >= 0 ? '#66bb6a' : '#ef5350' }}>
-                        {pos.unrealizedPnL >= 0 ? '+' : ''}${pos.unrealizedPnL.toLocaleString()}
+                      <span style={{ color: pos.pnl >= 0 ? '#66bb6a' : '#ef5350' }}>
+                        {pos.pnl >= 0 ? '+' : ''}${pos.pnl.toLocaleString()}
                       </span>
                     </li>
                   ))}
