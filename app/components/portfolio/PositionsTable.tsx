@@ -121,7 +121,7 @@ export function PositionsTable() {
           <tbody>
             {sorted.map((pos) => {
               const pnl = pos.pnl;
-              const pnlPct = pnlPercent(pos);
+              const pnlPct = calcPnlPercent(pos);
               const pnlColor = pnl >= 0 ? '#66bb6a' : '#ef5350';
               const isExpanded = expandedId === pos.id;
 
