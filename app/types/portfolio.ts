@@ -7,13 +7,24 @@ import type { StrategyLeg } from './strategy';
 export interface Position {
   id: string;
   ticker: string;
+  strategy: string; // Strategy name (e.g., 'stock', 'single-leg', 'iron-condor')
   legs: StrategyLeg[];
-  strategyName: string;
-  strategyType: 'single' | 'vertical' | 'iron-condor' | 'straddle' | 'strangle' | 'custom';
-  openDate: string;
+  strategyType?: 'single' | 'vertical' | 'iron-condor' | 'straddle' | 'strangle' | 'custom';
+  strategyName?: string;
+  openDate?: string; // Legacy field
+  entryDate: string; // ISO date string
+  quantity: number; // Number of contracts or shares
   currentValue: number;
   costBasis: number;
-  unrealizedPnL: number;
+  pnl: number; // Profit/loss in dollars
+  pnlPercent: number; // Profit/loss as percentage
+  unrealizedPnL?: number; // Legacy field
+  greeks: {
+    delta: number;
+    gamma: number;
+    theta: number;
+    vega: number;
+  };
 }
 
 /** Aggregated Greeks for a portfolio or group */
