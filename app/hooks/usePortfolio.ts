@@ -209,7 +209,7 @@ export function usePortfolio() {
           symbol: position.ticker,
           strike: position.strategy === 'stock' ? null : position.costBasis, // Use costBasis as strike for options
           expiration: position.entryDate, // This should be expiration date, adjust as needed
-          type: position.legs && position.legs.length > 0 ? position.legs[0].type : 'call',
+          type: position.legs && position.legs.length > 0 ? position.legs[0].optionType : 'call',
           quantity: position.quantity,
           premium: position.costBasis,
           entryDate: new Date().toISOString().split('T')[0],
