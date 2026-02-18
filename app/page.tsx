@@ -336,16 +336,12 @@ export default function HomePage() {
                 pnlPercent: 0,
                 legs: [{
                   id: `leg-${Date.now()}`,
-                  type: result.optionType === 'call' ? 'call' : 'put',
-                  action: 'buy',
+                  optionType: result.optionType === 'call' ? 'call' : 'put',
+                  side: 'buy',
                   strike: result.strike,
                   expiration: result.expiration,
                   quantity,
                   premium: result.last,
-                  delta: result.delta,
-                  theta: result.theta,
-                  vega: result.vega,
-                  gamma: result.gamma,
                 }],
                 greeks: {
                   delta: result.delta,
