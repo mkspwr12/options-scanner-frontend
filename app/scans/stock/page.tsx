@@ -5,6 +5,8 @@ import { FilterPanel } from '../../components/shared/FilterPanel';
 import { TechnicalFilters as TechnicalFiltersComponent, type TechnicalFilters } from '../../components/stock-screener/TechnicalFilters';
 import { FundamentalFilters as FundamentalFiltersComponent, type FundamentalFilters } from '../../components/stock-screener/FundamentalFilters';
 import { MomentumFilters as MomentumFiltersComponent, type MomentumFilters } from '../../components/stock-screener/MomentumFilters';
+import { usePortfolio } from '../../hooks/usePortfolio';
+import type { Position } from '../../types/portfolio';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE || 'https://options-scanner-backend-2exk6s.azurewebsites.net';
 
@@ -53,6 +55,7 @@ export default function StockScansPage() {
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const { addPosition } = usePortfolio();
 
   const handleScan = useCallback(async () => {
     setIsLoading(true);
@@ -132,6 +135,45 @@ export default function StockScansPage() {
       setIsLoading(false);
     }
   }, [technicalFilters, fundamentalFilters, momentumFilters]);
+
+  const handleTrackStock = useCallback(async (stock: StockResult) => {
+    const quantityStr = prompt(`Enter quantity for ${stock.ticker}:`, '100');
+    if (!quantityStr) return;
+
+    const quantity = parseInt(quantityStr);
+    if (isNaN(quantity) || quantity <= 0) {
+      alert('Invalid quantity');
+      return;
+    }
+
+    // Create position object for stock (not options)
+    const newPosition: Position = {
+      id: `pos-${Date.now()}`,
+      ticker: stock.ticker,
+      strategy: 'stock', // This is a stock position, not an options strategy
+      entryDate: new Date().toISOString(),
+      quantity,
+      costBasis: stock.price * quantity,
+      currentValue: stock.price * quantity,
+      pnl: 0,
+      pnlPercent: 0,
+      legs: [], // Stocks don't have option legs
+      greeks: {
+        delta: quantity * 100, // 100 delta per share * quantity
+        gamma: 0,
+        theta: 0,
+        vega: 0,
+      },
+    };
+
+    try {
+      await addPosition(newPosition);
+      alert(`✓ Successfully added ${quantity} shares of ${stock.ticker} to portfolio (${(stock.price * quantity).toFixed(2)}$)`);
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : 'Failed to add position';
+      alert(`✗ Failed to add position: ${errorMsg}\n\nThe backend may not have the add-position endpoint implemented yet.`);
+    }
+  }, [addPosition]);
 
   return (
     <div>
@@ -264,6 +306,9 @@ export default function StockScansPage() {
                     <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Market Cap
                     </th>
+                    <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Actions
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
@@ -294,6 +339,14 @@ export default function StockScansPage() {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-700">
                         ${((stock.marketCap || 0) / 1e9).toFixed(2)}B
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-center text-sm">
+                        <button
+                          onClick={() => handleTrackStock(stock)}
+                          className="px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-xs font-medium"
+                        >
+                          Track
+                        </button>
                       </td>
                     </tr>
                   ))}
