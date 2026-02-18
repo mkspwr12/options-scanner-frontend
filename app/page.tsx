@@ -6,7 +6,9 @@ import YahooDataSection from './components/yahoo/YahooDataSection'
 import ProviderSettingsSection from './components/providers/ProviderSettingsSection'
 import { StrategyBuilderSection } from './components/strategy/StrategyBuilderSection'
 import { PortfolioRiskSection } from './components/portfolio/PortfolioRiskSection'
+import { usePortfolio } from './hooks/usePortfolio'
 import type { ScanResult } from './types/scanner'
+import type { Position } from './types/portfolio'
 
 const DEFAULT_API_BASE = 'https://options-scanner-backend-2exk6s.azurewebsites.net'
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE || DEFAULT_API_BASE
@@ -43,6 +45,7 @@ export default function HomePage() {
   const [apiBase, setApiBase] = useState<string>(API_BASE)
   const [showStatus, setShowStatus] = useState<boolean>(false)
   const [isScanning, setIsScanning] = useState<boolean>(false)
+  const { addPosition } = usePortfolio()
 
   const addDebugLog = (message: string) => {
     setDebugLogs(prev => [...prev, `[${new Date().toLocaleTimeString()}] ${message}`])
@@ -315,28 +318,53 @@ export default function HomePage() {
       <section className="card-grid">
         <div className="card" style={{ gridColumn: '1 / -1' }}>
           <h3>🔍 Scanner — Advanced Filtering</h3>
-          <ScannerSection onTrack={(result: ScanResult) => {
-            const quantity = prompt(`Enter quantity for ${result.symbol} ${result.optionType}:`, '1')
-            if (quantity) {
-              const newTrade = {
-                id: `trade-${Date.now()}`,
-                opportunityId: '',
-                symbol: result.symbol,
-                strikePrice: result.strike,
-                expirationDate: result.expiration,
-                optionType: result.optionType,
-                entryPrice: result.last,
-                currentPrice: result.last,
-                quantity: parseFloat(quantity),
-                underlyingPrice: result.underlyingPrice,
-                greeks: { delta: result.delta, theta: result.theta, vega: result.vega, gamma: result.gamma },
-                entryDate: Date.now(),
-                unrealizedPL: 0,
-                unrealizedPLPercent: 0,
-                status: 'active'
+          <ScannerSection onTrack={async (result: ScanResult) => {
+            const quantityStr = prompt(`Enter quantity for ${result.symbol} ${result.optionType}:`, '1')
+            if (quantityStr) {
+              const quantity = parseFloat(quantityStr)
+              
+              // Create position object for API
+              const newPosition: Position = {
+                id: `pos-${Date.now()}`,
+                ticker: result.symbol,
+                strategy: 'single-leg',
+                entryDate: new Date().toISOString(),
+                quantity,
+                costBasis: result.last * quantity * 100, // Options are priced per share, contracts are 100 shares
+                currentValue: result.last * quantity * 100,
+                pnl: 0,
+                pnlPercent: 0,
+                legs: [{
+                  id: `leg-${Date.now()}`,
+                  type: result.optionType === 'call' ? 'call' : 'put',
+                  action: 'buy',
+                  strike: result.strike,
+                  expiration: result.expiration,
+                  quantity,
+                  premium: result.last,
+                  delta: result.delta,
+                  theta: result.theta,
+                  vega: result.vega,
+                  gamma: result.gamma,
+                }],
+                greeks: {
+                  delta: result.delta,
+                  gamma: result.gamma,
+                  theta: result.theta,
+                  vega: result.vega,
+                },
               }
-              setTrackedTrades(prev => [...prev, newTrade])
-              addDebugLog(`✓ Tracked trade: ${result.symbol} ${result.optionType} x${quantity}`)
+              
+              try {
+                addDebugLog(`⏳ Adding position to portfolio: ${result.symbol} ${result.optionType} x${quantity}`)
+                await addPosition(newPosition)
+                addDebugLog(`✓ Position added to portfolio: ${result.symbol} ${result.optionType} x${quantity}`)
+                alert(`✓ Successfully added ${result.symbol} ${result.optionType} x${quantity} to portfolio`)
+              } catch (err) {
+                const errorMsg = err instanceof Error ? err.message : 'Failed to add position'
+                addDebugLog(`✗ Failed to add position: ${errorMsg}`)
+                alert(`✗ Failed to add position: ${errorMsg}\n\nThe backend may not have the add-position endpoint implemented yet.`)
+              }
             }
           }} />
         </div>

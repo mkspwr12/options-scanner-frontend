@@ -199,9 +199,36 @@ export function usePortfolio() {
 
   // ─── Actions ────────────────────────────────────────────────────────────
 
-  const addPosition = useCallback((position: Position) => {
-    dispatch({ type: 'ADD_POSITION', payload: position });
-  }, []);
+  const addPosition = useCallback(async (position: Position) => {
+    try {
+      // Call backend API to persist the position
+      const response = await fetch(`${API_BASE}/api/portfolio/add-position`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          symbol: position.ticker,
+          strike: position.strategy === 'stock' ? null : position.costBasis, // Use costBasis as strike for options
+          expiration: position.entryDate, // This should be expiration date, adjust as needed
+          type: position.legs && position.legs.length > 0 ? position.legs[0].type : 'call',
+          quantity: position.quantity,
+          premium: position.costBasis,
+          entryDate: new Date().toISOString().split('T')[0],
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to add position: ${response.statusText}`);
+      }
+
+      // Refresh portfolio from backend after adding
+      await refetch();
+    } catch (err) {
+      console.error('Add position error:', err);
+      // Fallback to local state update if backend fails
+      dispatch({ type: 'ADD_POSITION', payload: position });
+      throw err; // Re-throw so caller knows it failed
+    }
+  }, [refetch]);
 
   const removePosition = useCallback((id: string) => {
     dispatch({ type: 'REMOVE_POSITION', payload: id });
