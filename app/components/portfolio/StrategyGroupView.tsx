@@ -6,7 +6,7 @@ import { aggregateGreeks } from '../../utils/riskCalculations';
 import type { Position } from '../../types/portfolio';
 import styles from '../../styles/portfolio.module.css';
 
-const STRATEGY_LABELS: Record<Position['strategyType'], string> = {
+const STRATEGY_LABELS: Record<NonNullable<Position['strategyType']>, string> = {
   single: 'Single Leg',
   vertical: 'Vertical Spread',
   'iron-condor': 'Iron Condor',
@@ -26,11 +26,12 @@ export function StrategyGroupView() {
   const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set());
 
   const groups = useMemo(() => {
-    const map = new Map<Position['strategyType'], Position[]>();
+    const map = new Map<string, Position[]>();
     for (const pos of positions) {
-      const list = map.get(pos.strategyType) ?? [];
+      const strategyKey = pos.strategyType || pos.strategy || 'unknown';
+      const list = map.get(strategyKey) ?? [];
       list.push(pos);
-      map.set(pos.strategyType, list);
+      map.set(strategyKey, list);
     }
     return map;
   }, [positions]);
