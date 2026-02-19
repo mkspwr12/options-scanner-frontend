@@ -14,6 +14,7 @@ export function Navigation() {
     { name: 'Stock Screener', href: '/scans/stock', icon: '📈' },
     { name: 'Multi-Leg', href: '/scans/multi', icon: '🔀' },
     { name: 'Portfolio', href: '/portfolio', icon: '💼' },
+    { name: 'Compare', href: '/compare', icon: '🔬' },
   ];
 
   const isActive = (href: string) => {
