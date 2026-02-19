@@ -201,23 +201,27 @@ export function usePortfolio() {
 
   const addPosition = useCallback(async (position: Position) => {
     try {
+      const leg = position.legs && position.legs.length > 0 ? position.legs[0] : null;
+      const isStock = position.strategy === 'stock' || !leg;
+
       // Call backend API to persist the position
       const response = await fetch(`${API_BASE}/api/portfolio/add-position`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           symbol: position.ticker,
-          strike: position.strategy === 'stock' ? null : position.costBasis, // Use costBasis as strike for options
-          expiration: position.entryDate, // This should be expiration date, adjust as needed
-          type: position.legs && position.legs.length > 0 ? position.legs[0].optionType : 'call',
+          strike: isStock ? null : leg!.strike,
+          expiration: isStock ? null : leg!.expiration,
+          type: isStock ? 'stock' : (leg!.optionType || 'call'),
           quantity: position.quantity,
-          premium: position.costBasis,
+          premium: isStock ? (position.costBasis / position.quantity) : (leg!.premium ?? 0),
           entryDate: new Date().toISOString().split('T')[0],
         }),
       });
 
       if (!response.ok) {
-        throw new Error(`Failed to add position: ${response.statusText}`);
+        const errorBody = await response.text().catch(() => '');
+        throw new Error(errorBody || `HTTP ${response.status}`);
       }
 
       // Refresh portfolio from backend after adding

@@ -72,7 +72,7 @@ export default function SingleOptionsPage() {
       await addPosition(newPosition);
       alert(`Added ${quantity}x ${result.symbol} $${result.strike} ${result.type.toUpperCase()} to portfolio`);
     } catch (err) {
-      alert(`Failed to add: ${err instanceof Error ? err.message : 'Unknown error'}`);
+      alert(`✗ Failed to add position: ${err instanceof Error ? err.message : 'Unknown error'}`);
     }
   }, [addPosition]);
 

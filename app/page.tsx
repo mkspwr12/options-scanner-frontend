@@ -358,9 +358,9 @@ export default function HomePage() {
                 addDebugLog(`✓ Position added to portfolio: ${result.symbol} ${result.optionType} x${quantity}`)
                 alert(`✓ Successfully added ${result.symbol} ${result.optionType} x${quantity} to portfolio`)
               } catch (err) {
-                const errorMsg = err instanceof Error ? err.message : 'Failed to add position'
+                const errorMsg = err instanceof Error ? err.message : 'Unknown error'
                 addDebugLog(`✗ Failed to add position: ${errorMsg}`)
-                alert(`✗ Failed to add position: ${errorMsg}\n\nThe backend may not have the add-position endpoint implemented yet.`)
+                alert(`✗ Failed to add position: ${errorMsg}`)
               }
             }
           }} />

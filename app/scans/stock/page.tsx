@@ -170,8 +170,8 @@ export default function StockScansPage() {
       await addPosition(newPosition);
       alert(`✓ Successfully added ${quantity} shares of ${stock.ticker} to portfolio (${(stock.price * quantity).toFixed(2)}$)`);
     } catch (err) {
-      const errorMsg = err instanceof Error ? err.message : 'Failed to add position';
-      alert(`✗ Failed to add position: ${errorMsg}\n\nThe backend may not have the add-position endpoint implemented yet.`);
+      const errorMsg = err instanceof Error ? err.message : 'Unknown error';
+      alert(`✗ Failed to add position: ${errorMsg}`);
     }
   }, [addPosition]);
 
