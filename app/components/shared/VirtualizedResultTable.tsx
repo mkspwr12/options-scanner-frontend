@@ -17,11 +17,11 @@ export function VirtualizedResultTable<T>({
 }: VirtualizedResultTableProps<T>) {
   return (
     <div 
-      className="border border-gray-200 rounded-lg overflow-auto bg-white"
+      className="border border-white/10 rounded-lg overflow-auto bg-[#0f1a2e]"
       style={{ height: `${height}px` }}
     >
       {data.length === 0 ? (
-        <div className="flex items-center justify-center h-full text-gray-500">
+        <div className="flex items-center justify-center h-full text-slate-500">
           No results to display
         </div>
       ) : (
@@ -30,7 +30,7 @@ export function VirtualizedResultTable<T>({
             <div
               key={getRowKey(item, index)}
               style={{ minHeight: `${rowHeight}px` }}
-              className="border-b border-gray-100 last:border-b-0"
+              className="border-b border-white/5 last:border-b-0"
             >
               {renderRow(item, index)}
             </div>

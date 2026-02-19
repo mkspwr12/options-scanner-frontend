@@ -91,14 +91,14 @@ export default function SingleOptionsPage() {
   }, [filters]);
 
   const renderRow = useCallback((result: ScanResult, index: number) => (
-    <div className="flex items-center gap-4 px-4 py-2 border-b border-gray-200 hover:bg-gray-50">
-      <div className="w-16 font-medium">{result.symbol}</div>
-      <div className="w-20">${result.strike}</div>
-      <div className="w-24">{result.expiration}</div>
-      <div className="w-16 uppercase text-xs">{result.type}</div>
-      <div className="w-20">${result.premium.toFixed(2)}</div>
-      <div className="w-20">{result.delta.toFixed(2)}</div>
-      <div className="w-20">{result.iv}%</div>
+    <div className="flex items-center gap-4 px-4 py-2 border-b border-white/5 hover:bg-white/5 transition-colors">
+      <div className="w-16 font-medium text-cyan-400">{result.symbol}</div>
+      <div className="w-20 text-slate-200">${result.strike}</div>
+      <div className="w-24 text-slate-300">{result.expiration}</div>
+      <div className="w-16 uppercase text-xs text-slate-300">{result.type}</div>
+      <div className="w-20 text-white">${result.premium.toFixed(2)}</div>
+      <div className="w-20 text-slate-300">{result.delta.toFixed(2)}</div>
+      <div className="w-20 text-slate-300">{result.iv}%</div>
       <div className="w-24">
         <ProbabilityBadge probability={result.probability} />
       </div>
@@ -113,8 +113,8 @@ export default function SingleOptionsPage() {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-6">Single Options Scan</h1>
-      <p className="text-gray-600 mb-6">
+      <h1 className="text-3xl font-bold mb-6 text-white">Single Options Scan</h1>
+      <p className="text-slate-400 mb-6">
         Scan for single-leg options opportunities based on technical indicators, volume, and probability metrics.
       </p>
 
@@ -130,19 +130,19 @@ export default function SingleOptionsPage() {
       >
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-slate-300 mb-2">
               Ticker Symbol
             </label>
             <input
               type="text"
               value={filters.ticker}
               onChange={(e) => setFilters({ ...filters, ticker: e.target.value.toUpperCase() })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+              className="w-full px-3 py-2 border border-white/10 rounded-md bg-[#0b1224] text-white placeholder-slate-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
               placeholder="SPY"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-slate-300 mb-2">
               Min IV: {filters.ivMin}%
             </label>
             <input
@@ -151,11 +151,11 @@ export default function SingleOptionsPage() {
               max="100"
               value={filters.ivMin}
               onChange={(e) => setFilters({ ...filters, ivMin: Number(e.target.value) })}
-              className="w-full"
+              className="w-full accent-blue-500"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-slate-300 mb-2">
               DTE Range: {filters.dte[0]} - {filters.dte[1]}
             </label>
             <input
@@ -166,11 +166,11 @@ export default function SingleOptionsPage() {
               onChange={(e) =>
                 setFilters({ ...filters, dte: [Number(e.target.value), filters.dte[1]] })
               }
-              className="w-full"
+              className="w-full accent-blue-500"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-slate-300 mb-2">
               Delta Range: {filters.delta[0]} - {filters.delta[1]}
             </label>
             <input
@@ -182,7 +182,7 @@ export default function SingleOptionsPage() {
               onChange={(e) =>
                 setFilters({ ...filters, delta: [Number(e.target.value), filters.delta[1]] })
               }
-              className="w-full"
+              className="w-full accent-blue-500"
             />
           </div>
         </div>
@@ -190,7 +190,7 @@ export default function SingleOptionsPage() {
           <button
             onClick={handleScan}
             disabled={isLoading}
-            className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+            className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-slate-700 disabled:text-slate-400 disabled:cursor-not-allowed transition-colors"
           >
             {isLoading ? 'Scanning...' : 'Run Scan'}
           </button>
@@ -198,13 +198,13 @@ export default function SingleOptionsPage() {
       </FilterPanel>
 
       {error && (
-        <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-md text-red-700">
+        <div className="mb-4 p-4 bg-red-500/10 border border-red-500/30 rounded-md text-red-400">
           {error}
         </div>
       )}
 
-      <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-        <div className="flex items-center gap-4 px-4 py-3 bg-gray-50 border-b border-gray-200 text-xs font-medium text-gray-500 uppercase">
+      <div className="bg-[#0f1a2e] border border-white/10 rounded-lg overflow-hidden">
+        <div className="flex items-center gap-4 px-4 py-3 bg-white/5 border-b border-white/10 text-xs font-medium text-slate-400 uppercase">
           <div className="w-16">Symbol</div>
           <div className="w-20">Strike</div>
           <div className="w-24">Expiration</div>
@@ -216,7 +216,7 @@ export default function SingleOptionsPage() {
           <div className="w-28">P&L Chart</div>
         </div>
         {results.length === 0 && !isLoading ? (
-          <div className="p-8 text-center text-gray-500">
+          <div className="p-8 text-center text-slate-500">
             No results yet. Configure filters and click &quot;Run Scan&quot; to start.
           </div>
         ) : (

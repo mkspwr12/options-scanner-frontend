@@ -9,13 +9,13 @@ interface FilterPanelProps {
 
 export function FilterPanel({ title, children, onReset, showActions = true }: FilterPanelProps) {
   return (
-    <div className="bg-white border border-gray-200 rounded-lg p-6 mb-6">
+    <div className="bg-[#0f1a2e] border border-white/10 rounded-lg p-6 mb-6">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-semibold text-gray-900">{title}</h2>
+        <h2 className="text-lg font-semibold text-white">{title}</h2>
         {showActions && onReset && (
           <button
             onClick={onReset}
-            className="px-3 py-1 text-sm text-gray-600 border border-gray-300 rounded hover:bg-gray-50"
+            className="px-3 py-1 text-sm text-slate-300 border border-white/10 rounded hover:bg-white/5 transition-colors"
           >
             Reset
           </button>

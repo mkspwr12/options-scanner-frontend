@@ -177,20 +177,20 @@ export default function StockScansPage() {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-6">Stock Screener</h1>
-      <p className="text-gray-600 mb-6">
+      <h1 className="text-3xl font-bold mb-6 text-white">Stock Screener</h1>
+      <p className="text-slate-400 mb-6">
         Screen stocks by technical indicators, fundamentals, volume patterns, and sector performance.
       </p>
 
       <div className="mb-6">
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-slate-300 mb-2">
           Quick Presets
         </label>
         <div className="flex gap-2">
           {presets.map((preset) => (
             <button
               key={preset.key}
-              className="px-4 py-2 border border-gray-300 rounded-md hover:border-blue-500 hover:bg-blue-50 text-sm"
+              className="px-4 py-2 border border-white/10 rounded-md hover:border-blue-500/50 hover:bg-blue-500/10 text-sm text-slate-300 transition-colors"
             >
               {preset.name}
             </button>
@@ -199,14 +199,14 @@ export default function StockScansPage() {
       </div>
 
       <FilterPanel title="Stock Filters" showActions={false}>
-        <div className="border-b border-gray-200 mb-4">
+        <div className="border-b border-white/10 mb-4">
           <div className="flex gap-4">
             <button
               onClick={() => setActiveTab('technical')}
               className={`px-4 py-2 font-medium text-sm border-b-2 transition-colors ${
                 activeTab === 'technical'
-                  ? 'border-blue-600 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700'
+                  ? 'border-blue-500 text-blue-400'
+                  : 'border-transparent text-slate-400 hover:text-slate-200'
               }`}
             >
               Technical
@@ -215,8 +215,8 @@ export default function StockScansPage() {
               onClick={() => setActiveTab('fundamental')}
               className={`px-4 py-2 font-medium text-sm border-b-2 transition-colors ${
                 activeTab === 'fundamental'
-                  ? 'border-blue-600 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700'
+                  ? 'border-blue-500 text-blue-400'
+                  : 'border-transparent text-slate-400 hover:text-slate-200'
               }`}
             >
               Fundamental
@@ -225,8 +225,8 @@ export default function StockScansPage() {
               onClick={() => setActiveTab('momentum')}
               className={`px-4 py-2 font-medium text-sm border-b-2 transition-colors ${
                 activeTab === 'momentum'
-                  ? 'border-blue-600 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700'
+                  ? 'border-blue-500 text-blue-400'
+                  : 'border-transparent text-slate-400 hover:text-slate-200'
               }`}
             >
               Momentum
@@ -248,7 +248,7 @@ export default function StockScansPage() {
           <button
             onClick={handleScan}
             disabled={isLoading}
-            className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+            className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-slate-700 disabled:text-slate-400 disabled:cursor-not-allowed transition-colors"
           >
             {isLoading ? 'Scanning...' : 'Run Stock Scan'}
           </button>
@@ -256,7 +256,7 @@ export default function StockScansPage() {
       </FilterPanel>
 
       {error && (
-        <div className="mb-6 p-4 bg-red-50 border-2 border-red-400 rounded-lg">
+        <div className="mb-6 p-4 bg-red-500/10 border-2 border-red-500/30 rounded-lg">
           <div className="flex items-start">
             <div className="flex-shrink-0">
               <svg className="h-5 w-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
@@ -264,86 +264,86 @@ export default function StockScansPage() {
               </svg>
             </div>
             <div className="ml-3">
-              <h3 className="text-sm font-medium text-red-800">Scan Error</h3>
-              <div className="mt-1 text-sm text-red-700">{error}</div>
+              <h3 className="text-sm font-medium text-red-400">Scan Error</h3>
+              <div className="mt-1 text-sm text-red-300">{error}</div>
             </div>
           </div>
         </div>
       )}
 
-      <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+      <div className="bg-[#0f1a2e] border border-white/10 rounded-lg overflow-hidden">
         {results.length === 0 && !isLoading ? (
-          <div className="p-8 text-center text-gray-500">
+          <div className="p-8 text-center text-slate-500">
             No results yet. Configure filters and click &quot;Run Stock Scan&quot; to start.
           </div>
         ) : (
           <>
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+              <table className="min-w-full divide-y divide-white/10">
+                <thead className="bg-white/5">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
                       Ticker
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
                       Name
                     </th>
-                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-right text-xs font-medium text-slate-400 uppercase tracking-wider">
                       Price
                     </th>
-                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-right text-xs font-medium text-slate-400 uppercase tracking-wider">
                       Change %
                     </th>
-                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-right text-xs font-medium text-slate-400 uppercase tracking-wider">
                       Volume
                     </th>
-                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-right text-xs font-medium text-slate-400 uppercase tracking-wider">
                       RSI
                     </th>
-                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-right text-xs font-medium text-slate-400 uppercase tracking-wider">
                       P/E
                     </th>
-                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-right text-xs font-medium text-slate-400 uppercase tracking-wider">
                       Market Cap
                     </th>
-                    <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-center text-xs font-medium text-slate-400 uppercase tracking-wider">
                       Actions
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                <tbody className="divide-y divide-white/5">
                   {results.map((stock) => (
-                    <tr key={stock.ticker} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <tr key={stock.ticker} className="hover:bg-white/5 transition-colors">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-cyan-400">
                         {stock.ticker}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">
                         {stock.name}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-900">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-white">
                         ${stock.price.toFixed(2)}
                       </td>
                       <td className={`px-6 py-4 whitespace-nowrap text-sm text-right ${
-                        stock.change >= 0 ? 'text-green-600' : 'text-red-600'
+                        stock.change >= 0 ? 'text-emerald-400' : 'text-red-400'
                       }`}>
                         {stock.change >= 0 ? '+' : ''}{stock.change.toFixed(2)}%
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-700">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-slate-300">
                         {stock.volume.toLocaleString()}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-700">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-slate-300">
                         {stock.rsi?.toFixed(1) || '-'}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-700">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-slate-300">
                         {stock.pe?.toFixed(2) || '-'}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-700">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-slate-300">
                         ${((stock.marketCap || 0) / 1e9).toFixed(2)}B
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-center text-sm">
                         <button
                           onClick={() => handleTrackStock(stock)}
-                          className="px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-xs font-medium"
+                          className="px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-xs font-medium transition-colors"
                         >
                           Track
                         </button>
@@ -356,22 +356,22 @@ export default function StockScansPage() {
             
             {/* Pagination */}
             {totalPages > 1 && (
-              <div className="px-6 py-4 bg-gray-50 border-t border-gray-200 flex items-center justify-between">
-                <div className="text-sm text-gray-700">
+              <div className="px-6 py-4 bg-white/5 border-t border-white/10 flex items-center justify-between">
+                <div className="text-sm text-slate-400">
                   Page {page} of {totalPages}
                 </div>
                 <div className="flex gap-2">
                   <button
                     onClick={() => loadPage(page - 1)}
                     disabled={page === 1 || isLoading}
-                    className="px-4 py-2 border border-gray-300 rounded-md text-sm disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100"
+                    className="px-4 py-2 border border-white/10 rounded-md text-sm text-slate-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white/5 transition-colors"
                   >
                     Previous
                   </button>
                   <button
                     onClick={() => loadPage(page + 1)}
                     disabled={page === totalPages || isLoading}
-                    className="px-4 py-2 border border-gray-300 rounded-md text-sm disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100"
+                    className="px-4 py-2 border border-white/10 rounded-md text-sm text-slate-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white/5 transition-colors"
                   >
                     Next
                   </button>

@@ -7,7 +7,7 @@ interface MiniPayoutChartProps {
 
 export function MiniPayoutChart({ prices, pnl }: MiniPayoutChartProps) {
   if (!prices.length || !pnl.length) {
-    return <div className="w-24 h-8 bg-gray-100 rounded" />;
+    return <div className="w-24 h-8 bg-white/5 rounded" />;
   }
 
   const minPnl = Math.min(...pnl);

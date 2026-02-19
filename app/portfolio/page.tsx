@@ -132,32 +132,32 @@ export default function PortfolioPage() {
     <div>
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h1 className="text-3xl font-bold">Portfolio Dashboard</h1>
-          <p className="text-gray-600 mt-1">
+          <h1 className="text-3xl font-bold text-white">Portfolio Dashboard</h1>
+          <p className="text-slate-400 mt-1">
             Track positions, analyze risk metrics, and monitor P&L
           </p>
         </div>
         <button
           onClick={refetch}
           disabled={state.isLoading}
-          className="px-4 py-2 border border-gray-300 rounded-md text-sm hover:bg-gray-50 disabled:opacity-50"
+          className="px-4 py-2 border border-blue-500/30 bg-blue-500/10 text-blue-300 rounded-lg text-sm font-medium hover:bg-blue-500/20 disabled:opacity-50 transition-colors"
         >
-          {state.isLoading ? 'Refreshing...' : 'Refresh'}
+          {state.isLoading ? 'Refreshing...' : '↻ Refresh'}
         </button>
       </div>
 
       {state.error && (
-        <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-md text-red-700">
+        <div className="mb-4 p-4 bg-red-500/10 border border-red-500/30 rounded-lg text-red-300">
           {state.error}
         </div>
       )}
 
       {actionError && (
-        <div className="mb-4 p-4 bg-yellow-50 border border-yellow-200 rounded-md text-yellow-700">
-          {actionError}
+        <div className="mb-4 p-4 bg-amber-500/10 border border-amber-500/30 rounded-lg text-amber-300 flex items-center justify-between">
+          <span>{actionError}</span>
           <button
             onClick={() => setActionError(null)}
-            className="ml-2 text-yellow-900 underline"
+            className="ml-2 text-amber-200 underline hover:text-white"
           >
             Dismiss
           </button>
@@ -172,59 +172,63 @@ export default function PortfolioPage() {
       />
 
       <div className="mb-6">
-        <h2 className="text-xl font-semibold mb-4">Positions ({state.positions.length})</h2>
+        <h2 className="text-xl font-semibold mb-4 text-white">Positions ({state.positions.length})</h2>
         {state.positions.length === 0 ? (
-          <div className="bg-white border border-gray-200 rounded-lg p-8 text-center">
-            <p className="text-gray-500">
-              {state.isLoading ? 'Loading positions...' : 'No positions found. Add a position to get started.'}
+          <div className="bg-[#0f1a2e] border border-white/10 rounded-xl p-8 text-center">
+            <div className="text-4xl mb-3">📋</div>
+            <p className="text-slate-400 text-lg">
+              {state.isLoading ? 'Loading positions...' : 'No positions found.'}
+            </p>
+            <p className="text-slate-500 text-sm mt-2">
+              Add a position from the Scanner or Multi-Leg page to get started.
             </p>
           </div>
         ) : (
-          <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+          <div className="bg-[#0f1a2e] border border-white/10 rounded-xl overflow-hidden">
+            <table className="min-w-full">
+              <thead className="border-b border-white/10">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">
                     Symbol
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">
                     Strategy
                   </th>
-                  <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-right text-xs font-semibold text-slate-400 uppercase tracking-wider">
                     Value
                   </th>
-                  <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-right text-xs font-semibold text-slate-400 uppercase tracking-wider">
                     P&L
                   </th>
-                  <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-right text-xs font-semibold text-slate-400 uppercase tracking-wider">
                     Actions
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="divide-y divide-white/5">
                 {state.positions.map((position) => (
-                  <tr key={position.id} className="hover:bg-gray-50">
-                    <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">
+                  <tr key={position.id} className="hover:bg-white/[0.03] transition-colors">
+                    <td className="px-4 py-3 whitespace-nowrap text-sm font-semibold text-cyan-400">
                       {position.ticker}
                     </td>
-                    <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
-                      {position.strategyName || 'N/A'}
+                    <td className="px-4 py-3 whitespace-nowrap text-sm text-slate-300">
+                      {position.strategyName || position.strategy || 'N/A'}
                     </td>
-                    <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900 text-right">
+                    <td className="px-4 py-3 whitespace-nowrap text-sm text-slate-200 text-right">
                       ${(position.currentValue || 0).toFixed(2)}
                     </td>
                     <td className="px-4 py-3 whitespace-nowrap text-sm text-right">
                       <div className="flex flex-col items-end">
                         <span
-                          className={`font-medium ${
-                            position.pnl >= 0 ? 'text-green-600' : 'text-red-600'
+                          className={`font-semibold ${
+                            position.pnl >= 0 ? 'text-emerald-400' : 'text-red-400'
                           }`}
                         >
-                          ${position.pnl.toFixed(2)}
+                          {position.pnl >= 0 ? '+' : ''}${position.pnl.toFixed(2)}
                         </span>
                         <span
                           className={`text-xs ${
-                            getPositionPnlPercent(position) >= 0 ? 'text-green-600' : 'text-red-600'
+                            getPositionPnlPercent(position) >= 0 ? 'text-emerald-400/70' : 'text-red-400/70'
                           }`}
                         >
                           ({getPositionPnlPercent(position) >= 0 ? '+' : ''}
@@ -237,21 +241,21 @@ export default function PortfolioPage() {
                         <button
                           onClick={() => handleClose(position.id)}
                           disabled={actionLoading === position.id}
-                          className="px-3 py-1 text-xs bg-red-600 text-white rounded hover:bg-red-700 disabled:opacity-50"
+                          className="px-3 py-1.5 text-xs font-medium bg-red-500/15 text-red-400 border border-red-500/30 rounded-md hover:bg-red-500/25 disabled:opacity-50 transition-colors"
                         >
                           {actionLoading === position.id ? '...' : 'Close'}
                         </button>
                         <button
                           onClick={() => handleRoll(position.id)}
                           disabled={actionLoading === position.id}
-                          className="px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
+                          className="px-3 py-1.5 text-xs font-medium bg-blue-500/15 text-blue-400 border border-blue-500/30 rounded-md hover:bg-blue-500/25 disabled:opacity-50 transition-colors"
                         >
                           {actionLoading === position.id ? '...' : 'Roll'}
                         </button>
                         <button
                           onClick={() => handleAdjust(position.id)}
                           disabled={actionLoading === position.id}
-                          className="px-3 py-1 text-xs bg-gray-600 text-white rounded hover:bg-gray-700 disabled:opacity-50"
+                          className="px-3 py-1.5 text-xs font-medium bg-white/5 text-slate-300 border border-white/10 rounded-md hover:bg-white/10 disabled:opacity-50 transition-colors"
                         >
                           {actionLoading === position.id ? '...' : 'Adjust'}
                         </button>
@@ -268,7 +272,7 @@ export default function PortfolioPage() {
       <AggregateChart positions={state.positions.map((p) => ({
         id: p.id,
         symbol: p.ticker,
-        strategy: p.strategyName || '',
+        strategy: p.strategyName || p.strategy || '',
         legs: p.legs.map(l => `${l.strike}${l.optionType === 'call' ? 'C' : 'P'}`).join('/'),
         costBasis: p.costBasis || 0,
         currentValue: p.currentValue || 0,

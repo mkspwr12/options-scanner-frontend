@@ -248,8 +248,8 @@ export default function HomePage() {
     <main style={{ maxWidth: '1400px', margin: '0 auto', padding: '20px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
         <div>
-          <h1 style={{ margin: '0 0 4px 0' }}>Options Scanner</h1>
-          <p style={{ margin: '0', color: '#666', fontSize: '14px' }}>Real-time trade analysis and portfolio tracking</p>
+          <h1 style={{ margin: '0 0 4px 0', color: '#e6edf7' }}>Options Scanner</h1>
+          <p style={{ margin: '0', color: '#94a3b8', fontSize: '14px' }}>Real-time trade analysis and portfolio tracking</p>
         </div>
         <button 
           onClick={runScan}
@@ -275,11 +275,12 @@ export default function HomePage() {
       <details style={{ marginBottom: '20px', cursor: 'pointer' }}>
         <summary style={{ 
           padding: '12px 16px',
-          backgroundColor: '#f5f5f5',
+          backgroundColor: 'rgba(255,255,255,0.05)',
+          border: '1px solid rgba(255,255,255,0.08)',
           borderRadius: '6px',
           fontWeight: '600',
           fontSize: '13px',
-          color: '#333',
+          color: '#94a3b8',
           userSelect: 'none'
         }}>
           ⚙️ System Status {health === 'ok' ? '✓' : '⚠'} — Click to expand
@@ -289,29 +290,29 @@ export default function HomePage() {
           padding: '16px',
           marginTop: '12px',
           borderRadius: '6px',
-          backgroundColor: health === 'error' ? '#ffebee' : health === 'ok' ? '#e8f5e9' : '#f3e5f5',
-          borderLeft: `6px solid ${health === 'error' ? '#d32f2f' : health === 'ok' ? '#388e3c' : '#7c4dff'}`,
-        color: '#1a1a1a',
+          backgroundColor: health === 'error' ? 'rgba(239,83,80,0.1)' : health === 'ok' ? 'rgba(102,187,106,0.1)' : 'rgba(124,77,255,0.1)',
+          borderLeft: `6px solid ${health === 'error' ? '#ef5350' : health === 'ok' ? '#66bb6a' : '#7c4dff'}`,
+        color: '#e6edf7',
         fontSize: '14px',
         lineHeight: '1.6'
       }}>
-        <div style={{ fontWeight: '600', marginBottom: '10px', fontSize: '15px' }}>Backend Status</div>
+        <div style={{ fontWeight: '600', marginBottom: '10px', fontSize: '15px', color: '#e6edf7' }}>Backend Status</div>
         <strong style={{ marginLeft: '0px', fontSize: '14px' }}>
           {health === 'checking' && '🔄 Checking...'}
           {health === 'ok' && '✓ Connected'}
           {health === 'error' && '✗ Unavailable'}
         </strong>
-        {healthDetail && <div style={{ marginTop: '8px', fontSize: '13px', color: '#555', fontStyle: 'italic' }}>{healthDetail}</div>}
-        <div style={{ marginTop: '14px', paddingTop: '14px', borderTop: '1px solid rgba(0,0,0,0.1)' }}>
-          <div style={{ fontWeight: '600', marginBottom: '8px', fontSize: '15px' }}>Database Status</div>
+        {healthDetail && <div style={{ marginTop: '8px', fontSize: '13px', color: '#94a3b8', fontStyle: 'italic' }}>{healthDetail}</div>}
+        <div style={{ marginTop: '14px', paddingTop: '14px', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+          <div style={{ fontWeight: '600', marginBottom: '8px', fontSize: '15px', color: '#e6edf7' }}>Database Status</div>
           <strong style={{ marginLeft: '0px', fontSize: '14px' }}>
             {dbHealth === 'checking' && '🔄 Checking...'}
             {dbHealth === 'ok' && '✓ Connected'}
             {dbHealth === 'error' && '✗ Unavailable'}
           </strong>
-          {dbDetail && <div style={{ marginTop: '6px', fontSize: '12px', color: '#555', backgroundColor: 'rgba(0,0,0,0.05)', padding: '8px 10px', borderRadius: '3px', fontFamily: 'monospace', maxHeight: '60px', overflow: 'auto' }}>{dbDetail}</div>}
+          {dbDetail && <div style={{ marginTop: '6px', fontSize: '12px', color: '#94a3b8', backgroundColor: 'rgba(255,255,255,0.03)', padding: '8px 10px', borderRadius: '3px', fontFamily: 'monospace', maxHeight: '60px', overflow: 'auto' }}>{dbDetail}</div>}
         </div>
-        {apiBase && <div style={{ marginTop: '14px', paddingTop: '14px', borderTop: '1px solid rgba(0,0,0,0.1)', fontSize: '12px', color: '#666', fontFamily: 'monospace', backgroundColor: 'rgba(0,0,0,0.02)', padding: '8px 10px', borderRadius: '3px' }}>API: {apiBase}</div>}
+        {apiBase && <div style={{ marginTop: '14px', paddingTop: '14px', borderTop: '1px solid rgba(255,255,255,0.1)', fontSize: '12px', color: '#64748b', fontFamily: 'monospace', backgroundColor: 'rgba(255,255,255,0.02)', padding: '8px 10px', borderRadius: '3px' }}>API: {apiBase}</div>}
       </div>
       </details>
 
@@ -371,17 +372,17 @@ export default function HomePage() {
           <h3>💼 Portfolio</h3>
           <p className="muted">Positions and P/L from backend</p>
           {portfolio ? (
-            <div className="muted">
+            <div style={{ color: '#b7c3d9' }}>
               <div><strong>Total Value:</strong> ${portfolio.metrics?.totalValue?.toFixed(2)}</div>
-              <div><strong>Unrealized P/L:</strong> ${portfolio.metrics?.totalPL?.toFixed(2)} ({portfolio.metrics?.totalPLPercent?.toFixed(2)}%)</div>
+              <div><strong>Unrealized P/L:</strong> <span style={{ color: portfolio.metrics?.totalPL >= 0 ? '#66bb6a' : '#ef5350' }}>${portfolio.metrics?.totalPL?.toFixed(2)} ({portfolio.metrics?.totalPLPercent?.toFixed(2)}%)</span></div>
               <div><strong>Active Trades:</strong> {portfolio.metrics?.activeTrades}</div>
               <div><strong>Win Rate:</strong> {portfolio.metrics?.winRate?.toFixed(1)}%</div>
               {portfolio.trades && portfolio.trades.length > 0 && (
                 <div style={{ marginTop: '8px', fontSize: '11px' }}>
                   <strong>Positions:</strong>
                   {portfolio.trades.map((trade: any) => (
-                    <div key={trade.id} style={{ padding: '4px', backgroundColor: '#f9f9f9', marginTop: '4px', borderRadius: '3px' }}>
-                      {trade.symbol} {trade.optionType} - Entry: ${trade.entryPrice}, Current: ${trade.currentPrice}
+                    <div key={trade.id} style={{ padding: '4px 8px', backgroundColor: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', marginTop: '4px', borderRadius: '4px', color: '#94a3b8' }}>
+                      <span style={{ color: '#00d4ff', fontWeight: 600 }}>{trade.symbol}</span> {trade.optionType} - Entry: ${trade.entryPrice}, Current: ${trade.currentPrice}
                     </div>
                   ))}
                 </div>
@@ -407,17 +408,17 @@ export default function HomePage() {
                     e.target.value = ''
                   }
                 }}
-                style={{ padding: '6px', width: '100%', marginTop: '8px', borderRadius: '3px', border: '1px solid #ccc' }}
+                style={{ padding: '8px 12px', width: '100%', marginTop: '8px', borderRadius: '6px', border: '1px solid rgba(255,255,255,0.12)', backgroundColor: 'rgba(255,255,255,0.04)', color: '#e6edf7', fontSize: '13px' }}
               />
             </div>
           ) : (
             <div>
               {watchlist.map((symbol: string) => (
-                <div key={symbol} style={{ padding: '6px', backgroundColor: '#e3f2fd', marginBottom: '4px', borderRadius: '3px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <strong>{symbol}</strong>
+                <div key={symbol} style={{ padding: '6px 10px', backgroundColor: 'rgba(25,118,210,0.12)', border: '1px solid rgba(25,118,210,0.2)', marginBottom: '4px', borderRadius: '6px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <strong style={{ color: '#64b5f6' }}>{symbol}</strong>
                   <button 
                     onClick={() => setWatchlist(watchlist.filter((s: string) => s !== symbol))}
-                    style={{ padding: '2px 6px', fontSize: '10px', cursor: 'pointer', backgroundColor: '#f44', color: 'white', border: 'none', borderRadius: '2px' }}
+                    style={{ padding: '2px 6px', fontSize: '10px', cursor: 'pointer', backgroundColor: 'rgba(239,83,80,0.15)', color: '#ef5350', border: '1px solid rgba(239,83,80,0.3)', borderRadius: '4px' }}
                   >
                     ✕
                   </button>
@@ -432,7 +433,7 @@ export default function HomePage() {
                     e.target.value = ''
                   }
                 }}
-                style={{ padding: '6px', width: '100%', marginTop: '8px', borderRadius: '3px', border: '1px solid #ccc' }}
+                style={{ padding: '8px 12px', width: '100%', marginTop: '8px', borderRadius: '6px', border: '1px solid rgba(255,255,255,0.12)', backgroundColor: 'rgba(255,255,255,0.04)', color: '#e6edf7', fontSize: '13px' }}
               />
             </div>
           )}
@@ -441,25 +442,25 @@ export default function HomePage() {
 
       {/* Multi-Leg Opportunities Section */}
       {multiLegOpportunities && multiLegOpportunities.length > 0 && (
-        <section style={{ marginTop: '24px', padding: '16px', backgroundColor: '#ffe2b8', borderRadius: '6px', border: '1px solid #e38a00' }}>
-          <h2 style={{ margin: '0 0 12px 0', fontSize: '16px', color: '#4e2f00' }}>🎯 Multi-Leg Opportunities</h2>
+        <section style={{ marginTop: '24px', padding: '16px', backgroundColor: 'rgba(245,166,35,0.08)', borderRadius: '12px', border: '1px solid rgba(245,166,35,0.25)' }}>
+          <h2 style={{ margin: '0 0 12px 0', fontSize: '16px', color: '#ffb74d' }}>🎯 Multi-Leg Opportunities</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '12px' }}>
             {multiLegOpportunities.map((opp: any) => (
-              <div key={opp.id} style={{ backgroundColor: '#fffdf6', padding: '12px', borderRadius: '4px', border: '1px solid #e38a00', color: '#2b1f0f' }}>
-                <div style={{ fontWeight: 'bold', marginBottom: '8px', color: '#3a2408' }}>
+              <div key={opp.id} style={{ backgroundColor: 'rgba(9,16,31,0.65)', padding: '12px', borderRadius: '8px', border: '1px solid rgba(245,166,35,0.2)', color: '#e6edf7' }}>
+                <div style={{ fontWeight: 'bold', marginBottom: '8px', color: '#ffb74d' }}>
                   {opp.strategyType}: {opp.symbol}
                 </div>
-                <div style={{ fontSize: '12px', color: '#4d3b2b', marginBottom: '8px' }}>
-                  <div>Max Profit: ${opp.maxProfit?.toFixed(2)}</div>
-                  <div>Max Loss: ${Math.abs(opp.maxLoss || 0).toFixed(2)}</div>
+                <div style={{ fontSize: '12px', color: '#b7c3d9', marginBottom: '8px' }}>
+                  <div>Max Profit: <span style={{ color: '#66bb6a' }}>${opp.maxProfit?.toFixed(2)}</span></div>
+                  <div>Max Loss: <span style={{ color: '#ef5350' }}>${Math.abs(opp.maxLoss || 0).toFixed(2)}</span></div>
                   <div>Breakeven: ${opp.breakeven?.toFixed(2)}</div>
                 </div>
-                <div style={{ fontSize: '11px', color: '#6b5a4a', marginBottom: '8px' }}>
+                <div style={{ fontSize: '11px', color: '#94a3b8', marginBottom: '8px' }}>
                   Legs: {opp.legs?.length || 0}
                 </div>
                 <button 
                   onClick={() => setMultiLegOpportunities(multiLegOpportunities.filter((o: any) => o.id !== opp.id))}
-                  style={{ padding: '6px 12px', fontSize: '11px', cursor: 'pointer', backgroundColor: '#d46f00', color: 'white', border: 'none', borderRadius: '3px' }}
+                  style={{ padding: '6px 12px', fontSize: '11px', cursor: 'pointer', backgroundColor: 'rgba(245,166,35,0.15)', color: '#ffb74d', border: '1px solid rgba(245,166,35,0.3)', borderRadius: '6px', fontWeight: 600 }}
                 >
                   Execute Strategy
                 </button>
@@ -471,19 +472,19 @@ export default function HomePage() {
 
       {/* Active Trades Section */}
       {trackedTrades && trackedTrades.length > 0 && (
-        <section style={{ marginTop: '24px', padding: '16px', backgroundColor: '#e8f5e9', borderRadius: '6px', border: '1px solid #4CAF50' }}>
-          <h2 style={{ margin: '0 0 12px 0', fontSize: '16px' }}>📈 Active Trades ({trackedTrades.length})</h2>
+        <section style={{ marginTop: '24px', padding: '16px', backgroundColor: 'rgba(102,187,106,0.06)', borderRadius: '12px', border: '1px solid rgba(102,187,106,0.2)' }}>
+          <h2 style={{ margin: '0 0 12px 0', fontSize: '16px', color: '#66bb6a' }}>📈 Active Trades ({trackedTrades.length})</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '12px' }}>
             {trackedTrades.map((trade: any) => (
-              <div key={trade.id} style={{ backgroundColor: 'white', padding: '12px', borderRadius: '4px', border: `2px solid ${trade.unrealizedPL >= 0 ? '#4CAF50' : '#f44'}` }}>
-                <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+              <div key={trade.id} style={{ backgroundColor: 'rgba(9,16,31,0.65)', padding: '12px', borderRadius: '8px', border: `1px solid ${trade.unrealizedPL >= 0 ? 'rgba(102,187,106,0.3)' : 'rgba(239,83,80,0.3)'}` }}>
+                <div style={{ fontWeight: 'bold', marginBottom: '8px', color: '#00d4ff' }}>
                   {trade.symbol} {trade.optionType} ${trade.strikePrice}
                 </div>
-                <div style={{ fontSize: '12px', color: '#666', marginBottom: '8px' }}>
+                <div style={{ fontSize: '12px', color: '#b7c3d9', marginBottom: '8px' }}>
                   <div>Entry: ${trade.entryPrice?.toFixed(2)}</div>
                   <div>Current: ${trade.currentPrice?.toFixed(2)}</div>
                   <div>Qty: {trade.quantity}</div>
-                  <div style={{ fontWeight: 'bold', color: trade.unrealizedPL >= 0 ? '#4CAF50' : '#f44', marginTop: '4px' }}>
+                  <div style={{ fontWeight: 'bold', color: trade.unrealizedPL >= 0 ? '#66bb6a' : '#ef5350', marginTop: '4px' }}>
                     P/L: ${trade.unrealizedPL?.toFixed(2)} ({trade.unrealizedPLPercent?.toFixed(2)}%)
                   </div>
                 </div>
@@ -493,7 +494,7 @@ export default function HomePage() {
                       const exitPrice = prompt(`Exit price for ${trade.symbol}:`, trade.currentPrice)
                       if (exitPrice) closeTrade(trade.id, parseFloat(exitPrice))
                     }}
-                    style={{ flex: 1, padding: '6px', fontSize: '11px', cursor: 'pointer', backgroundColor: '#f44', color: 'white', border: 'none', borderRadius: '3px' }}
+                    style={{ flex: 1, padding: '6px', fontSize: '11px', cursor: 'pointer', backgroundColor: 'rgba(239,83,80,0.15)', color: '#ef5350', border: '1px solid rgba(239,83,80,0.3)', borderRadius: '6px', fontWeight: 600 }}
                   >
                     Close
                   </button>
@@ -530,11 +531,11 @@ export default function HomePage() {
       <section style={{ 
         marginTop: '32px',
         padding: '16px',
-        backgroundColor: '#f5f5f5',
-        borderRadius: '4px',
-        border: '1px solid #ddd'
+        backgroundColor: 'rgba(9,16,31,0.65)',
+        borderRadius: '12px',
+        border: '1px solid rgba(255,255,255,0.08)'
       }}>
-        <h2 style={{ margin: '0 0 12px 0', fontSize: '16px' }}>📊 Diagnostics & Debug Logs</h2>
+        <h2 style={{ margin: '0 0 12px 0', fontSize: '16px', color: '#e6edf7' }}>📊 Diagnostics & Debug Logs</h2>
         
         <div style={{ 
           fontFamily: 'monospace',
@@ -564,14 +565,14 @@ export default function HomePage() {
         </div>
 
         <details style={{ marginTop: '12px' }}>
-          <summary style={{ cursor: 'pointer', color: '#666', fontSize: '12px' }}>
+          <summary style={{ cursor: 'pointer', color: '#94a3b8', fontSize: '12px' }}>
             📋 Configuration Info
           </summary>
-          <div style={{ marginTop: '8px', fontSize: '11px', fontFamily: 'monospace', color: '#666' }}>
-            <div>API Base: <strong>{apiBase || '(not set)'}</strong></div>
-            <div>Environment: <strong>{isDev ? 'development' : 'production'}</strong></div>
-            <div>Hostname: <strong>{typeof window !== 'undefined' ? window.location.hostname : '(ssr)'}</strong></div>
-            <div>Backend Status: <strong>{health}</strong></div>
+          <div style={{ marginTop: '8px', fontSize: '11px', fontFamily: 'monospace', color: '#94a3b8' }}>
+            <div>API Base: <strong style={{ color: '#e6edf7' }}>{apiBase || '(not set)'}</strong></div>
+            <div>Environment: <strong style={{ color: '#e6edf7' }}>{isDev ? 'development' : 'production'}</strong></div>
+            <div>Hostname: <strong style={{ color: '#e6edf7' }}>{typeof window !== 'undefined' ? window.location.hostname : '(ssr)'}</strong></div>
+            <div>Backend Status: <strong style={{ color: '#e6edf7' }}>{health}</strong></div>
           </div>
         </details>
       </section>
