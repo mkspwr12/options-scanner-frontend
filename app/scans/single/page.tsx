@@ -5,6 +5,8 @@ import { FilterPanel } from '../../components/shared/FilterPanel';
 import { VirtualizedResultTable } from '../../components/shared/VirtualizedResultTable';
 import { MiniPayoutChart } from '../../components/scanner/MiniPayoutChart';
 import { ProbabilityBadge } from '../../components/scanner/ProbabilityBadge';
+import { usePortfolio } from '../../hooks/usePortfolio';
+import type { Position } from '../../types/portfolio';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE || 'https://options-scanner-backend-2exk6s.azurewebsites.net';
 
@@ -36,6 +38,43 @@ export default function SingleOptionsPage() {
   const [results, setResults] = useState<ScanResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { addPosition } = usePortfolio();
+
+  const handleTrack = useCallback(async (result: ScanResult) => {
+    const qtyStr = prompt(`Track ${result.symbol} ${result.strike} ${result.type.toUpperCase()}\nEnter number of contracts:`, '1');
+    if (!qtyStr) return;
+    const quantity = parseInt(qtyStr);
+    if (isNaN(quantity) || quantity <= 0) { alert('Invalid quantity'); return; }
+
+    const newPosition: Position = {
+      id: `pos-${Date.now()}`,
+      ticker: result.symbol,
+      strategy: `${result.type}_${result.position}`,
+      entryDate: new Date().toISOString(),
+      quantity,
+      costBasis: result.premium * 100 * quantity,
+      currentValue: result.premium * 100 * quantity,
+      pnl: 0,
+      pnlPercent: 0,
+      legs: [{
+        id: `leg-${Date.now()}`,
+        optionType: result.type as 'call' | 'put',
+        side: result.position === 'long' ? 'buy' as const : 'sell' as const,
+        strike: result.strike,
+        expiration: result.expiration,
+        quantity,
+        premium: result.premium,
+      }],
+      greeks: { delta: result.delta * quantity * 100, gamma: 0, theta: 0, vega: 0 },
+    };
+
+    try {
+      await addPosition(newPosition);
+      alert(`Added ${quantity}x ${result.symbol} $${result.strike} ${result.type.toUpperCase()} to portfolio`);
+    } catch (err) {
+      alert(`Failed to add: ${err instanceof Error ? err.message : 'Unknown error'}`);
+    }
+  }, [addPosition]);
 
   const handleScan = useCallback(async () => {
     setIsLoading(true);
@@ -72,8 +111,8 @@ export default function SingleOptionsPage() {
         iv: item.iv,
         probability: item.probability || Math.abs(item.delta * 100),
         payoutChart: {
-          prices: item.payoutChart?.pricePoints || [],
-          pnl: item.payoutChart?.profitPoints || [],
+          prices: item.payoutChart?.prices || item.payoutChart?.pricePoints || [],
+          pnl: item.payoutChart?.pnl || item.payoutChart?.profitPoints || [],
         },
         breakeven: item.breakeven || 0,
         maxProfit: item.maxProfit || 0,
@@ -108,8 +147,16 @@ export default function SingleOptionsPage() {
           pnl={result.payoutChart.pnl}
         />
       </div>
+      <div className="w-16 text-center">
+        <button
+          onClick={() => handleTrack(result)}
+          className="px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-xs font-medium transition-colors"
+        >
+          Track
+        </button>
+      </div>
     </div>
-  ), []);
+  ), [handleTrack]);
 
   return (
     <div>
@@ -214,6 +261,7 @@ export default function SingleOptionsPage() {
           <div className="w-20">IV</div>
           <div className="w-24">Probability</div>
           <div className="w-28">P&L Chart</div>
+          <div className="w-16 text-center">Actions</div>
         </div>
         {results.length === 0 && !isLoading ? (
           <div className="p-8 text-center text-slate-500">
