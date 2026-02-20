@@ -39,12 +39,23 @@ interface BackendOption {
   probability: number;
 }
 
+interface BackendStock {
+  ticker: string;
+  name: string;
+  price: number;
+  change: number;
+  volume: number;
+  marketCap: number;
+}
+
 interface ComparisonRow {
   ticker: string;
   yahoo: YahooQuote | null;
   yahooError?: string;
+  backendStock: BackendStock | null;
+  backendStockError?: string;
   backendOptions: BackendOption[];
-  backendError?: string;
+  backendOptionsError?: string;
   yahooOptions: YahooOption[];
 }
 
@@ -87,10 +98,31 @@ export default function ComparePage() {
     }
     setYahooTime(Math.round(performance.now() - yahooStart));
 
-    // 2. Fetch from Backend (options scan for each ticker)
+    // 2. Fetch from Backend — both stock prices AND options
     const backendStart = performance.now();
-    const backendResults: Record<string, { options: BackendOption[]; error?: string }> = {};
-    
+    const backendStockResults: Record<string, { stock: BackendStock | null; error?: string }> = {};
+    const backendOptResults: Record<string, { options: BackendOption[]; error?: string }> = {};
+
+    // 2a. Fetch stock prices from backend /api/stock-scan
+    try {
+      const stockRes = await fetch(`${BACKEND_API}/api/stock-scan`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sectors: [], minPrice: 0, maxPrice: 100000, minVolume: 0, tickers: tickerList }),
+      });
+      const stockData = await stockRes.json();
+      const stocks: BackendStock[] = stockData.results || [];
+      for (const t of tickerList) {
+        const found = stocks.find((s: BackendStock) => s.ticker === t);
+        backendStockResults[t] = found ? { stock: found } : { stock: null, error: `No stock data (source: ${stockData.source || 'unknown'})` };
+      }
+    } catch (err) {
+      for (const t of tickerList) {
+        backendStockResults[t] = { stock: null, error: err instanceof Error ? err.message : 'Stock fetch failed' };
+      }
+    }
+
+    // 2b. Fetch options from backend /api/scan
     await Promise.all(
       tickerList.map(async (ticker) => {
         try {
@@ -108,14 +140,14 @@ export default function ComparePage() {
           });
           const data = await res.json();
           if (data.status === 'error') {
-            backendResults[ticker] = { options: [], error: data.detail || 'Error' };
+            backendOptResults[ticker] = { options: [], error: data.detail || 'Error' };
           } else {
-            backendResults[ticker] = { options: data.results || [] };
+            backendOptResults[ticker] = { options: data.results || [] };
           }
         } catch (err) {
-          backendResults[ticker] = {
+          backendOptResults[ticker] = {
             options: [],
-            error: err instanceof Error ? err.message : 'Backend fetch failed',
+            error: err instanceof Error ? err.message : 'Options fetch failed',
           };
         }
       })
@@ -125,14 +157,17 @@ export default function ComparePage() {
     // 3. Build comparison rows
     const comparisonRows: ComparisonRow[] = tickerList.map((ticker) => {
       const yq = yahooQuotes.find((q) => q.symbol === ticker) || null;
-      const be = backendResults[ticker] || { options: [] };
+      const bs = backendStockResults[ticker] || { stock: null };
+      const bo = backendOptResults[ticker] || { options: [] };
       const yo = yahooOpts.filter((o) => o.symbol === ticker);
       return {
         ticker,
         yahoo: yq,
         yahooError: yq ? undefined : yahooErr || 'No data returned',
-        backendOptions: be.options,
-        backendError: be.error,
+        backendStock: bs.stock,
+        backendStockError: bs.error,
+        backendOptions: bo.options,
+        backendOptionsError: bo.error,
         yahooOptions: yo,
       };
     });
@@ -228,27 +263,20 @@ export default function ComparePage() {
                       <th className="px-4 py-3">Yahoo Price</th>
                       <th className="px-4 py-3">Yahoo Change</th>
                       <th className="px-4 py-3">Yahoo Volume</th>
-                      <th className="px-4 py-3">Yahoo Range</th>
-                      <th className="px-4 py-3">Backend ATM Strike</th>
-                      <th className="px-4 py-3">Strike vs Price</th>
+                      <th className="px-4 py-3">Backend Price</th>
+                      <th className="px-4 py-3">Backend Change</th>
+                      <th className="px-4 py-3">Price Diff</th>
                       <th className="px-4 py-3">Status</th>
                     </tr>
                   </thead>
                   <tbody>
                     {rows.map((row) => {
-                      // Find closest-to-ATM call from backend
                       const yahooPrice = row.yahoo?.regularMarketPrice;
-                      const atmCall = row.backendOptions
-                        .filter((o) => o.type === 'call')
-                        .sort((a, b) =>
-                          yahooPrice
-                            ? Math.abs(a.strike - yahooPrice) - Math.abs(b.strike - yahooPrice)
-                            : 0
-                        )[0];
-                      const diff = priceDiff(yahooPrice, atmCall?.strike);
-                      const isClose = diff && diff.pct < 5;
-                      const isOff = diff && diff.pct >= 5 && diff.pct < 20;
-                      const isWrong = diff && diff.pct >= 20;
+                      const backendPrice = row.backendStock?.price;
+                      const diff = priceDiff(yahooPrice, backendPrice);
+                      const isClose = diff && diff.pct < 2;
+                      const isOff = diff && diff.pct >= 2 && diff.pct < 10;
+                      const isWrong = diff && diff.pct >= 10;
 
                       return (
                         <tr key={row.ticker} className="border-t border-white/5 hover:bg-white/5">
@@ -282,20 +310,29 @@ export default function ComparePage() {
                               ? (row.yahoo.regularMarketVolume / 1e6).toFixed(1) + 'M'
                               : '—'}
                           </td>
-                          <td className="px-4 py-3 text-slate-400 text-xs font-mono">
-                            {row.yahoo
-                              ? `$${row.yahoo.regularMarketDayLow.toFixed(2)} – $${row.yahoo.regularMarketDayHigh.toFixed(2)}`
-                              : '—'}
+                          <td className="px-4 py-3">
+                            {row.backendStock ? (
+                              <span className="text-blue-400 font-mono">
+                                ${row.backendStock.price.toFixed(2)}
+                              </span>
+                            ) : row.backendStockError ? (
+                              <span className="text-red-400 text-xs">{row.backendStockError}</span>
+                            ) : (
+                              <span className="text-slate-500">No data</span>
+                            )}
                           </td>
                           <td className="px-4 py-3">
-                            {atmCall ? (
-                              <span className="text-blue-400 font-mono">
-                                ${atmCall.strike.toFixed(2)}
+                            {row.backendStock && (
+                              <span
+                                className={
+                                  row.backendStock.change >= 0
+                                    ? 'text-emerald-400'
+                                    : 'text-red-400'
+                                }
+                              >
+                                {row.backendStock.change >= 0 ? '+' : ''}
+                                {row.backendStock.change.toFixed(2)}%
                               </span>
-                            ) : row.backendError ? (
-                              <span className="text-red-400 text-xs">{row.backendError}</span>
-                            ) : (
-                              <span className="text-slate-500">No results</span>
                             )}
                           </td>
                           <td className="px-4 py-3 font-mono">
@@ -316,7 +353,7 @@ export default function ComparePage() {
                             )}
                           </td>
                           <td className="px-4 py-3">
-                            {!row.yahoo && !atmCall ? (
+                            {!row.yahoo && !row.backendStock ? (
                               <span className="px-2 py-1 rounded text-xs bg-slate-700 text-slate-300">
                                 NO DATA
                               </span>
@@ -324,8 +361,8 @@ export default function ComparePage() {
                               <span className="px-2 py-1 rounded text-xs bg-amber-500/20 text-amber-400">
                                 YAHOO ✗
                               </span>
-                            ) : !atmCall ? (
-                              <span className="px-2 py-1 rounded text-xs bg-amber-500/20 text-amber-400">
+                            ) : !row.backendStock ? (
+                              <span className="px-2 py-1 rounded text-xs bg-red-500/20 text-red-400">
                                 BACKEND ✗
                               </span>
                             ) : isClose ? (
@@ -491,7 +528,7 @@ export default function ComparePage() {
                             </table>
                           ) : (
                             <div className="px-4 py-6 text-center text-slate-500 text-xs">
-                              {row.backendError || 'No backend options data'}
+                              {row.backendOptionsError || 'No backend options data'}
                             </div>
                           )}
                         </div>
@@ -517,22 +554,20 @@ export default function ComparePage() {
                 </div>
                 <div className="bg-[#0b1224] rounded-lg p-4 text-center">
                   <div className="text-2xl font-bold text-blue-400">
-                    {rows.filter((r) => r.backendOptions.length > 0).length}
+                    {rows.filter((r) => r.backendStock).length}
                   </div>
-                  <div className="text-xs text-slate-400 mt-1">Backend Data OK</div>
+                  <div className="text-xs text-slate-400 mt-1">Backend Stocks OK</div>
                 </div>
                 <div className="bg-[#0b1224] rounded-lg p-4 text-center">
                   <div className="text-2xl font-bold text-red-400">
                     {rows.filter((r) => {
                       const yp = r.yahoo?.regularMarketPrice;
-                      const atm = r.backendOptions.filter((o) => o.type === 'call').sort((a, b) =>
-                        yp ? Math.abs(a.strike - yp) - Math.abs(b.strike - yp) : 0
-                      )[0];
-                      if (!yp || !atm) return false;
-                      return (Math.abs(yp - atm.strike) / yp) * 100 >= 20;
+                      const bp = r.backendStock?.price;
+                      if (!yp || !bp) return false;
+                      return (Math.abs(yp - bp) / yp) * 100 >= 10;
                     }).length}
                   </div>
-                  <div className="text-xs text-slate-400 mt-1">Wrong Data (&gt;20% off)</div>
+                  <div className="text-xs text-slate-400 mt-1">Wrong Price (&gt;10% off)</div>
                 </div>
               </div>
 
@@ -543,6 +578,12 @@ export default function ComparePage() {
                     <li>
                       • Yahoo Finance returned no data for{' '}
                       {rows.filter((r) => !r.yahoo).map((r) => r.ticker).join(', ')}
+                    </li>
+                  )}
+                  {rows.filter((r) => !r.backendStock).length > 0 && (
+                    <li>
+                      • Backend returned no stock price for{' '}
+                      {rows.filter((r) => !r.backendStock).map((r) => r.ticker).join(', ')}
                     </li>
                   )}
                   {rows.filter((r) => r.backendOptions.length === 0).length > 0 && (
