@@ -98,60 +98,78 @@ export default function ComparePage() {
     }
     setYahooTime(Math.round(performance.now() - yahooStart));
 
-    // 2. Fetch from Backend — both stock prices AND options
+    // 2. Fetch from Backend — GET /api/scan returns opportunities with underlyingPrice
     const backendStart = performance.now();
     const backendStockResults: Record<string, { stock: BackendStock | null; error?: string }> = {};
     const backendOptResults: Record<string, { options: BackendOption[]; error?: string }> = {};
 
-    // 2a. Fetch stock prices from backend /api/stock-scan
-    try {
-      const stockRes = await fetch(`${BACKEND_API}/api/stock-scan`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sectors: [], minPrice: 0, maxPrice: 100000, minVolume: 0, tickers: tickerList }),
-      });
-      const stockData = await stockRes.json();
-      const stocks: BackendStock[] = stockData.results || [];
-      for (const t of tickerList) {
-        const found = stocks.find((s: BackendStock) => s.ticker === t);
-        backendStockResults[t] = found ? { stock: found } : { stock: null, error: `No stock data (source: ${stockData.source || 'unknown'})` };
-      }
-    } catch (err) {
-      for (const t of tickerList) {
-        backendStockResults[t] = { stock: null, error: err instanceof Error ? err.message : 'Stock fetch failed' };
-      }
+    // 2a. Fetch all scan data from GET /api/scan (has underlyingPrice per opportunity)
+    interface BackendOpportunity {
+      id: string;
+      symbol: string;
+      strikePrice: number;
+      expirationDate: string;
+      optionType: string;
+      currentPrice: number;
+      underlyingPrice: number;
+      impliedVolatility: number;
+      greeks: { delta: number; gamma: number; theta: number; vega: number };
+      potentialGain: number;
+      potentialLoss: number;
+      riskRewardRatio: number;
+      confidenceScore: number;
+      timestamp: number;
     }
 
-    // 2b. Fetch options from backend /api/scan
-    await Promise.all(
-      tickerList.map(async (ticker) => {
-        try {
-          const res = await fetch(`${BACKEND_API}/api/scan`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              ticker,
-              minDelta: 0.1,
-              maxDelta: 0.9,
-              minDTE: 7,
-              maxDTE: 60,
-              strategy: 'single',
-            }),
-          });
-          const data = await res.json();
-          if (data.status === 'error') {
-            backendOptResults[ticker] = { options: [], error: data.detail || 'Error' };
-          } else {
-            backendOptResults[ticker] = { options: data.results || [] };
-          }
-        } catch (err) {
-          backendOptResults[ticker] = {
-            options: [],
-            error: err instanceof Error ? err.message : 'Options fetch failed',
+    try {
+      const scanRes = await fetch(`${BACKEND_API}/api/scan`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      });
+      const scanData = await scanRes.json();
+      const opportunities: BackendOpportunity[] = scanData.opportunities || scanData.results || [];
+
+      // Extract stock prices and options per ticker from opportunities
+      for (const t of tickerList) {
+        const tickerOpps = opportunities.filter((o) => o.symbol === t);
+        if (tickerOpps.length > 0) {
+          // Stock price from underlyingPrice
+          const underlying = tickerOpps[0].underlyingPrice;
+          backendStockResults[t] = {
+            stock: {
+              ticker: t,
+              name: t,
+              price: underlying,
+              change: 0,
+              volume: 0,
+              marketCap: 0,
+            },
           };
+          // Options data - map to BackendOption format
+          backendOptResults[t] = {
+            options: tickerOpps.map((o) => ({
+              symbol: o.symbol,
+              strike: o.strikePrice,
+              premium: o.currentPrice,
+              type: o.optionType.toLowerCase(),
+              expiration: o.expirationDate,
+              delta: o.greeks?.delta || 0,
+              iv: o.impliedVolatility,
+              probability: 0,
+            })),
+          };
+        } else {
+          backendStockResults[t] = { stock: null, error: `No scan data for ${t}` };
+          backendOptResults[t] = { options: [] };
         }
-      })
-    );
+      }
+    } catch (err) {
+      const errMsg = err instanceof Error ? err.message : 'Backend fetch failed';
+      for (const t of tickerList) {
+        backendStockResults[t] = { stock: null, error: errMsg };
+        backendOptResults[t] = { options: [], error: errMsg };
+      }
+    }
     setBackendTime(Math.round(performance.now() - backendStart));
 
     // 3. Build comparison rows
